@@ -8,6 +8,7 @@ import { defaultScope } from './math';
 export default class MathDocument {
     document: TextDocument;
     results = new Map<number, any>();
+    widestLine: number = 0;
 
     // Expression compiler cache.
     private compileCache = new Map<string, math.EvalFunction>();
@@ -22,13 +23,20 @@ export default class MathDocument {
     evaluate() {
         this.results.clear();
         let scope = defaultScope();
+        this.widestLine = 0;
 
         for (let lineNumber = 0; lineNumber < this.document.lineCount; lineNumber++) {
             const line = this.document.lineAt(lineNumber);
 
             if (!line.isEmptyOrWhitespace) {
                 const trimmed = line.text.trim();
-                const compiled = this.compile(trimmed);
+
+                if(line.text.length > this.widestLine) {
+                    this.widestLine = line.text.length;
+                }
+
+                const transformed = this.transform(trimmed);
+                const compiled = this.compile(transformed);
 
                 if (compiled) {
                     try {
@@ -36,7 +44,7 @@ export default class MathDocument {
                         scope["last"] = result;
 
                         // Only display value results.
-                        if (typeof result !== "function" && typeof result !== "undefined") {
+                        if (typeof result !== "undefined") {
                             this.results.set(lineNumber, result);
                         }
                     } catch (error) {
@@ -45,6 +53,21 @@ export default class MathDocument {
                 }
             }
         }
+    }
+
+    private transform(text: string) : string {
+
+        // Replaces date(1-1-2021) with date("1-1-2021"), must avoid detecting date("1-1-2021") though
+        if(/date\([^\"]+?\)/.test(text)) {
+            text = text.replace(/(date\()([^\"]+?)(\))/g, "$1\"$2\"$3")
+        }
+
+        // Removes comment at the end of a line
+        if(/\/\/.*/.test(text)) {
+            text = text.replace(/\/\/.*/g, "")
+        }
+
+        return text;
     }
 
     /**

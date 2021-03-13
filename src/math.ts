@@ -41,6 +41,12 @@ export function create(ctx: ExtensionContext): mathjs.MathJsStatic {
         subtractDate,
     ], {});
 
+    math.import({
+        date: function(input: string) {
+            return new Date(input)
+        }
+    }, {});
+
     getExchangeRates(ctx).then(data => {
         math.createUnit(data.base);
         let loaded = 1;
@@ -59,9 +65,17 @@ export function create(ctx: ExtensionContext): mathjs.MathJsStatic {
 }
 
 export function defaultScope(): any {
+    let yesterday = today();
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    let tomorrow = today();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    
     return {
         today: today(),
         now: new Date(),
+        yesterday: yesterday,
+        tomorrow: tomorrow
     };
 }
 

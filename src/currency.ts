@@ -19,7 +19,7 @@ export async function getExchangeRates(ctx: ExtensionContext): Promise<ExchangeD
         console.log("Fetching latest currency exchange rates...");
 
         try {
-            let response = await axios.get("https://api.exchangeratesapi.io/latest");
+            let response = await axios.get("https://api.exchangeratesapi.io/latest?base=USD");
             data = response.data;
             await ctx.globalState.update("exchangeRates", data);
         } catch (error) {
@@ -28,7 +28,7 @@ export async function getExchangeRates(ctx: ExtensionContext): Promise<ExchangeD
     }
 
     return data ?? {
-        base: "EUR",
+        base: "USD",
         rates: {},
     };
 }

@@ -42,3 +42,18 @@ This project's source code and documentation is licensed under the MIT license. 
 
 [Math.js]: https://mathjs.org
 [Visual Studio Code]: https://code.visualstudio.com
+
+
+## Ideas
+Copy to clipboard command
+Settings
+* display on left or right
+* color?
+* currency ttl
+Syntax highlighting (calc file type?)
+support for "ago"
+more stuff from numi: https://github.com/nikolaeu/numi/wiki/Documentation
+adjust precision
+this could actually benefit from tests...
+$
+%

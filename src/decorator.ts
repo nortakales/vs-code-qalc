@@ -20,7 +20,7 @@ const decorationType = window.createTextEditorDecorationType({
     after: {
         color: new ThemeColor("editorCodeLens.foreground"),
         fontStyle: "normal",
-        margin: "0 0 0 24em",
+        //backgroundColor: new ThemeColor("editor.lineHighlightBackground"),
     },
     isWholeLine: true,
     rangeBehavior: DecorationRangeBehavior.ClosedClosed,
@@ -28,11 +28,13 @@ const decorationType = window.createTextEditorDecorationType({
 
 export default class EditorDecorator implements Disposable {
     documentSelector: DocumentSelector = [
-        "markdown"
+        "markdown",
+        "plaintext"
     ];
     private documents = new Map<Uri, MathDocument>();
     private disposables: Disposable[] = [];
     private math: MathJsStatic;
+    private gap: number = 2;
 
     constructor(private ctx: ExtensionContext) {
         this.math = create(ctx);
@@ -87,17 +89,19 @@ export default class EditorDecorator implements Disposable {
         let decorationsArray: DecorationOptions[] = [];
 
         if (this.isMathEnabled(editor.document)) {
-            let document = this.getMathDocument(editor.document);
+            let mathDocument = this.getMathDocument(editor.document);
 
-            document.evaluate();
+            mathDocument.evaluate();
 
-            document.results.forEach((value, lineNumber) => {
+            mathDocument.results.forEach((value, lineNumber) => {
+                // Calculate margin based on longest line
+                let margin = mathDocument.widestLine - mathDocument.document.lineAt(lineNumber).text.length + this.gap;
                 decorationsArray.push({
-                    range: document.document.lineAt(lineNumber).range,
+                    range: mathDocument.document.lineAt(lineNumber).range,
                     renderOptions: {
                         after: {
                             contentText: ` = ${this.format(value)}`,
-                            margin: "0 0 0 24em"
+                            margin: `0 0 0 ${margin}ch`
                         }
                     }
                 });

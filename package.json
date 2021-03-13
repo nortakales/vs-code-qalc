@@ -1,10 +1,9 @@
 {
-    "name": "mathpad",
-    "displayName": "Mathpad",
+    "name": "vs-calc",
+    "displayName": "VSCalc",
     "description": "Interactive scratchpad calculator.",
-    "publisher": "sagebind",
+    "publisher": "nortakales",
     "version": "0.0.2",
-    "license": "MIT",
     "engines": {
         "vscode": "^1.44.0"
     },
@@ -29,7 +28,7 @@
         "workspace"
     ],
     "activationEvents": [
-        "onLanguage:markdown"
+        "*"
     ],
     "main": "./out/extension.js",
     "scripts": {
@@ -45,13 +44,13 @@
         "mathjs": "^6.6.4"
     },
     "devDependencies": {
-        "@types/vscode": "^1.44.0",
         "@types/glob": "^7.1.1",
         "@types/mocha": "^7.0.2",
         "@types/node": "^13.11.0",
-        "eslint": "^6.8.0",
-        "@typescript-eslint/parser": "^2.30.0",
+        "@types/vscode": "^1.44.0",
         "@typescript-eslint/eslint-plugin": "^2.30.0",
+        "@typescript-eslint/parser": "^2.30.0",
+        "eslint": "^6.8.0",
         "glob": "^7.1.6",
         "mocha": "^7.1.2",
         "typescript": "^3.8.3",
