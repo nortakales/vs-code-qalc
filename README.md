@@ -50,6 +50,7 @@ Settings
 * display on left or right
 * color?
 * currency ttl
+* languages to enable in
 Syntax highlighting (calc file type?)
 support for "ago"
 more stuff from numi: https://github.com/nikolaeu/numi/wiki/Documentation
