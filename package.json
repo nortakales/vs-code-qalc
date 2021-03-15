@@ -30,6 +30,21 @@
     "activationEvents": [
         "*"
     ],
+    "contributes": {
+        "languages": [
+            {
+            "id": "qalc",
+            "extensions": [".qalc"]
+            }
+        ],
+        "grammars": [
+            {
+            "language": "qalc",
+            "scopeName": "source.qalc",
+            "path": "./syntaxes/qalc.tmGrammar.json"
+            }
+        ]
+    },
     "main": "./out/extension.js",
     "scripts": {
         "vscode:prepublish": "npm run compile",

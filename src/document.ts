@@ -1,6 +1,7 @@
 import { MathJsStatic } from 'mathjs';
 import { TextDocument } from 'vscode';
 import { defaultScope } from './math';
+import { transform } from './transformer';
 
 /**
  * A math-enabled text document.
@@ -35,7 +36,7 @@ export default class MathDocument {
                     this.widestLine = line.text.length;
                 }
 
-                const transformed = this.transform(trimmed);
+                const transformed = transform(trimmed);
                 const compiled = this.compile(transformed);
 
                 if (compiled) {
@@ -44,7 +45,7 @@ export default class MathDocument {
                         scope["last"] = result;
 
                         // Only display value results.
-                        if (typeof result !== "undefined") {
+                        if (typeof result !== "function" && typeof result !== "undefined") {
                             this.results.set(lineNumber, result);
                         }
                     } catch (error) {
@@ -55,20 +56,10 @@ export default class MathDocument {
         }
     }
 
-    private transform(text: string) : string {
-
-        // Replaces date(1-1-2021) with date("1-1-2021"), must avoid detecting date("1-1-2021") though
-        if(/date\([^\"]+?\)/.test(text)) {
-            text = text.replace(/(date\()([^\"]+?)(\))/g, "$1\"$2\"$3")
-        }
-
-        // Removes comment at the end of a line
-        if(/\/\/.*/.test(text)) {
-            text = text.replace(/\/\/.*/g, "")
-        }
-
-        return text;
+    clearCache() {
+        this.compileCache.clear();
     }
+
 
     /**
      * Attempt to compile the given string as a math expression.

@@ -46,7 +46,26 @@ date(1/2/2021)
 today - date(1/2/2021) in days
 Date.parse("1/2/2021")
 last
-30 USD
+1 USD in USD
+1 USD
+1USD
+1 EUR in EUR
+1 EUR
+1EUR
+
+$1
+$1 
+$1 + $5
+$1+$5
+$1USD
+$1 USD
+$1 EUR
+$10 USD
+$10.0 USD
+$100.00 USD
+$1,000 USD
+$1,000,000 USD
+1,000,000
 
 date(1/3/56 10:10 PM)
 
@@ -70,3 +89,24 @@ f(x) = 2 + x
 f(7)
 
 variable = 6
+
+($100 / 4 days) * 300 days
+$400 /sqft * 3500 sqft
+400 * 3500
+
+50% off of 100
+50% off of 10.0
+50% off of $100
+50% off of $10.0
+50% off of $1,000
+50% off of $100USD
+50% off of $100 USD
+50% off of 100 USD
+50% off 100
+50% off 10.0
+50% off $100
+50% off $10.0
+50% off $1,000
+50% off $100USD
+50% off $100 USD
+50% off 100 USD

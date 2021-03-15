@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ExtensionContext } from 'vscode';
+import { ExtensionContext, window } from 'vscode';
 
 // 7 days
 const dataTtl = 7 * 24 * 60 * 60 * 1000;
@@ -24,11 +24,12 @@ export async function getExchangeRates(ctx: ExtensionContext): Promise<ExchangeD
             await ctx.globalState.update("exchangeRates", data);
         } catch (error) {
             console.log("Error fetching currency exchange info.", error);
+            window.showWarningMessage("Error fetching currency exchange info, do you have an internet connection?");
         }
     }
 
     return data ?? {
         base: "USD",
-        rates: {},
+        rates: {USD: 1.0},
     };
 }

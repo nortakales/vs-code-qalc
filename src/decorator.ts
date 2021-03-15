@@ -18,7 +18,8 @@ import { create } from "./math";
 
 const decorationType = window.createTextEditorDecorationType({
     after: {
-        color: new ThemeColor("editorCodeLens.foreground"),
+        //color: new ThemeColor("editorCodeLens.foreground"),
+        color: new ThemeColor("terminal.ansiGreen"),
         fontStyle: "normal",
         //backgroundColor: new ThemeColor("editor.lineHighlightBackground"),
     },
@@ -29,7 +30,8 @@ const decorationType = window.createTextEditorDecorationType({
 export default class EditorDecorator implements Disposable {
     documentSelector: DocumentSelector = [
         "markdown",
-        "plaintext"
+        "plaintext",
+        "qalc"
     ];
     private documents = new Map<Uri, MathDocument>();
     private disposables: Disposable[] = [];
@@ -37,7 +39,7 @@ export default class EditorDecorator implements Disposable {
     private gap: number = 2;
 
     constructor(private ctx: ExtensionContext) {
-        this.math = create(ctx);
+        this.math = create(ctx, () => this.renderAll(true));
 
         // Handle editors being created and disposed, which we might be
         // interested in.
@@ -78,18 +80,22 @@ export default class EditorDecorator implements Disposable {
     /**
      * Re-render all math decorations on all math-enabled editors.
      */
-    renderAll() {
-        window.visibleTextEditors.forEach(editor => this.renderEditor(editor));
+    renderAll(clearCache?: boolean) {
+        window.visibleTextEditors.forEach(editor => this.renderEditor(editor, clearCache));
     }
 
     /**
      * Re-render all math decorations on the given editor.
      */
-    renderEditor(editor: TextEditor) {
+    renderEditor(editor: TextEditor, clearCache?: boolean) {
         let decorationsArray: DecorationOptions[] = [];
 
         if (this.isMathEnabled(editor.document)) {
             let mathDocument = this.getMathDocument(editor.document);
+
+            if(clearCache) {
+                mathDocument.clearCache();
+            }
 
             mathDocument.evaluate();
 
@@ -145,8 +151,10 @@ export default class EditorDecorator implements Disposable {
 
         return this.math.format(value, number => {
             let s = this.math.format(number, {
+                // TODO settings for this stuff
                 lowerExp: -9,
                 upperExp: 15,
+                precision: 5,
             });
 
             // Add thousands separators if number is formatted as fixed.

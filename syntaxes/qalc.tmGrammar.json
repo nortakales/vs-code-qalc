@@ -1,0 +1,78 @@
+{
+    "scopeName": "source.qalc",
+    "patterns": [
+        {
+            "include": "#expression"
+        }
+    ],
+    "repository": {
+        "expression": {
+            "patterns": [
+                {
+                    "include": "#keywords"
+                },
+                {
+                    "include": "#constants"
+                },
+                {
+                    "include": "#variableAssignment"
+                },
+                {
+                    "include": "#function"
+                },
+                {
+                    "include": "#comment"
+                },
+                {
+                    "include": "#header"
+                }
+            ]
+        },
+        "keywords" :{
+            "match": "\\b(in|to|last|off|of)\\b",
+            "captures": {
+                "1": {
+                    "name": "entity.name.type"
+                }
+            }
+        },
+        "constants" :{
+            "match": "\\b(today|tomorrow|now|yesterday|pi|e)\\b",
+            "captures": {
+                "1": {
+                    "name": "variable"
+                }
+            }
+        },
+        "variableAssignment": {
+            "match": "^\\s*(\\w+)\\s*=",
+            "captures": {
+                "1": {
+                    "name": "constant.numeric"
+                }
+            }
+        },
+        "function": {
+            "begin": "(\\w+)\\(",
+            "end": "\\)",
+            "beginCaptures": {
+                "1": {
+                    "name": "entity.name.function"
+                }
+            },
+            "patterns": [
+                {
+                    "include": "#expression"
+                }
+            ]
+        },
+        "comment": {
+            "match": "//.*$",
+            "name": "comment"
+        },
+        "header": {
+            "match": "^\\s*#.*$",
+            "name": "string"
+        }
+    }
+}

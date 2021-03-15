@@ -5,7 +5,7 @@ import { ExtensionContext } from 'vscode';
 /**
  * Create a customized math.js instance.
  */
-export function create(ctx: ExtensionContext): mathjs.MathJsStatic {
+export function create(ctx: ExtensionContext, callback: Function): mathjs.MathJsStatic {
     const math = mathjs.create(mathjs.all, {}) as mathjs.MathJsStatic;
 
     // Addition for dates.
@@ -59,6 +59,7 @@ export function create(ctx: ExtensionContext): mathjs.MathJsStatic {
             });
 
         console.log("Loaded definitions for %d currencies.", loaded);
+        callback();
     });
 
     return math;
