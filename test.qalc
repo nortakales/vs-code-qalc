@@ -1,5 +1,6 @@
-tomorrow - yesterday
-round(1.5)
+
+round(1.5, 1)
+round(1.5, 0)
 atan2(3, -3) /pi
 pi
 e
@@ -28,23 +29,11 @@ j*2
 1minute + 1 hour
 10 cm to m
 
-yesterday
-tomorrow
-today
-now
+
 60 miles/hour * 30 minutes
 
 100 USD / 1 hour in USD / minute
 
-now
-now - 1 hour
-today - 2 days
-2 days ago
-
-date("1/2/2021")
-date(1/2/2021)
-today - date(1/2/2021) in days
-Date.parse("1/2/2021")
 last
 1 USD in USD
 1 USD
@@ -110,3 +99,47 @@ $400 /sqft * 3500 sqft
 50% off $100USD
 50% off $100 USD
 50% off 100 USD
+
+5^2
+
+0b110111011
+
+
+sqrt(16)
+cbrt(8)
+abs(-4)
+log(10)
+ln(3)
+fact(5)
+5!
+ceil(3.76)
+floor(3.76)
+
+sin(45 deg)
+sin(45 rad)
+cos(3.45)
+tan(8) // these assume rad
+
+12 pt in px
+em = 20px
+1.2 em in px
+1 inch in px = 96 px
+ppi = 326
+1 cm in px = 128,35 px
+
+date("1/2/2021")
+date(1/2/2021)
+epoch(1615789316)
+date(1615789316)
+epoch(1615789316000)
+date(1615789316000)
+yesterday
+tomorrow
+today
+now
+now - 1 hour
+today - 2 days
+2 days ago
+today - date(1/2/2021) in days
+tomorrow - yesterday
+tomorrow - yesterday in hours

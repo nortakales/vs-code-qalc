@@ -106,7 +106,7 @@ export default class EditorDecorator implements Disposable {
                     range: mathDocument.document.lineAt(lineNumber).range,
                     renderOptions: {
                         after: {
-                            contentText: ` = ${this.format(value)}`,
+                            contentText: `${this.format(value)}`, // TODO setting for including =
                             margin: `0 0 0 ${margin}ch`
                         }
                     }

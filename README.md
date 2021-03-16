@@ -47,22 +47,23 @@ This project's source code and documentation is licensed under the MIT license. 
 ## Ideas
 [x] Syntax highlighting (calc file type?)
 [x] $
-[] %
-[] Copy to clipboard command
+[x] %
+[] auto detect some date formats
 [] Settings
 * display on left or right
 * color?
 * currency ttl
 * languages to enable in
 * https://mathjs.org/docs/reference/functions/format.html
-* include commas or not
+* include commas or not in output
+* transform USD into $ or not in output
 [] more stuff from numi: https://github.com/nikolaeu/numi/wiki/Documentation
 [] this could actually benefit from tests...
-[] sum above lines until last sum
+[] Copy to clipboard command
+[] sum above lines until last empty line
 [] base (binary, hex) conversion
 [] time in <city>
 [] "next friday"
 [] support for "ago"
-[] auto detect some date formats
 
 [x] Seems to be a bug if a document has 1 USD in it, when it loads, it caches a wrong result before currencies load?

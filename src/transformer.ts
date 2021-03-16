@@ -15,9 +15,7 @@ export function transform(text: string) : string {
 
     // Removes commas in things like 1,000,000, but not inside one level of () or []
     if(/(?<!\([^)]*)(?<!\[[^\]]*),(\d{3})/.test(text)) {
-        console.log("before: " + text);
         text = text.replace(/(?<!\([^)]*)(?<!\[[^\]]*),(\d{3})/g, "$1");
-        console.log("after: " + text);
     }
 
     // $5USD, $5 AUD, $5.0 CAD, etc will have the $ stripped to work with MathJS

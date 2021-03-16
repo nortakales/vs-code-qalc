@@ -42,9 +42,8 @@ export function create(ctx: ExtensionContext, callback: Function): mathjs.MathJs
     ], {});
 
     math.import({
-        date: function(input: string) {
-            return new Date(input)
-        }
+        date: parseDate,
+        epoch: parseDate
     }, {});
 
     getExchangeRates(ctx).then(data => {
@@ -71,7 +70,7 @@ export function defaultScope(): any {
 
     let tomorrow = today();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    
+
     return {
         today: today(),
         now: new Date(),
@@ -88,4 +87,22 @@ function today(): Date {
     today.setMilliseconds(0);
 
     return today;
+}
+
+function parseDate(input: string | number): Date {
+    
+    let inputAsString = input.toString();
+
+    if(isNumber(inputAsString)) {
+        if(inputAsString.length < 12) {
+            inputAsString += "000";
+        }
+        return new Date(Number(inputAsString));
+    }
+    
+    return new Date(inputAsString);
+}
+
+function isNumber(value: string | number): boolean {
+   return ((value != null) && (value !== '') && !isNaN(Number(value.toString())));
 }
