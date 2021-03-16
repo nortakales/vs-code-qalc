@@ -48,7 +48,7 @@ This project's source code and documentation is licensed under the MIT license. 
 [x] Syntax highlighting (calc file type?)
 [x] $
 [x] %
-[] auto detect some date formats
+[x] auto detect some date formats
 [] Settings
 * display on left or right
 * color?
@@ -57,6 +57,8 @@ This project's source code and documentation is licensed under the MIT license. 
 * https://mathjs.org/docs/reference/functions/format.html
 * include commas or not in output
 * transform USD into $ or not in output
+* aligned, not aligned
+* max alignment column
 [] more stuff from numi: https://github.com/nikolaeu/numi/wiki/Documentation
 [] this could actually benefit from tests...
 [] Copy to clipboard command
@@ -65,5 +67,11 @@ This project's source code and documentation is licensed under the MIT license. 
 [] time in <city>
 [] "next friday"
 [] support for "ago"
-
+[] upgrade mathjs version to latest, but have unit tests first - gets binary support
 [x] Seems to be a bug if a document has 1 USD in it, when it loads, it caches a wrong result before currencies load?
+convert hex to rgb
+
+note: had to run `sudo apt-get install libnss3-dev` to get tests running on cmd
+and `sudo apt-get install libatk1.0-0`
+and `sudo apt-get install libatk-bridge2.0-0`
+and `sudo apt-get install libx11-xcb1`

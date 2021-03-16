@@ -25,11 +25,14 @@
                 },
                 {
                     "include": "#header"
+                },
+                {
+                    "include": "#symbols"
                 }
             ]
         },
         "keywords" :{
-            "match": "\\b(in|to|last|off|of)\\b",
+            "match": "\\b(in|to|last|off|of|mod|xor|or)\\b",
             "captures": {
                 "1": {
                     "name": "entity.name.type"
@@ -53,11 +56,19 @@
             }
         },
         "function": {
-            "begin": "(\\w+)\\(",
-            "end": "\\)",
+            "begin": "(\\w+)(\\()",
+            "end": "(\\))",
             "beginCaptures": {
                 "1": {
                     "name": "entity.name.function"
+                },
+                "2": {
+                    "name": "punctuation"
+                }
+            },
+            "endCaptures": {
+                "1": {
+                    "name": "punctuation"
                 }
             },
             "patterns": [
@@ -73,6 +84,10 @@
         "header": {
             "match": "^\\s*#.*$",
             "name": "string"
+        },
+        "symbols": {
+            "match": "[\\+\\-\\/\\*\\|\\^\\&\\>\\<\\(\\)\\[\\]\\!\\=]",
+            "name": "punctuation"
         }
     }
 }

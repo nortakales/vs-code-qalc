@@ -3,6 +3,26 @@
      */
 export function transform(text: string) : string {
 
+    /**
+     * Wraps things like
+     * 2021-1-30
+     * 12-30-2021
+     * 1/30/2021
+     * 2021/12/30
+     * 1/30/2021 1:10
+     * 1/30/2021 1:10:45
+     * 1/30/2021 10:10 AM
+     * 1/30/2021 19:10
+     * 1/30/2021 19:10 PST
+     * 1/30/2021 10:10 PM UTC
+     * with date("...")
+     * but avoid things already wrapped
+     * 
+     */
+    if(/(?<!date\(\s*\"?\s*\d{0,3})\d{1,4}[-/]\d{1,2}[-/]\d{1,4}( \d{1,2}:\d{2}(:\d{2})?( [AP]M)?( [A-Z]{3})?)?/.test(text)) {
+        text = text.replace(/(?<!date\(\s*\"?\s*\d{0,3})\d{1,4}[-/]\d{1,2}[-/]\d{1,4}( \d{1,2}:\d{2}(:\d{2})?( [AP]M)?( [A-Z]{3})?)?/g, "date(\"$&\")");
+    }
+
     // Replaces date(1-1-2021) with date("1-1-2021"), must avoid detecting date("1-1-2021") though
     if(/date\([^\"]+?\)/.test(text)) {
         text = text.replace(/(date\()([^\"]+?)(\))/g, "$1\"$2\"$3")

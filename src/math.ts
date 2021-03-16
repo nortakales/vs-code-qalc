@@ -46,6 +46,9 @@ export function create(ctx: ExtensionContext, callback: Function): mathjs.MathJs
         epoch: parseDate
     }, {});
 
+    // Can't get pixels to work, might need newer API version
+    //math.createUnit("pixels";
+
     getExchangeRates(ctx).then(data => {
         math.createUnit(data.base);
         let loaded = 1;
