@@ -33,21 +33,23 @@
     "contributes": {
         "languages": [
             {
-            "id": "qalc",
-            "extensions": [".qalc"]
+                "id": "qalc",
+                "extensions": [
+                    ".qalc"
+                ]
             }
         ],
         "grammars": [
             {
-            "language": "qalc",
-            "scopeName": "source.qalc",
-            "path": "./syntaxes/qalc.tmGrammar.json"
+                "language": "qalc",
+                "scopeName": "source.qalc",
+                "path": "./syntaxes/qalc.tmGrammar.json"
             }
         ]
     },
     "main": "./out/extension.js",
     "scripts": {
-        "vscode:prepublish": "npm run compile",
+        "vscode:prepublish": "npm run test",
         "compile": "tsc -p ./",
         "lint": "eslint src --ext ts",
         "watch": "tsc -watch -p ./",
@@ -57,6 +59,7 @@
     "dependencies": {
         "@types/mathjs": "^6.0.5",
         "axios": "^0.21.1",
+        "colors": "^1.4.0",
         "mathjs": "^6.6.4"
     },
     "devDependencies": {

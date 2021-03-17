@@ -59,8 +59,10 @@ This project's source code and documentation is licensed under the MIT license. 
 * transform USD into $ or not in output
 * aligned, not aligned
 * max alignment column
+[] implement/extend round() to work with dates
+[] tps as a unit
 [] more stuff from numi: https://github.com/nikolaeu/numi/wiki/Documentation
-[] this could actually benefit from tests...
+[x] this could actually benefit from tests...
 [] Copy to clipboard command
 [] sum above lines until last empty line
 [] base (binary, hex) conversion
@@ -69,9 +71,10 @@ This project's source code and documentation is licensed under the MIT license. 
 [] support for "ago"
 [] upgrade mathjs version to latest, but have unit tests first - gets binary support
 [x] Seems to be a bug if a document has 1 USD in it, when it loads, it caches a wrong result before currencies load?
-convert hex to rgb
+[] convert hex to rgb
 
 note: had to run `sudo apt-get install libnss3-dev` to get tests running on cmd
 and `sudo apt-get install libatk1.0-0`
 and `sudo apt-get install libatk-bridge2.0-0`
 and `sudo apt-get install libx11-xcb1`
+and ... never was working

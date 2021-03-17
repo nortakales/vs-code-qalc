@@ -15,6 +15,7 @@ import {
 import MathDocument from "./document";
 import { MathJsStatic } from 'mathjs';
 import { create } from "./math";
+import { format } from "./formatter";
 
 const decorationType = window.createTextEditorDecorationType({
     after: {
@@ -106,7 +107,7 @@ export default class EditorDecorator implements Disposable {
                     range: mathDocument.document.lineAt(lineNumber).range,
                     renderOptions: {
                         after: {
-                            contentText: `${this.format(value)}`, // TODO setting for including =
+                            contentText: `${format(this.math, value)}`, // TODO setting for including =
                             margin: `0 0 0 ${margin}ch`
                         }
                     }
@@ -134,35 +135,5 @@ export default class EditorDecorator implements Disposable {
 
     private isMathEnabled(document: TextDocument): boolean {
         return languages.match(this.documentSelector, document) > 0;
-    }
-
-    /**
-     * Format a numeric result as a string for display.
-     *
-     * @param value Number to format
-     */
-    private format(value: any): string {
-        if (value instanceof Date) {
-            if (value.getHours() || value.getMinutes() || value.getSeconds() || value.getMilliseconds()) {
-                return value.toLocaleString();
-            }
-            return value.toLocaleDateString();
-        }
-
-        return this.math.format(value, number => {
-            let s = this.math.format(number, {
-                // TODO settings for this stuff
-                lowerExp: -9,
-                upperExp: 15,
-                precision: 5,
-            });
-
-            // Add thousands separators if number is formatted as fixed.
-            if (/^\d+(\.\d+)?$/.test(s)) {
-                s = s.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-            }
-
-            return s;
-        });
     }
 }
