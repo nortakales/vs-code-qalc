@@ -1,5 +1,7 @@
 import { MathJsStatic } from 'mathjs';
+import math = require('mathjs');
 import { TextDocument } from 'vscode';
+import { format } from './formatter';
 import { defaultScope } from './math';
 import { transform } from './transformer';
 
@@ -35,8 +37,9 @@ export default class MathDocument {
                 if(line.text.length > this.widestLine) {
                     this.widestLine = line.text.length;
                 }
-
-                const transformed = transform(trimmed);
+                const aggregated = this.aggregate(trimmed, lineNumber);
+                
+                const transformed = transform(aggregated);
                 const compiled = this.compile(transformed);
 
                 if (compiled) {
@@ -58,6 +61,34 @@ export default class MathDocument {
 
     clearCache() {
         this.compileCache.clear();
+    }
+
+    private aggregate(line: string, lineNumber: number): string {
+        line = line.trim();
+
+        if(/^sum|total|avg|average$/.test(line)) {
+            let aggregate = "";
+            let datapoints = 0;
+            for(let currentLine = lineNumber - 1; currentLine >= 0; currentLine--) {
+                let result = this.results.get(currentLine);
+                if((result == undefined || result == null || /^sum|total|avg|average$/.test(this.document.lineAt(currentLine).text.trim()))) {
+                    if(datapoints > 0) {
+                        break;
+                    } else {
+                        continue;
+                    }
+                }
+                datapoints++;
+                aggregate += " + " + format(this.math, result);
+            }
+
+            if(/^(avg|average)$/.test(line)) {
+                aggregate = "(" + aggregate + ") / " + datapoints;
+            }
+            
+            return aggregate;
+        }
+        return line;
     }
 
 

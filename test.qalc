@@ -1,4 +1,5 @@
 
+
 round(1.5, 1)
 round(1.5, 0)
 atan2(3, -3) /pi
@@ -263,3 +264,25 @@ permutations(10)
 random(1,2)
 
 isPrime(7)
+
+50 tps / 5 days
+
+
+1
+3
+7
+total
+
+6
+4
+9
+avg
+
+1
+2
+3
+4
+average
+sum
+
+

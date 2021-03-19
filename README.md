@@ -59,17 +59,17 @@ This project's source code and documentation is licensed under the MIT license. 
 * transform USD into $ or not in output
 * aligned, not aligned
 * max alignment column
+[x] tps as a unit
+[] sum above lines until last empty line
 [] implement/extend round() to work with dates
-[] tps as a unit
 [] more stuff from numi: https://github.com/nikolaeu/numi/wiki/Documentation
 [x] this could actually benefit from tests...
 [] Copy to clipboard command
-[] sum above lines until last empty line
+[] upgrade mathjs version to latest, but have unit tests first - gets binary support
 [] base (binary, hex) conversion
 [] time in <city>
 [] "next friday"
 [] support for "ago"
-[] upgrade mathjs version to latest, but have unit tests first - gets binary support
 [x] Seems to be a bug if a document has 1 USD in it, when it loads, it caches a wrong result before currencies load?
 [] convert hex to rgb
 

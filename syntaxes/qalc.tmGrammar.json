@@ -28,7 +28,17 @@
                 },
                 {
                     "include": "#symbols"
+                },
+                {
+                    "include": "#symbolsOnlyNotAfterANumber"
+                },
+                {
+                    "include": "#symbolsOnlyNotBeforeANumber"
+                },
+                {
+                    "include": "#symbolsNotInScientificNotation"
                 }
+                
             ]
         },
         "keywords" :{
@@ -40,7 +50,7 @@
             }
         },
         "constants" :{
-            "match": "\\b(today|tomorrow|now|yesterday|pi|e)\\b",
+            "match": "\\b(today|tomorrow|now|yesterday|pi|e|sum|total|average|avg)\\b",
             "captures": {
                 "1": {
                     "name": "variable"
@@ -48,7 +58,7 @@
             }
         },
         "variableAssignment": {
-            "match": "^\\s*(\\w+)\\s*=",
+            "match": "^\\s*(\\w+)(?=\\s*\\=)",
             "captures": {
                 "1": {
                     "name": "constant.numeric"
@@ -86,7 +96,19 @@
             "name": "string"
         },
         "symbols": {
-            "match": "[\\+\\-\\/\\*\\|\\^\\&\\>\\<\\(\\)\\[\\]\\!\\=]",
+            "match": "[\\+\\/\\*\\|\\^\\&\\>\\<\\(\\)\\[\\]\\!\\=\\'\\\"\\:\\?]",
+            "name": "punctuation"
+        },
+        "symbolsOnlyNotAfterANumber": {
+            "match": "(?<!\\d)[\\%]",
+            "name": "punctuation"
+        },
+        "symbolsOnlyNotBeforeANumber": {
+            "match": "[\\,\\.](?!\\d)",
+            "name": "punctuation"
+        },
+        "symbolsNotInScientificNotation": {
+            "match": "(?<!\\de)\\-",
             "name": "punctuation"
         }
     }

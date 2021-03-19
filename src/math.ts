@@ -1,6 +1,7 @@
 import * as mathjs from 'mathjs';
 import { getExchangeRates } from './currency';
 import { ExtensionContext } from 'vscode';
+import { format } from './formatter';
 
 /**
  * Create a customized math.js instance.
@@ -46,6 +47,8 @@ export function create(ctx: ExtensionContext, callback: Function): mathjs.MathJs
         epoch: parseDate
     }, {});
 
+    math.createUnit("tps");
+
     // Can't get pixels to work, might need newer API version
     //math.createUnit("pixels";
 
@@ -64,8 +67,21 @@ export function create(ctx: ExtensionContext, callback: Function): mathjs.MathJs
         callback();
     });
 
+    function sumLatest(latestArray: any[]) {
+
+        let sum = "";
+        latestArray.forEach((result) => {
+            sum += result + " + ";
+        });
+        sum = sum.substring(0, sum.length-3);
+        
+        return sum;
+    }
+
     return math;
 }
+
+
 
 export function defaultScope(): any {
     let yesterday = today();
