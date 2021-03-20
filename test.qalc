@@ -106,8 +106,6 @@ $400 /sqft * 3500 sqft
 
 5^2
 
-0b110111011
-
 
 sqrt(16)
 cbrt(8)
@@ -173,7 +171,7 @@ tomorrow - yesterday in hours
 2 >> 1
 5 mod 3
 
-0b110111011
+
 
 32 fahrenheit to celsius
 100 fahrenheit to celsius
@@ -236,9 +234,7 @@ ln(4)
 -1e309
 Infinity
 
-0b11
-0o77
-0xff
+
 
 phi
 tau
@@ -292,4 +288,7 @@ avg
 average
 sum
 
-
+0b110111011
+0b11
+0o77
+0xff
