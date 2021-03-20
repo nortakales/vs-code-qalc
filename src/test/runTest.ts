@@ -1,11 +1,15 @@
 import math = require("mathjs");
 import colors = require('colors');
-import { create } from "../math";
+import { create, defaultScope } from "../math";
 import { format } from "../formatter";
 import { transform } from "../transformer";
 import TestSuite from "./testSuite";
 import { suite as percentOff }  from "./suites/percentOff-testSuite";
 import { suite as builtins }  from "./suites/builtins-testSuite";
+import { suite as date }  from "./suites/date-testSuite";
+import { suite as currency }  from "./suites/currency-testSuite";
+import { suite as constants }  from "./suites/constants-testSuite";
+import { suite as text }  from "./suites/text-testSuite";
 
 function main() {
 	try {
@@ -16,6 +20,10 @@ function main() {
 		let suites: TestSuite[] = [];
 		suites.push(percentOff);
 		suites.push(builtins);
+		suites.push(date);
+		suites.push(currency);
+		suites.push(constants);
+		suites.push(text);
 
 
 		// Mock the context since currencies use globalState
@@ -50,12 +58,22 @@ function runTests(math: math.MathJsStatic, suites: TestSuite[]) {
 		console.log("Running suite: " + suite.name);
 		console.log();
 
+		let scope = defaultScope();
+
 		Object.entries(suite.tests).forEach(([key, value]) =>{
 			
-			const result = format(math, math.compile(transform(key)).evaluate());
+			const result = format(math, math.compile(transform(key)).evaluate(scope));
 
-			if((value as string).match(result)) {
+			if(typeof value == "string" && (value as string).match(result)) {
 				console.log("[SUCCESS] " + key + " = " + result);
+			} else if(typeof value == "object" && (value as any).match && result.match(new RegExp((value as any).match))) {
+				console.log("[SUCCESS] " + key + " = " + result);
+			} else if(typeof value == "object" && (value as any).match){
+
+				success = false;
+				const msg = "[FAILED] " + key + " = " + result + " (expected = " + (value as any).match + ")";
+				console.log(colors.red(msg));
+			
 			} else {
 				success = false;
 				const msg = "[FAILED] " + key + " = " + result + " (expected = " + value + ")";

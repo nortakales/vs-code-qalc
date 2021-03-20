@@ -42,7 +42,7 @@ last
 1 USD in USD
 1 USD
 1USD
-1 EUR in EUR
+1 USD in EUR
 1 EUR
 1EUR
 
@@ -157,6 +157,12 @@ tomorrow - yesterday in hours
 1/30/2021 19:10
 1/30/2021 19:10 PST
 1/30/2021 10:10 PM UTC
+6/11/2010 - 6/11/2008 in days
+1 year in months
+1 month in weeks
+1 week in days
+1 day in hours
+60 miles / hour * 5 hours in mi
 
 5 ^ 2
 1 & 1
@@ -228,6 +234,7 @@ ln(4)
 
 1e309
 -1e309
+Infinity
 
 0b11
 0o77
