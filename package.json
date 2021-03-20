@@ -1,9 +1,9 @@
 {
     "name": "vs-calc",
-    "displayName": "VSCalc",
+    "displayName": "Qalc",
     "description": "Interactive scratchpad calculator.",
     "publisher": "nortakales",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "engines": {
         "vscode": "^1.44.0"
     },
@@ -15,14 +15,6 @@
     "categories": [
         "Other"
     ],
-    "homepage": "https://github.com/sagebind/mathpad",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/sagebind/mathpad.git"
-    },
-    "bugs": {
-        "url": "https://github.com/sagebind/mathpad/issues"
-    },
     "extensionKind": [
         "ui",
         "workspace"
