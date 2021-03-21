@@ -288,7 +288,21 @@ avg
 average
 sum
 
-0b110111011
+
 0b11
 0o77
 0xff
+
+bin(0b11)
+bin(0o77)
+bin(0xff)
+
+hex(0b11)
+hex(0o77)
+hex(0xff)
+
+oct(0b11)
+oct(0o77)
+oct(0xff)
+
+bin(hex(oct(0b11)))

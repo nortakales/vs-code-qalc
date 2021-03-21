@@ -10,6 +10,7 @@ import { suite as date }  from "./suites/date-testSuite";
 import { suite as currency }  from "./suites/currency-testSuite";
 import { suite as constants }  from "./suites/constants-testSuite";
 import { suite as text }  from "./suites/text-testSuite";
+import { suite as bases }  from "./suites/bases-testSuite";
 
 function main() {
 	try {
@@ -24,6 +25,7 @@ function main() {
 		suites.push(currency);
 		suites.push(constants);
 		suites.push(text);
+		suites.push(bases);
 
 
 		// Mock the context since currencies use globalState

@@ -37,6 +37,15 @@
                 },
                 {
                     "include": "#symbolsNotInScientificNotation"
+                },
+                {
+                    "include": "#binary"
+                },
+                {
+                    "include": "#octal"
+                },
+                {
+                    "include": "#hex"
                 }
                 
             ]
@@ -109,6 +118,18 @@
         },
         "symbolsNotInScientificNotation": {
             "match": "(?<!\\de)\\-",
+            "name": "punctuation"
+        },
+        "binary": {
+            "match": "(?<=\\b)0b(?=[01])",
+            "name": "punctuation"
+        },
+        "octal": {
+            "match": "(?<=\\b)0o(?=[0-7])",
+            "name": "punctuation"
+        },
+        "hex": {
+            "match": "(?<=\\b)0x(?=[0-9a-fA-F])",
             "name": "punctuation"
         }
     }
