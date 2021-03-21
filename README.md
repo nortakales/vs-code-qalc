@@ -19,9 +19,10 @@
 [] implement/extend round() to work with dates
 [] more stuff from numi: https://github.com/nikolaeu/numi/wiki/Documentation
 [x] this could actually benefit from tests...
-[] Copy to clipboard command
-[] upgrade mathjs version to latest, but have unit tests first - gets binary support
-[] base (binary, hex) conversion
+[] Copy to clipboard command (just text? text but insert =? html? html table?)
+[x] upgrade mathjs version to latest, but have unit tests first - gets binary support
+[x] base (binary, hex) conversion
+[] "time"
 [] time in <city>
 [] "next friday"
 [] support for "ago"
