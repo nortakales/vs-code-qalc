@@ -45,6 +45,30 @@ export const suite: TestSuite = {
         },
         "yesterday": {
             "match": dateRegex
+        },
+        "1 year ago": {
+            "match": datetimeRegex
+        },
+        "2 months ago": {
+            "match": datetimeRegex
+        },
+        "1 week ago": {
+            "match": datetimeRegex
+        },
+        "5 days ago": {
+            "match": datetimeRegex
+        },
+        "1 hour ago": {
+            "match": datetimeRegex
+        },
+        "30 minutes ago": {
+            "match": datetimeRegex
+        },
+        "1 second ago": {
+            "match": datetimeRegex
+        },
+        "time": {
+            "match": datetimeRegex
         }
     }
 }

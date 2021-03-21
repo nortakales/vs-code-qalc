@@ -161,6 +161,13 @@ tomorrow - yesterday in hours
 1 week in days
 1 day in hours
 60 miles / hour * 5 hours in mi
+1 year ago
+2 months ago
+1 week ago
+5 days ago
+1 hour ago
+30 minutes ago
+1 second ago
 
 5 ^ 2
 1 & 1
@@ -306,3 +313,4 @@ oct(0o77)
 oct(0xff)
 
 bin(hex(oct(0b11)))
+

@@ -16,7 +16,7 @@
 * max alignment column
 [x] tps as a unit
 [x] sum above lines until last empty line
-[] implement/extend round() to work with dates
+[] implement/extend round()/floor()/ceil() to work with dates
 [] more stuff from numi: https://github.com/nikolaeu/numi/wiki/Documentation
 [x] this could actually benefit from tests...
 [] Copy to clipboard command (just text? text but insert =? html? html table?)

@@ -3,6 +3,8 @@
      */
 export function transform(text: string) : string {
 
+    
+
     /**
      * Wraps things like
      * 2021-1-30
@@ -61,6 +63,11 @@ export function transform(text: string) : string {
     // Change of to *
     if(/ of /.test(text)) {
         text = text.replace(/ of /, " * ");
+    }
+
+    // Replace "x unit ago" with "now - x unit"
+    if(/([\d\.]+ [A-Za-z]+) ago/.test(text)) {
+        text = text.replace(/([\d\.]+ [A-Za-z]+) ago/, "now - $1");
     }
 
     // Need to protect against keywords being used as variable names

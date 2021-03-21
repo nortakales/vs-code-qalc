@@ -90,9 +90,12 @@ export function defaultScope(): any {
     let tomorrow = today();
     tomorrow.setDate(tomorrow.getDate() + 1);
 
+    const currentTime = new Date();
+
     return {
         today: today(),
-        now: new Date(),
+        now: currentTime,
+        time: currentTime,
         yesterday: yesterday,
         tomorrow: tomorrow
     };
