@@ -1,3 +1,4 @@
+import { displayCommas, lowerExponentBound, precision, upperExponentBound } from "./settings";
 
 /**
  * Format a numeric result as a string for display.
@@ -14,15 +15,16 @@ export function format(math: math.MathJsStatic, value: any): string {
 
     return math.format(value, number => {
         let s = math.format(number, {
-            // TODO settings for this stuff
-            lowerExp: -9,
-            upperExp: 15,
-            precision: 5,
+            lowerExp: lowerExponentBound(),
+            upperExp: upperExponentBound(),
+            precision: precision(),
         });
 
-        // Add thousands separators if number is formatted as fixed.
-        if (/^\d+(\.\d+)?$/.test(s)) {
-            s = s.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+        if (displayCommas()) {
+            // Add thousands separators if number is formatted as fixed.
+            if (/^\d+(\.\d+)?$/.test(s)) {
+                s = s.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+            }
         }
 
         return s;

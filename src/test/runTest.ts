@@ -12,6 +12,12 @@ import { suite as constants }  from "./suites/constants-testSuite";
 import { suite as text }  from "./suites/text-testSuite";
 import { suite as bases }  from "./suites/bases-testSuite";
 
+const baseTransformerSettings: TransformerSettings = {
+	convertLocalCurrency: true,
+	localCurrencySymbol: "$",
+	localCurrencyCode: "USD"
+};
+
 function main() {
 	try {
 
@@ -64,7 +70,7 @@ function runTests(math: math.MathJsStatic, suites: TestSuite[]) {
 
 		Object.entries(suite.tests).forEach(([key, value]) =>{
 			
-			const result = format(math, math.compile(transform(key)).evaluate(scope));
+			const result = format(math, math.compile(transform(key, baseTransformerSettings)).evaluate(scope));
 
 			if(typeof value == "string" && (value as string).match(result)) {
 				console.log("[SUCCESS] " + key + " = " + result);

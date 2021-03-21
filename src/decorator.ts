@@ -11,35 +11,32 @@ import {
     window,
     workspace,
     ExtensionContext,
+    TextEditorDecorationType,
 } from "vscode";
 import MathDocument from "./document";
 import { MathJsStatic } from 'mathjs';
 import { create } from "./math";
 import { format } from "./formatter";
-
-const decorationType = window.createTextEditorDecorationType({
-    after: {
-        //color: new ThemeColor("editorCodeLens.foreground"),
-        color: new ThemeColor("terminal.ansiGreen"),
-        fontStyle: "normal",
-        //backgroundColor: new ThemeColor("editor.lineHighlightBackground"),
-    },
-    isWholeLine: true,
-    rangeBehavior: DecorationRangeBehavior.ClosedClosed,
-});
+import { alignResults, enabledLanguages, getComputedResultsDelimiter, maxAlignmentColumn, resultsColor } from "./settings";
+import math = require("mathjs");
 
 export default class EditorDecorator implements Disposable {
-    documentSelector: DocumentSelector = [
-        "markdown",
-        "plaintext",
-        "qalc"
-    ];
+    
     private documents = new Map<Uri, MathDocument>();
     private disposables: Disposable[] = [];
     private math: MathJsStatic;
     private gap: number = 2;
 
+    // Settings
+    private decorationType!: TextEditorDecorationType;
+    private resultsDelimiter!: string;
+    private alignResults!: boolean;
+    private maxAlignmentColumn!: number;
+    private documentSelector!: DocumentSelector;
+
     constructor(private ctx: ExtensionContext) {
+        this.computeSettings();
+
         this.math = create(ctx, () => this.renderAll(true));
 
         // Handle editors being created and disposed, which we might be
@@ -74,8 +71,46 @@ export default class EditorDecorator implements Disposable {
             this.documents.delete(document.uri);
         }));
 
+        // Listen for configuration changes and update visible editors if so
+        this.disposables.push(workspace.onDidChangeConfiguration(event => {
+
+            this.computeSettings();
+            this.renderAll();
+        }));
+
         // Do a first-pass on initial load.
         this.renderAll();
+    }
+
+    computeSettings() {
+
+        this.resultsDelimiter = getComputedResultsDelimiter();
+        this.alignResults = alignResults();
+        this.maxAlignmentColumn = maxAlignmentColumn();
+        this.documentSelector = enabledLanguages();
+
+        const color = resultsColor();
+        let colorProperty: ThemeColor | string;
+        if (/(#[A-Fa-f0-7]{6})|(rgb\(\d{1,3},\s*\d{1,3},\s*\d{1,3}\))/.test(color)) {
+            colorProperty = color;
+        } else {
+            colorProperty = new ThemeColor(color);
+        }
+
+        if (this.decorationType) {
+            this.decorationType.dispose();
+        }
+        this.decorationType = window.createTextEditorDecorationType({
+            after: {
+                color: colorProperty,
+                fontStyle: "normal"
+                //backgroundColor: new ThemeColor("editor.lineHighlightBackground"),
+            },
+            isWholeLine: true,
+            rangeBehavior: DecorationRangeBehavior.ClosedClosed,
+        });
+
+
     }
 
     /**
@@ -89,33 +124,49 @@ export default class EditorDecorator implements Disposable {
      * Re-render all math decorations on the given editor.
      */
     renderEditor(editor: TextEditor, clearCache?: boolean) {
+
         let decorationsArray: DecorationOptions[] = [];
 
         if (this.isMathEnabled(editor.document)) {
             let mathDocument = this.getMathDocument(editor.document);
 
-            if(clearCache) {
+            if (clearCache) {
                 mathDocument.clearCache();
             }
 
             mathDocument.evaluate();
 
             mathDocument.results.forEach((value, lineNumber) => {
-                // Calculate margin based on longest line
-                let margin = mathDocument.widestLine - mathDocument.document.lineAt(lineNumber).text.length + this.gap;
                 decorationsArray.push({
                     range: mathDocument.document.lineAt(lineNumber).range,
                     renderOptions: {
                         after: {
-                            contentText: `${format(this.math, value)}`, // TODO setting for including =
-                            margin: `0 0 0 ${margin}ch`
+                            contentText: `${this.resultsDelimiter}${format(this.math, value)}`, // TODO setting for including =
+                            margin: `0 0 0 ${this.calculateMargin(mathDocument, lineNumber)}ch`
                         }
                     }
                 });
             });
         }
 
-        editor.setDecorations(decorationType, decorationsArray);
+        editor.setDecorations(this.decorationType, decorationsArray);
+    }
+
+    calculateMargin(mathDocument: MathDocument, lineNumber: number) {
+
+        if (!this.alignResults) {
+            return this.gap;
+        }
+
+        const alignmentColumn = Math.min(mathDocument.widestLine, this.maxAlignmentColumn);
+
+        const lineLength = mathDocument.document.lineAt(lineNumber).text.length;
+
+        let margin = alignmentColumn - lineLength;
+        if (lineLength > alignmentColumn) {
+            margin = 0;
+        }
+        return margin += this.gap;
     }
 
     dispose() {

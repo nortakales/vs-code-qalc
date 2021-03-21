@@ -51,7 +51,7 @@
             ]
         },
         "keywords" :{
-            "match": "\\b(in|to|last|off|of|mod|xor|or)\\b",
+            "match": "\\b(in|to|last|off|of|mod|xor|or|ago)\\b",
             "captures": {
                 "1": {
                     "name": "entity.name.type"
@@ -59,7 +59,7 @@
             }
         },
         "constants" :{
-            "match": "\\b(today|tomorrow|now|yesterday|pi|e|sum|total|average|avg)\\b",
+            "match": "\\b(today|tomorrow|now|time|yesterday|pi|e|sum|total|average|avg|Infinity|NaN)\\b",
             "captures": {
                 "1": {
                     "name": "variable"

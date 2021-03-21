@@ -3,6 +3,7 @@ import math = require('mathjs');
 import { TextDocument } from 'vscode';
 import { format } from './formatter';
 import { defaultScope } from './math';
+import { convertLocalCurrency, localCurrencyCode, localCurrencySymbol } from './settings';
 import { transform } from './transformer';
 
 /**
@@ -12,12 +13,22 @@ export default class MathDocument {
     document: TextDocument;
     results = new Map<number, any>();
     widestLine: number = 0;
+    transformerSettings!: TransformerSettings;
 
     // Expression compiler cache.
     private compileCache = new Map<string, math.EvalFunction>();
 
     constructor(document: TextDocument, private math: MathJsStatic) {
         this.document = document;
+        this.updateTransformerSettings();
+    }
+
+    updateTransformerSettings() {
+        this.transformerSettings = {
+            convertLocalCurrency: convertLocalCurrency(),
+            localCurrencySymbol: localCurrencySymbol(),
+            localCurrencyCode: localCurrencyCode()
+        };
     }
 
     /**
@@ -26,6 +37,7 @@ export default class MathDocument {
     evaluate() {
         this.results.clear();
         let scope = defaultScope();
+        this.updateTransformerSettings();
         this.widestLine = 0;
 
         for (let lineNumber = 0; lineNumber < this.document.lineCount; lineNumber++) {
@@ -39,7 +51,7 @@ export default class MathDocument {
                 }
                 const aggregated = this.aggregate(trimmed, lineNumber);
                 
-                const transformed = transform(aggregated);
+                const transformed = transform(aggregated, this.transformerSettings);
                 const compiled = this.compile(transformed);
 
                 if (compiled) {

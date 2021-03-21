@@ -1,9 +1,7 @@
 /** 
      * Text transformations before passing a line to MathJS
      */
-export function transform(text: string) : string {
-
-    
+export function transform(text: string, transformerSettings: TransformerSettings) : string {
 
     /**
      * Wraps things like
@@ -40,6 +38,8 @@ export function transform(text: string) : string {
         text = text.replace(/(?<!\([^)]*)(?<!\[[^\]]*),(\d{3})/g, "$1");
     }
 
+    // TODO use transformer settings
+
     // $5USD, $5 AUD, $5.0 CAD, etc will have the $ stripped to work with MathJS
     if(/\$[\d\.]+\s*[A-Z]{3}/.test(text)) {
         text = text.replace(/\$([\d\.]+\s*[A-Z]{3})/g, "$1");
@@ -52,22 +52,22 @@ export function transform(text: string) : string {
 
     // Change %" off of "whatever units to " * -whatever units + whatever units"
     if(/(?<=%)(\s+off( of)?\s+)(\$?[\d\.]+\s*\w*)/.test(text)) {
-        text = text.replace(/(?<=%)(\s+off( of)?\s+)(\$?[\d\.]+\s*\w*)/, " * -$3 + $3");
+        text = text.replace(/(?<=%)(\s+off( of)?\s+)(\$?[\d\.]+\s*\w*)/g, " * -$3 + $3");
     }
 
     // Change x% into 100/x
     if(/([\d\.\,]+)\%/.test(text)) {
-        text = text.replace(/([\d\.\,]+)\%/, "($1/100)");
+        text = text.replace(/([\d\.\,]+)\%/g, "($1/100)");
     }
 
     // Change of to *
     if(/ of /.test(text)) {
-        text = text.replace(/ of /, " * ");
+        text = text.replace(/ of /g, " * ");
     }
 
     // Replace "x unit ago" with "now - x unit"
     if(/([\d\.]+ [A-Za-z]+) ago/.test(text)) {
-        text = text.replace(/([\d\.]+ [A-Za-z]+) ago/, "now - $1");
+        text = text.replace(/([\d\.]+ [A-Za-z]+) ago/g, "now - $1");
     }
 
     // Need to protect against keywords being used as variable names

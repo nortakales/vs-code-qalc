@@ -1,16 +1,22 @@
 {
-    "name": "vs-calc",
+    "name": "vs-qalc",
     "displayName": "Qalc",
-    "description": "Interactive scratchpad calculator.",
+    "description": "Interactive scratchpad calculator for VSCode",
     "publisher": "nortakales",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "engines": {
         "vscode": "^1.44.0"
     },
     "keywords": [
         "calc",
         "calculator",
-        "math"
+        "math",
+        "qalc",
+        "mathpad",
+        "numi",
+        "parsify",
+        "scratchpad",
+        "notebook"
     ],
     "categories": [
         "Other"
@@ -26,6 +32,9 @@
         "languages": [
             {
                 "id": "qalc",
+                "aliases": [
+                    "Qalc"
+                ],
                 "extensions": [
                     ".qalc"
                 ]
@@ -37,7 +46,104 @@
                 "scopeName": "source.qalc",
                 "path": "./syntaxes/qalc.tmGrammar.json"
             }
-        ]
+        ],
+        "configuration": {
+            "title": "Qalc",
+            "properties": {
+                "qalc.output.color": {
+                    "title": "Output Color",
+                    "type": "string",
+                    "default": "",
+                    "description": "Set a custom color for output to display in. This can be either a hex value (e.g. \"#FFFFFF\"), rgb value (e.g. \"rgb(255,255,255)\"), or a VSCode ThemeColor id (e.g. \"editor.foreground\", see https://code.visualstudio.com/docs/getstarted/theme-color-reference for available ids). If no color is specified, this falls back to \"terminal.ansiGreen\" to get the green  matching your current UI theme."
+                },
+                "qalc.output.showDelimiter": {
+                    "title": "Show Output Delimiter",
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Controls whether or not to display the delimiter to separate input from output. Default delimiter is \"=\" and can be overriden with the \"qalc.output.delimiter\" setting."
+                },
+                "qalc.output.delimiter": {
+                    "title": "Output Delimiter",
+                    "type": "string",
+                    "default": "=",
+                    "description": "Delimiter to display between input and output. Can be turned on/off with the \"qalc.output.showDelimiter\" setting."
+                },
+                "qalc.output.align": {
+                    "title": "Align Output",
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Aligns the left edge of output (on) or displays output immediately at the end of an input line (off)"
+                },
+                "qalc.output.maxAlignmentColumn": {
+                    "title": "Max Alignment Column",
+                    "type": "number",
+                    "default": 50,
+                    "description": "When \"qalc.output.align\" is on, this controls the maximum column that results will align on. This is useful if you have, for example, a Markdown document with a few long lines, but don't want your Qalc results displayed too far out for the majority of your shorter lines."
+                },
+                "qalc.enabledLanguages": {
+                    "title": "Enabled Languages",
+                    "type": "array",
+                    "default": [
+                        "qalc",
+                        "plaintext",
+                        "markdown"
+                    ],
+                    "contains": {
+                        "type": "string"
+                    },
+                    "description": "Language identifiers for which to enable Qalc processing on. Keep in mind that Qalc will not examine partial matches, but only full lines. If your full line is not parseable, no output is displayed. For example, if you have a line in a JSON file like \"  'key': '1 + 1'  \", the \"1 + 1\" will not be evaluated because the full line is not parseable. Defaults to [\"qalc\", \"plaintext\", \"markdown\"]."
+                },
+                "qalc.output.displayCommas": {
+                    "title": "Display Commas",
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Turn this on to display commas in results ($1,000,000), or off to hide commas ($1000000)"
+                },
+                "qalc.output.precision": {
+                    "title": "Precision",
+                    "type": "integer",
+                    "default": 5,
+                    "minimum": 0,
+                    "maximum": 16,
+                    "description": "Set the precision after the decimal of the output. No precision is lost in calculations, only the final display."
+                },
+                "qalc.output.lowerExponentBound": {
+                    "title": "Lower Exponent Bound",
+                    "type": "integer",
+                    "default": -9,
+                    "minimum": -16,
+                    "maximum": 0,
+                    "description": "Exponent determining the lower boundary for formatting output with an exponent (e.g. setting this to -2 will format 0.01 as 1e-2."
+                },
+                "qalc.output.upperExponentBound": {
+                    "title": "Upper Exponent Bound",
+                    "type": "integer",
+                    "default": 16,
+                    "minimum": 0,
+                    "maximum": 100,
+                    "description": "Exponent determining the upper boundary for formatting output with an exponent (e.g. setting this to 2 will format 100 as 1e+2)."
+                },
+
+                "qalc.currency.convertLocal": {
+                    "title": "Convert Local Currency",
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Turn this on to use your local currency symbol in both your input and output. Works with \"qalc.currency.localSymbol\" and \"qalc.currency.localCode\". For example, setting \"$\" and \"USD\" allows your input to contain \"$100\" which will be evaluated as the equivalent of \"100 USD\", and similarly will display in the output as \"$100\" instead of \"100 USD\"."
+                },
+                "qalc.currency.localSymbol": {
+                    "title": "Local Currency Symbol",
+                    "type": "string",
+                    "default": "$",
+                    "description": "Set your local currency symbol. See \"qalc.currency.convertLocal\" for how this is used\""
+                },
+                "qalc.currency.localCode": {
+                    "title": "Local Currency Code",
+                    "type": "string",
+                    "default": "USD",
+                    "description": "Set your local currency code. See \"qalc.currency.convertLocal\" for how this is used\""
+                }
+            }
+        }
     },
     "main": "./out/extension.js",
     "scripts": {
