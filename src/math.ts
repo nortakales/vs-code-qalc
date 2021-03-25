@@ -49,8 +49,20 @@ export function create(ctx: ExtensionContext, callback: Function): mathjs.MathJs
 
     math.createUnit("tps");
 
-    // Can't get pixels to work, might need newer API version
-    //math.createUnit("pixels";
+    // TODO need a way to adjust the ratios either in the editor or through config
+    math.createUnit("pixel", {
+        aliases:["pixels", "px"],
+        definition: "0.01041666666 inch", // 96 pixels per inch
+    });
+
+    math.createUnit("point", {
+        aliases:["points", "pt"], // Overrides pint
+        definition: "1.3333333333333 px", // 1px is .75 pt
+    }, {override: true});
+
+    math.createUnit("em", {
+        definition: "16 px",
+    });
 
     getExchangeRates(ctx).then(data => {
         math.createUnit(data.base);
@@ -67,21 +79,8 @@ export function create(ctx: ExtensionContext, callback: Function): mathjs.MathJs
         callback();
     });
 
-    function sumLatest(latestArray: any[]) {
-
-        let sum = "";
-        latestArray.forEach((result) => {
-            sum += result + " + ";
-        });
-        sum = sum.substring(0, sum.length-3);
-        
-        return sum;
-    }
-
     return math;
 }
-
-
 
 export function defaultScope(): any {
     let yesterday = today();

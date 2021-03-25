@@ -122,12 +122,7 @@ sin(45 rad)
 cos(3.45)
 tan(8) // these assume rad
 
-12 pt in px
-em = 20px
-1.2 em in px
-1 inch in px = 96 px
-ppi = 326
-1 cm in px = 128,35 px
+
 
 date("1/2/2021")
 date(1/2/2021)
@@ -314,3 +309,40 @@ oct(0xff)
 
 bin(hex(oct(0b11)))
 
+12 em
+240px in em
+100 em in points
+1 em
+em
+1 em in px
+1 em in points
+1 em in m
+20px in em
+
+ppi
+dpi
+1 inch in pixels
+
+
+12 point in px
+1 em in px
+1 em in points
+em = 20px
+1 em in points
+1 inch in px = 96 px
+//ppi = 326
+1 cm in px = 128,35 px
+
+1 inch in cm
+cm
+cm = 3 in
+1 inch in cm
+
+(1 px/in) * 30 in in px
+
+cm
+mi
+mi = 7
+mi
+
+12pt in px

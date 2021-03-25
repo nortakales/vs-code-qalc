@@ -7,10 +7,10 @@
 [] Settings
   [x] foreground color
   [] currency ttl
-  [] languages to enable in
+  [x] languages to enable in
   [x] https://mathjs.org/docs/reference/functions/format.html
   [x] include commas or not in output
-  [] transform USD into $ or not in output <- left off here
+  [x] transform USD into $ or not in output
   [x] aligned, not aligned
   [x] max alignment column
 [x] tps as a unit
@@ -27,9 +27,13 @@
 [x] support for "ago"
 [x] Seems to be a bug if a document has 1 USD in it, when it loads, it caches a wrong result before currencies load?
 [] convert hex to rgb
-[] use oC and oF as "degrees c" and "degress f"
-[] px/points units
-[] formatter needs to take settings object for performance and tests
+[x] use oC and oF as "degrees c" and "degress f"
+[x] px/points units
+[x] formatter needs to take settings object for performance and tests
+[] more efficient use of scopes for the reassignUnitError
+[] output should be an error when reassigning a unit
+[] ability to change px per inch and px per em
+[] finish an actual readme
 
 note: had to run `sudo apt-get install libnss3-dev` to get tests running on cmd
 and `sudo apt-get install libatk1.0-0`
