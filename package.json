@@ -77,7 +77,7 @@
                 "qalc.output.maxAlignmentColumn": {
                     "title": "Max Alignment Column",
                     "type": "number",
-                    "default": 50,
+                    "default": 40,
                     "description": "When \"qalc.output.align\" is on, this controls the maximum column that results will align on. This is useful if you have, for example, a Markdown document with a few long lines, but don't want your Qalc results displayed too far out for the majority of your shorter lines."
                 },
                 "qalc.enabledLanguages": {
@@ -123,7 +123,6 @@
                     "maximum": 100,
                     "description": "Exponent determining the upper boundary for formatting output with an exponent (e.g. setting this to 2 will format 100 as 1e+2)."
                 },
-
                 "qalc.currency.convertLocal": {
                     "title": "Convert Local Currency",
                     "type": "boolean",
@@ -134,13 +133,21 @@
                     "title": "Local Currency Symbol",
                     "type": "string",
                     "default": "$",
-                    "description": "Set your local currency symbol. See \"qalc.currency.convertLocal\" for how this is used\""
+                    "description": "Set your local currency symbol. See \"qalc.currency.convertLocal\" for how this is used\"",
+                    "minLength": 1
                 },
                 "qalc.currency.localCode": {
                     "title": "Local Currency Code",
                     "type": "string",
                     "default": "USD",
-                    "description": "Set your local currency code. See \"qalc.currency.convertLocal\" for how this is used\""
+                    "description": "Set your local currency code. See \"qalc.currency.convertLocal\" for how this is used\"",
+                    "minLength": 1
+                },
+                "qalc.shortcuts.temperature": {
+                    "title": "Temperature Shortcut",
+                    "type": "boolean",
+                    "default": "true",
+                    "description": "When on, enables you to use oF and oC as substitutes for degF, degC, fahrenheit, and celsius"
                 }
             }
         }

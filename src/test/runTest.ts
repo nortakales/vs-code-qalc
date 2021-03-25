@@ -15,8 +15,16 @@ import { suite as bases }  from "./suites/bases-testSuite";
 const baseTransformerSettings: TransformerSettings = {
 	convertLocalCurrency: true,
 	localCurrencySymbol: "$",
-	localCurrencyCode: "USD"
+	localCurrencyCode: "USD",
+	temperatureShortcut: true
 };
+
+const baseFormatterSettings: FormatterSettings = {
+	lowerExponentBound: -9,
+	upperExponentBound: 16,
+	precision: 5,
+	displayCommas: true
+}
 
 function main() {
 	try {
@@ -70,7 +78,7 @@ function runTests(math: math.MathJsStatic, suites: TestSuite[]) {
 
 		Object.entries(suite.tests).forEach(([key, value]) =>{
 			
-			const result = format(math, math.compile(transform(key, baseTransformerSettings)).evaluate(scope));
+			const result = format(math, math.compile(transform(key, baseTransformerSettings)).evaluate(scope), baseFormatterSettings);
 
 			if(typeof value == "string" && (value as string).match(result)) {
 				console.log("[SUCCESS] " + key + " = " + result);

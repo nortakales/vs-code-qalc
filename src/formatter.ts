@@ -5,7 +5,7 @@ import { displayCommas, lowerExponentBound, precision, upperExponentBound } from
  *
  * @param value Number to format
  */
-export function format(math: math.MathJsStatic, value: any): string {
+export function format(math: math.MathJsStatic, value: any, formatterSettings: FormatterSettings): string {
     if (value instanceof Date) {
         if (value.getHours() || value.getMinutes() || value.getSeconds() || value.getMilliseconds()) {
             return value.toLocaleString();
@@ -15,12 +15,12 @@ export function format(math: math.MathJsStatic, value: any): string {
 
     return math.format(value, number => {
         let s = math.format(number, {
-            lowerExp: lowerExponentBound(),
-            upperExp: upperExponentBound(),
-            precision: precision(),
+            lowerExp: formatterSettings.lowerExponentBound,
+            upperExp: formatterSettings.upperExponentBound,
+            precision: formatterSettings.precision,
         });
 
-        if (displayCommas()) {
+        if (formatterSettings.displayCommas) {
             // Add thousands separators if number is formatted as fixed.
             if (/^\d+(\.\d+)?$/.test(s)) {
                 s = s.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");

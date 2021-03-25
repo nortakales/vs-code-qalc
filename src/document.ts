@@ -3,7 +3,7 @@ import math = require('mathjs');
 import { TextDocument } from 'vscode';
 import { format } from './formatter';
 import { defaultScope } from './math';
-import { convertLocalCurrency, localCurrencyCode, localCurrencySymbol } from './settings';
+import { convertLocalCurrency, displayCommas, localCurrencyCode, localCurrencySymbol, lowerExponentBound, precision, temperatureShortcut, upperExponentBound } from './settings';
 import { transform } from './transformer';
 
 /**
@@ -14,6 +14,7 @@ export default class MathDocument {
     results = new Map<number, any>();
     widestLine: number = 0;
     transformerSettings!: TransformerSettings;
+    formatterSettings!: FormatterSettings;
 
     // Expression compiler cache.
     private compileCache = new Map<string, math.EvalFunction>();
@@ -21,13 +22,24 @@ export default class MathDocument {
     constructor(document: TextDocument, private math: MathJsStatic) {
         this.document = document;
         this.updateTransformerSettings();
+        this.updateFormatterSettings();
     }
 
     updateTransformerSettings() {
         this.transformerSettings = {
             convertLocalCurrency: convertLocalCurrency(),
             localCurrencySymbol: localCurrencySymbol(),
-            localCurrencyCode: localCurrencyCode()
+            localCurrencyCode: localCurrencyCode(),
+            temperatureShortcut: temperatureShortcut()
+        };
+    }
+
+    updateFormatterSettings() {
+        this.formatterSettings = {
+            lowerExponentBound: lowerExponentBound(),
+            upperExponentBound: upperExponentBound(),
+            precision: precision(),
+            displayCommas: displayCommas()
         };
     }
 
@@ -38,6 +50,7 @@ export default class MathDocument {
         this.results.clear();
         let scope = defaultScope();
         this.updateTransformerSettings();
+        this.updateFormatterSettings();
         this.widestLine = 0;
 
         for (let lineNumber = 0; lineNumber < this.document.lineCount; lineNumber++) {
@@ -91,7 +104,7 @@ export default class MathDocument {
                     }
                 }
                 datapoints++;
-                aggregate += " + " + format(this.math, result);
+                aggregate += " + " + format(this.math, result, this.formatterSettings);
             }
 
             if(/^(avg|average)$/.test(line)) {

@@ -3,6 +3,7 @@
      */
 export function transform(text: string, transformerSettings: TransformerSettings) : string {
 
+
     /**
      * Wraps things like
      * 2021-1-30
@@ -38,16 +39,24 @@ export function transform(text: string, transformerSettings: TransformerSettings
         text = text.replace(/(?<!\([^)]*)(?<!\[[^\]]*),(\d{3})/g, "$1");
     }
 
-    // TODO use transformer settings
+    if(transformerSettings.convertLocalCurrency) {
 
-    // $5USD, $5 AUD, $5.0 CAD, etc will have the $ stripped to work with MathJS
-    if(/\$[\d\.]+\s*[A-Z]{3}/.test(text)) {
-        text = text.replace(/\$([\d\.]+\s*[A-Z]{3})/g, "$1");
-    }
+        const code = transformerSettings.localCurrencyCode;
+        const symbol = transformerSettings.localCurrencySymbol;
 
-    // $ alone will be treated as USD
-    if(/\$([\d\.\,]+)(?=([^\d\.\,A-Z]|$))(?!\b\s*[A-Z]{3})/.test(text)) {
-        text = text.replace(/\$([\d\.\,]+)(?=([^\d\.\,A-Z]|$))(?!\b\s*[A-Z]{3})/g, "$1 USD");
+        const strippingRegex = new RegExp(`\\${symbol}([\\d\\.]+\\s*[A-Z]{3})`, "g");
+
+        // $5USD, $5 AUD, $5.0 CAD, etc will have the $ stripped to work with MathJS
+        if(strippingRegex.test(text)) {
+            text = text.replace(strippingRegex, "$1");
+        }
+
+        const replacingRegex = new RegExp(`\\${symbol}([\\d\\.\\,]+)(?=([^\\d\\.\\,A-Z]|$))(?!\\b\\s*[A-Z]{3})`, "g")
+
+        // $ alone will be treated as USD
+        if(replacingRegex.test(text)) {
+            text = text.replace(replacingRegex, `$1 ${code}`);
+        }
     }
 
     // Change %" off of "whatever units to " * -whatever units + whatever units"
@@ -68,6 +77,15 @@ export function transform(text: string, transformerSettings: TransformerSettings
     // Replace "x unit ago" with "now - x unit"
     if(/([\d\.]+ [A-Za-z]+) ago/.test(text)) {
         text = text.replace(/([\d\.]+ [A-Za-z]+) ago/g, "now - $1");
+    }
+
+    if(transformerSettings.temperatureShortcut) {
+        // Replace oF or oC with degF or degC
+        if(/(?<=[\s\d\.\/])o([FC])(?![A-Za-z])/.test(text)) {
+            console.log(text);
+            text = text.replace(/(?<=[\s\d\.\/])o([FC])(?![A-Za-z])/g, "deg$1");
+            console.log(text);
+        }
     }
 
     // Need to protect against keywords being used as variable names

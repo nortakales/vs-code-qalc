@@ -17,7 +17,7 @@ import MathDocument from "./document";
 import { MathJsStatic } from 'mathjs';
 import { create } from "./math";
 import { format } from "./formatter";
-import { alignResults, enabledLanguages, getComputedResultsDelimiter, maxAlignmentColumn, resultsColor } from "./settings";
+import { alignResults, displayCommas, enabledLanguages, getComputedResultsDelimiter, lowerExponentBound, maxAlignmentColumn, precision, resultsColor, upperExponentBound } from "./settings";
 import math = require("mathjs");
 
 export default class EditorDecorator implements Disposable {
@@ -33,6 +33,7 @@ export default class EditorDecorator implements Disposable {
     private alignResults!: boolean;
     private maxAlignmentColumn!: number;
     private documentSelector!: DocumentSelector;
+    private formatterSettings!: FormatterSettings;
 
     constructor(private ctx: ExtensionContext) {
         this.computeSettings();
@@ -110,7 +111,12 @@ export default class EditorDecorator implements Disposable {
             rangeBehavior: DecorationRangeBehavior.ClosedClosed,
         });
 
-
+        this.formatterSettings = {
+            lowerExponentBound: lowerExponentBound(),
+            upperExponentBound: upperExponentBound(),
+            precision: precision(),
+            displayCommas: displayCommas()
+        };
     }
 
     /**
@@ -141,7 +147,7 @@ export default class EditorDecorator implements Disposable {
                     range: mathDocument.document.lineAt(lineNumber).range,
                     renderOptions: {
                         after: {
-                            contentText: `${this.resultsDelimiter}${format(this.math, value)}`, // TODO setting for including =
+                            contentText: `${this.resultsDelimiter}${format(this.math, value, this.formatterSettings)}`, // TODO setting for including =
                             margin: `0 0 0 ${this.calculateMargin(mathDocument, lineNumber)}ch`
                         }
                     }
