@@ -1,9 +1,11 @@
 
 # Qalc
 
-![](/resources/icon.png)
+![](/resources/icon-256.png)
 
 Qalc is an interactive calculator that turns any text document into a math processor. Quickly and easily run simple or complex calculations naturally. Lightweight, powerful, simple.
+
+![](/resources/qalc-example.gif)
 
 # Features
 
@@ -19,6 +21,8 @@ Qalc is an interactive calculator that turns any text document into a math proce
 ## Units
 
 ## Functions
+
+## Constants
 
 # Settings
 
@@ -58,18 +62,9 @@ Qalc is an interactive calculator that turns any text document into a math proce
 * [ ] output should be an error when reassigning a unit
 * [ ] ability to change px per inch and px per em
 * [ ] finish an actual readme
+* [ ] don't count headers for longest line
+* [ ] Local currency conversion in output
 
 # Acknowledgments
 
 Forked from [Mathpad](https://github.com/sagebind/mathpad), inspired by [Numi](https://numi.app/) and [Parsify](https://github.com/sagebind/mathpad). I built this because I wanted something cross platform, and integrated with my most common text editor.
-
-
-
-# Notes
-```
-note: had to run `sudo apt-get install libnss3-dev` to get tests running on cmd
-and `sudo apt-get install libatk1.0-0`
-and `sudo apt-get install libatk-bridge2.0-0`
-and `sudo apt-get install libx11-xcb1`
-and ... never was working
-```
