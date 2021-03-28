@@ -6,6 +6,7 @@ import { displayCommas, lowerExponentBound, precision, upperExponentBound } from
  * @param value Number to format
  */
 export function format(math: math.MathJsStatic, value: any, formatterSettings: FormatterSettings): string {
+
     if (value instanceof Date) {
         if (value.getHours() || value.getMinutes() || value.getSeconds() || value.getMilliseconds()) {
             return value.toLocaleString();
@@ -13,8 +14,8 @@ export function format(math: math.MathJsStatic, value: any, formatterSettings: F
         return value.toLocaleDateString();
     }
 
-    return math.format(value, number => {
-        let s = math.format(number, {
+    let stringOutput = math.format(value, number => {
+        let output = math.format(number, {
             lowerExp: formatterSettings.lowerExponentBound,
             upperExp: formatterSettings.upperExponentBound,
             precision: formatterSettings.precision,
@@ -22,11 +23,27 @@ export function format(math: math.MathJsStatic, value: any, formatterSettings: F
 
         if (formatterSettings.displayCommas) {
             // Add thousands separators if number is formatted as fixed.
-            if (/^\d+(\.\d+)?$/.test(s)) {
-                s = s.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+            if (/^\d+(\.\d+)?$/.test(output)) {
+                output = output.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
             }
         }
 
-        return s;
+        return output;
     });
+
+    if(formatterSettings.convertLocalCurrency) {
+
+        const code = formatterSettings.localCurrencyCode;
+        let symbol = formatterSettings.localCurrencySymbol;
+        // To prevent escaping of the $1 replacement
+        symbol += symbol === "$" ? "$" :"";
+
+        const replacingRegex = new RegExp(`\\b([\\d\\.\\,]+) ${code}`, "g");
+
+        if(replacingRegex.test(stringOutput)) {
+            stringOutput = stringOutput.replace(replacingRegex, `${symbol}$1`);
+        }
+    }
+
+    return stringOutput;
 }

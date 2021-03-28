@@ -23,8 +23,11 @@ const baseFormatterSettings: FormatterSettings = {
 	lowerExponentBound: -9,
 	upperExponentBound: 16,
 	precision: 5,
-	displayCommas: true
-}
+	displayCommas: true,
+	convertLocalCurrency: true,
+	localCurrencyCode: "USD",
+	localCurrencySymbol: "$"
+};
 
 function main() {
 	try {
@@ -80,11 +83,11 @@ function runTests(math: math.MathJsStatic, suites: TestSuite[]) {
 			
 			const result = format(math, math.compile(transform(key, baseTransformerSettings)).evaluate(scope), baseFormatterSettings);
 
-			if(typeof value == "string" && (value as string).match(result)) {
+			if(typeof value === "string" && (value as string) === result) {
 				console.log("[SUCCESS] " + key + " = " + result);
-			} else if(typeof value == "object" && (value as any).match && result.match(new RegExp((value as any).match))) {
+			} else if(typeof value === "object" && (value as any).match && result.match(new RegExp((value as any).match))) {
 				console.log("[SUCCESS] " + key + " = " + result);
-			} else if(typeof value == "object" && (value as any).match){
+			} else if(typeof value === "object" && (value as any).match) {
 
 				success = false;
 				const msg = "[FAILED] " + key + " = " + result + " (expected = " + (value as any).match + ")";

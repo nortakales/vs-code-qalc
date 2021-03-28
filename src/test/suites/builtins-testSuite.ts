@@ -5,7 +5,7 @@ export const suite: TestSuite = {
     tests: {
         "round(1.5, 1)": "1.5",
         "round(1.5, 0)": "2",
-        "atan2(3, -3) / pi": " 0.75",
+        "atan2(3, -3) / pi": "0.75",
         "sqrt(16)": "4",
         "sqrt(-4)": "2i",
         "pow([[-1, 2], [3, 1]], 2)": "[[7, 0], [0, 7]]",

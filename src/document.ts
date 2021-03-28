@@ -39,7 +39,10 @@ export default class MathDocument {
             lowerExponentBound: lowerExponentBound(),
             upperExponentBound: upperExponentBound(),
             precision: precision(),
-            displayCommas: displayCommas()
+            displayCommas: displayCommas(),
+            convertLocalCurrency: convertLocalCurrency(),
+            localCurrencyCode: localCurrencyCode(),
+            localCurrencySymbol: localCurrencySymbol()
         };
     }
 

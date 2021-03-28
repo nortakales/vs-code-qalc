@@ -17,7 +17,7 @@ import MathDocument from "./document";
 import { MathJsStatic } from 'mathjs';
 import { create } from "./math";
 import { format } from "./formatter";
-import { alignResults, displayCommas, enabledLanguages, getComputedResultsDelimiter, lowerExponentBound, maxAlignmentColumn, precision, resultsColor, upperExponentBound } from "./settings";
+import { alignResults, convertLocalCurrency, displayCommas, enabledLanguages, getComputedResultsDelimiter, localCurrencyCode, localCurrencySymbol, lowerExponentBound, maxAlignmentColumn, precision, resultsColor, upperExponentBound } from "./settings";
 import math = require("mathjs");
 
 export default class EditorDecorator implements Disposable {
@@ -115,7 +115,10 @@ export default class EditorDecorator implements Disposable {
             lowerExponentBound: lowerExponentBound(),
             upperExponentBound: upperExponentBound(),
             precision: precision(),
-            displayCommas: displayCommas()
+            displayCommas: displayCommas(),
+            convertLocalCurrency: convertLocalCurrency(),
+            localCurrencyCode: localCurrencyCode(),
+            localCurrencySymbol: localCurrencySymbol()
         };
     }
 
