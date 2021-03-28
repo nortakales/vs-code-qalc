@@ -1,0 +1,145 @@
+
+# Basic Operators
+(1 + 1) * 2 + 6 / 2
+4 ^ 2
+5 % 3
+5 mod 3
+4!
+1.4e3
+1.4e-3
+
+# Basic Functions
+round(pi, 2)
+log(10000, 10)
+sqrt(25)
+pow(3, 2)
+abs(-6)
+floor(9.789)
+ceil(4.678)
+nthRoot(16, 3)
+sign(-67)
+distance([0, 0], [5, 5])
+simplify(6/8)
+simplify(0.125)
+fraction(0.25)
+sin(45 deg)
+sin(45 rad)
+cos(3.45)
+tan(8)
+random()
+random(100)
+random(40,45)
+isPrime(7)
+combinations(10, 1)
+permutations(10)
+
+# Aggregations
+1
+2
+3
+4
+sum
+avg
+
+# Dates
+3/14/2021 11:21:56 PM UTC
+date(3/14/2021)
+date(1615789316)
+date(1615789316000)
+yesterday
+tomorrow
+today
+now
+1 year in months
+now - 3 days
+3 days ago
+
+# Variables and Objects
+variable = 7
+object = {field: 2}
+object.field * variable
+
+# Text
+text = concat("hello", " world")
+size(text)
+text[4:9]
+text[1] = "H"
+text[7:12] = "There!"
+text
+
+# Constants
+pi
+e
+phi
+tau
+speedOfLight
+gravitationConstant
+planckConstant
+Infinity
+-Infinity
+
+# Units and Conversions
+1 mi in ft
+1 m^3 to cm^3
+60 mi/hour * 2 hours in mi
+400 USD/sqft * 3500 sqft
+100 miles/hour in km/hour
+
+# Currency
+1 USD
+$1
+1 EUR in USD
+
+# Percents
+50%
+50% of 100
+25% off of 100
+
+# Functions
+f(x) = 2 + x
+f(7)
+
+# Matrices and Ranges
+matrix = [1,2,3]
+matrix[2]
+matrix * 2
+0:5
+range(0, 10)
+range(0, 10, 3)
+max(matrix)
+min(4, 5, 6)
+zeros(5)
+ones(3)
+[1,2,3] + [1,2,3]
+[1,2,3] - [1,2,3]
+[1,2,3] * [1,2,3]
+[1,2,3] .* [1,2,3]
+[1,2,3] ./ [1,2,3]
+[1,2,3] .^ [1,2,3]
+
+# Conditionals
+1 == 1
+1 != 1
+15 > 100
+15 > 100 ? 1 : 2
+
+# Other Keywords
+3 + 5
+last
+
+# Pixels/Points/em
+12pt in px
+1 em in px
+1 inch in px
+
+# Binary, Hex, and Octal
+bin(7)
+0b1111
+bin(0b1001 & 0b1010)
+bin(0b1001 | 0b1010)
+bin(0b1001 >> 1)
+bin(0b1001 << 1)
+0o77
+oct(63)
+0xff
+hex(255)

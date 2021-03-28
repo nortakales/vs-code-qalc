@@ -18,6 +18,9 @@
                     "include": "#constants"
                 },
                 {
+                    "include": "#mathjsConstants"
+                },
+                {
                     "include": "#variableAssignment"
                 },
                 {
@@ -62,7 +65,15 @@
             }
         },
         "constants" :{
-            "match": "\\b(today|tomorrow|now|time|yesterday|pi|e|sum|total|average|avg|Infinity|NaN)\\b",
+            "match": "\\b(today|tomorrow|now|time|yesterday|sum|total|average|avg)\\b",
+            "captures": {
+                "1": {
+                    "name": "variable"
+                }
+            }
+        },
+        "mathjsConstants": {
+            "match": "\\b(speedOfLight|gravitationConstant|planckConstant|reducedPlanckConstant|magneticConstant|electricConstant|vacuumImpedance|coulomb|elementaryCharge|bohrMagneton|conductanceQuantum|inverseConductanceQuantum|magneticFluxQuantum|nuclearMagneton|klitzing|bohrRadius|classicalElectronRadius|electronMass|fermiCoupling|fineStructure|hartreeEnergy|protonMass|deuteronMass|neutronMass|quantumOfCirculation|rydberg|thomsonCrossSection|weakMixingAngle|efimovFactor|atomicMass|avogadro|boltzmann|faraday|firstRadiation|loschmidt|gasConstant|molarPlanckConstant|molarVolume|sackurTetrode|secondRadiation|stefanBoltzmann|wienDisplacement|molarMass|molarMassC12|gravity|atm|planckLength|planckMass|planckTime|planckCharge|planckTemperature|e|E|i|Infinity|LN2|LN10|LOG2E|LOG10E|NaN|null|phi|pi|PI|SQRT1_2|SQRT2|tau|undefined|version)\\b",
             "captures": {
                 "1": {
                     "name": "variable"
