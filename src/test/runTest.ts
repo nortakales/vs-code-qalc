@@ -11,6 +11,7 @@ import { suite as currency }  from "./suites/currency-testSuite";
 import { suite as constants }  from "./suites/constants-testSuite";
 import { suite as text }  from "./suites/text-testSuite";
 import { suite as bases }  from "./suites/bases-testSuite";
+import { suite as units }  from "./suites/units-testSuite";
 
 const baseTransformerSettings: TransformerSettings = {
 	convertLocalCurrency: true,
@@ -43,6 +44,7 @@ function main() {
 		suites.push(constants);
 		suites.push(text);
 		suites.push(bases);
+		suites.push(units);
 
 
 		// Mock the context since currencies use globalState

@@ -63,6 +63,13 @@ export function create(ctx: ExtensionContext, callback: Function): mathjs.MathJs
     math.createUnit("em", {
         definition: "16 px",
     });
+    
+    math.createUnit("mph", {
+        definition: "1 miles/hour",
+    });
+    math.createUnit("kph", {
+        definition: "1 kilometers/hour",
+    });
 
     getExchangeRates(ctx).then(data => {
         math.createUnit(data.base);

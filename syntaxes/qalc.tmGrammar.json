@@ -184,7 +184,7 @@
             "name": "support.function"
         },
         "reassignAdditionalUnitError": {
-            "match": "^\\s*(px|pixel|pixels|pt|point|points|em|oF|oC)s?\\s*=.*",
+            "match": "^\\s*(px|pixel|pixels|pt|point|points|em|oF|oC|mph|kph)s?\\s*=.*",
             "name": "support.function"
         },
         "reassignAdditionalConstantError": {

@@ -72,6 +72,8 @@ See [Math.js units reference](https://mathjs.org/docs/datatypes/units.html#refer
 | Points | point, points, pt | 1 px = 0.75 pt
 | Emphemeral Unit | em | 1 em = 16px | Eventually this will be configurable
 | Currency | | | See [currency](#currency) section
+| Miles per hour | mph | 1 miles/hour = 1 mph | 
+| Kilometers per hour | kph | 1 kilometers/hour = 1 kph |
 
 ## Currency
 
@@ -169,6 +171,7 @@ Forked from [Mathpad](https://github.com/sagebind/mathpad), inspired by [Numi](h
 * [ ] more stuff from numi: https://github.com/nikolaeu/numi/wiki/Documentation
 * [x] this could actually benefit from tests...
 * [ ] Copy to clipboard command (just text? text but insert =? html? html table?)
+* [ ] Sort by output (should work within header sections? within empty lines?)
 * [x] upgrade mathjs version to latest, but have unit tests first - gets binary support
 * [x] base (binary, hex) conversion
 * [x] "time"
@@ -176,17 +179,17 @@ Forked from [Mathpad](https://github.com/sagebind/mathpad), inspired by [Numi](h
 * [ ] "next friday"
 * [x] support for "ago"
 * [x] Seems to be a bug if a document has 1 USD in it, when it loads, it caches a wrong result before currencies load?
-* [ ] convert hex to rgb
+* [ ] convert hex to rgb and vice versa?
 * [x] use oC and oF as "degrees c" and "degress f"
 * [x] px/points units
 * [x] formatter needs to take settings object for performance and tests
 * [ ] more efficient use of scopes for the reassignUnitError
 * [ ] output should be an error when reassigning a unit
 * [ ] ability to change px per inch and px per em
-* [ ] finish an actual readme
+* [x] finish an actual readme
 * [ ] don't count headers for longest line
-* [ ] Local currency conversion in output
+* [x] Local currency conversion in output
 * [ ] enable "in $"
-* [ ] enable mph and kph
+* [x] enable mph and kph
 * [x] syntax highlighting for mistakenly assigning ANY keyword (new. math.js native constants units and functions)
 * [ ] decoration explanation to accompany syntax highlighting for reassigning builtins
