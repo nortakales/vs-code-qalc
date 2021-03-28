@@ -62,7 +62,7 @@ export default class MathDocument {
             if (!line.isEmptyOrWhitespace) {
                 const trimmed = line.text.trim();
 
-                if(line.text.length > this.widestLine) {
+                if(line.text.length > this.widestLine && this.isNotCommentOrHeaderOnly(line.text)) {
                     this.widestLine = line.text.length;
                 }
                 const aggregated = this.aggregate(trimmed, lineNumber);
@@ -85,6 +85,10 @@ export default class MathDocument {
                 }
             }
         }
+    }
+
+    private isNotCommentOrHeaderOnly(line: string) {
+        return ! /^\s*(#|\/\/)/.test(line);
     }
 
     clearCache() {

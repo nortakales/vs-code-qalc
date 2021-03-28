@@ -187,7 +187,7 @@ Forked from [Mathpad](https://github.com/sagebind/mathpad), inspired by [Numi](h
 * [ ] output should be an error when reassigning a unit
 * [ ] ability to change px per inch and px per em
 * [x] finish an actual readme
-* [ ] don't count headers for longest line
+* [x] don't count headers for longest line
 * [x] Local currency conversion in output
 * [ ] enable "in $"
 * [x] enable mph and kph
