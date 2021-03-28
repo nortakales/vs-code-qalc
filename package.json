@@ -3,7 +3,7 @@
     "displayName": "Qalc",
     "description": "Interactive scratchpad calculator for VSCode",
     "publisher": "nortakales",
-    "version": "1.0.0",
+    "version": "0.0.5",
     "engines": {
         "vscode": "^1.44.0"
     },
@@ -88,19 +88,6 @@
                     "default": 40,
                     "description": "When \"qalc.output.align\" is on, this controls the maximum column that results will align on. This is useful if you have, for example, a Markdown document with a few long lines, but don't want your Qalc results displayed too far out for the majority of your shorter lines."
                 },
-                "qalc.enabledLanguages": {
-                    "title": "Enabled Languages",
-                    "type": "array",
-                    "default": [
-                        "qalc",
-                        "plaintext",
-                        "markdown"
-                    ],
-                    "contains": {
-                        "type": "string"
-                    },
-                    "description": "Language identifiers for which to enable Qalc processing on. Keep in mind that Qalc will not examine partial matches, but only full lines. If your full line is not parseable, no output is displayed. For example, if you have a line in a JSON file like \"  'key': '1 + 1'  \", the \"1 + 1\" will not be evaluated because the full line is not parseable. Defaults to [\"qalc\", \"plaintext\", \"markdown\"]."
-                },
                 "qalc.output.displayCommas": {
                     "title": "Display Commas",
                     "type": "boolean",
@@ -156,6 +143,19 @@
                     "type": "boolean",
                     "default": "true",
                     "description": "When on, enables you to use oF and oC as substitutes for degF, degC, fahrenheit, and celsius"
+                },
+                "qalc.enabledLanguages": {
+                    "title": "Enabled Languages",
+                    "type": "array",
+                    "default": [
+                        "qalc",
+                        "plaintext",
+                        "markdown"
+                    ],
+                    "contains": {
+                        "type": "string"
+                    },
+                    "description": "Language identifiers for which to enable Qalc processing on. Keep in mind that Qalc will not examine partial matches, but only full lines. If your full line is not parseable, no output is displayed. For example, if you have a line in a JSON file like \"  'key': '1 + 1'  \", the \"1 + 1\" will not be evaluated because the full line is not parseable. Defaults to [\"qalc\", \"plaintext\", \"markdown\"]."
                 }
             }
         }

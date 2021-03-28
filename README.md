@@ -24,10 +24,11 @@ Qalc is an interactive calculator that turns any text document into a math proce
 
 See [Math.js operators](https://mathjs.org/docs/expressions/syntax.html#operators) for all available operators and [Math.js precedence](https://mathjs.org/docs/expressions/syntax.html#precedence) for order of operations.
 
-## Functions
+## Basic Functions
 
 ![](/resources/examples/basic-functions.png)
-This is just a subset of available functions, see [Math.js function documentation](https://mathjs.org/docs/reference/functions.html) for all available functions
+
+This is just a subset of available functions, see [Math.js function documentation](https://mathjs.org/docs/reference/functions.html) for all available functions. Note: the output of `random()` will update every time the document changes or is reloaded by the UI.
 
 ## Aggregations
 
@@ -39,7 +40,7 @@ These are built on top of Math.js and are specific to Qalc. Are you looking for 
 
 ![](/resources/examples/dates.png)
 
-Support for dates is built on top of Math.js and is specific to Qalc.
+Support for dates is built on top of Math.js and is specific to Qalc. Note that any of the relative date keywords, most importantly `time` and `now`, will update every time the document is re-evaluated (any time it changes or the window loads it again). If today is 3/1/2021, `today` will return `3/1/2021` but tomorrow if you load the document again it will return `3/2/2021`.
 
 ## Variables and Objects
 
@@ -100,6 +101,8 @@ Matrix indexes are one-based, similar to most math applications (differing from 
 
 ![](/resources/examples/conditionals.png)
 
+All conditional operators are listed in the [Math.js operators](https://mathjs.org/docs/expressions/syntax.html#operators) documentation.
+
 ## Other Keywords
 
 ![](/resources/examples/other-keywords.png)
@@ -116,7 +119,34 @@ These units are not native to Math.js, and for good reason: they are not well de
 
 ![](/resources/examples/binary-hex-octal.png)
 
+The [Math.js numbers](https://mathjs.org/docs/expressions/syntax.html#numbers) documentation has a little documentation on binary, hex and octal. 
+
 # Settings
+
+Qalc offers a variety of settings that allow you to customize its behavior. These settings are explained below.
+
+![](/resources/examples/settings-examples.png)
+
+| Setting | Key | Default | Description |
+| ----------------- | --- | --- | --- |
+| Output Color | `qalc.output.color` | | Set a custom color for output to display in. This can be either a hex value (e.g. \"#FFFFFF\"), rgb value (e.g. \"rgb(255,255,255)\"), or a VSCode ThemeColor id (e.g. \"editor.foreground\", see https://code.visualstudio.com/docs/getstarted/theme-color-reference for available ids). If no color is specified, this falls back to \"terminal.ansiGreen\" to get the green  matching your current UI theme. |
+| Show Output Delimiter | `qalc.output.showDelimiter` | `true` | Controls whether or not to display the delimiter to separate input from output. Default delimiter is \"=\" and can be overriden with the \"qalc.output.delimiter\" setting. |
+| Output Delimiter | `qalc.output.delimiter` | `=` | Delimiter to display between input and output. Can be turned on/off with the \"qalc.output.showDelimiter\" setting. |
+| Align Output | `qalc.output.align` | `true` | Aligns the left edge of output (on) or displays output immediately at the end of an input line (off) |
+| Max Alignment Column | `qalc.output.maxAlignmentColumn` | `40` | When \"qalc.output.align\" is on, this controls the maximum column that results will align on. This is useful if you have, for example, a Markdown document with a few long lines, but don't want your Qalc results displayed too far out for the majority of your shorter lines. |
+| Display Commas | `qalc.output.displayCommas` | `true` | Turn this on to display commas in results ($1,000,000), or off to hide commas ($1000000) |
+| Precision | `qalc.output.precision` | `5` | Set the precision after the decimal of the output. No precision is lost in calculations, only the final display. |
+| Lower Exponent Bound | `qalc.output.lowerExponentBound` | `-9` | Exponent determining the lower boundary for formatting output with an exponent (e.g. setting this to -2 will format 0.01 as 1e-2. |
+| Upper Exponent Bound | `qalc.output.upperExponentBound` | `16` | Exponent determining the upper boundary for formatting output with an exponent (e.g. setting this to 2 will format 100 as 1e+2). |
+| Convert Local Currency | `qalc.currency.convertLocal` | `true` | Turn this on to use your local currency symbol in both your input and output. Works with \"qalc.currency.localSymbol\" and \"qalc.currency.localCode\". For example, setting \"$\" and \"USD\" allows your input to contain \"$100\" which will be evaluated as the equivalent of \"100 USD\", and similarly will display in the output as \"$100\" instead of \"100 USD\". |
+| Local Currency Symbol | `qalc.currency.localSymbol` | `$` | Set your local currency symbol. See \"qalc.currency.convertLocal\" for how this is used\" |
+| Local Currency Code | `qalc.currency.localCode` | `USD` | Set your local currency code. See \"qalc.currency.convertLocal\" for how this is used\" |
+| Temperature Shortcut | `qalc.shortcuts.temperature` | `true` | When on, enables you to use oF and oC as substitutes for degF, degC, fahrenheit, and celsius |
+| Enabled Languages | `qalc.enabledLanguages` | `["qalc", "plaintext", "markdown"]` | Language identifiers for which to enable Qalc processing on. Keep in mind that Qalc will not examine partial matches, but only full lines. If your full line is not parseable, no output is displayed. For example, if you have a line in a JSON file like \"  'key': '1 + 1'  \", the \"1 + 1\" will not be evaluated because the full line is not parseable. Defaults to [\"qalc\", \"plaintext\", \"markdown\"]. |
+
+# Acknowledgments
+
+Forked from [Mathpad](https://github.com/sagebind/mathpad), inspired by [Numi](https://numi.app/) and [Parsify](https://github.com/sagebind/mathpad). I built this because I wanted something cross platform, and integrated with my most common text editor.
 
 # Feature Todo List
 
@@ -158,7 +188,5 @@ These units are not native to Math.js, and for good reason: they are not well de
 * [ ] Local currency conversion in output
 * [ ] enable "in $"
 * [ ] enable mph and kph
-
-# Acknowledgments
-
-Forked from [Mathpad](https://github.com/sagebind/mathpad), inspired by [Numi](https://numi.app/) and [Parsify](https://github.com/sagebind/mathpad). I built this because I wanted something cross platform, and integrated with my most common text editor.
+* [x] syntax highlighting for mistakenly assigning ANY keyword (new. math.js native constants units and functions)
+* [ ] decoration explanation to accompany syntax highlighting for reassigning builtins
