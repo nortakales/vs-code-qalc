@@ -51,7 +51,7 @@ export function transform(text: string, transformerSettings: TransformerSettings
             text = text.replace(strippingRegex, "$1");
         }
 
-        const replacingRegex = new RegExp(`\\${symbol}([\\d\\.\\,]+)(?=([^\\d\\.\\,A-Z]|$))(?!\\b\\s*[A-Z]{3})`, "g")
+        const replacingRegex = new RegExp(`\\${symbol}([\\d\\.\\,]+)(?=([^\\d\\.\\,A-Z]|$))(?!\\b\\s*[A-Z]{3})`, "g");
 
         // $ alone will be treated as USD
         if(replacingRegex.test(text)) {

@@ -16,6 +16,10 @@ Qalc is an interactive calculator that turns any text document into a math proce
 * Syntax highlighting when using the Qalc language mode
 * Completely configurable and customizable: colors, alignment, precision, formatting, and more
 
+# Change Log
+
+See [change log](CHANGELOG.md).
+
 # Syntax
 
 ## Basic Operators
@@ -184,7 +188,7 @@ Forked from [Mathpad](https://github.com/sagebind/mathpad), inspired by [Numi](h
 * [x] px/points units
 * [x] formatter needs to take settings object for performance and tests
 * [ ] more efficient use of scopes for the reassignUnitError
-* [ ] output should be an error when reassigning a unit
+* [x] output should be an error when reassigning a unit
 * [ ] ability to change px per inch and px per em
 * [x] finish an actual readme
 * [x] don't count headers for longest line
@@ -192,4 +196,4 @@ Forked from [Mathpad](https://github.com/sagebind/mathpad), inspired by [Numi](h
 * [ ] enable "in $"
 * [x] enable mph and kph
 * [x] syntax highlighting for mistakenly assigning ANY keyword (new. math.js native constants units and functions)
-* [ ] decoration explanation to accompany syntax highlighting for reassigning builtins
+* [x] decoration explanation to accompany syntax highlighting for reassigning builtins

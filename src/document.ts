@@ -19,6 +19,8 @@ export default class MathDocument {
     // Expression compiler cache.
     private compileCache = new Map<string, math.EvalFunction>();
 
+    private reassignErrorRegex = new RegExp("^\\s*((" + allKeywords + ")s?)\\s*=");
+
     constructor(document: TextDocument, private math: MathJsStatic) {
         this.document = document;
         this.updateTransformerSettings();
@@ -68,6 +70,12 @@ export default class MathDocument {
                 const aggregated = this.aggregate(trimmed, lineNumber);
                 
                 const transformed = transform(aggregated, this.transformerSettings);
+                const errorMessage = this.checkForError(transformed);
+                if(errorMessage) {
+                    this.results.set(lineNumber, errorMessage);
+                    continue;
+                }
+
                 const compiled = this.compile(transformed);
 
                 if (compiled) {
@@ -89,6 +97,18 @@ export default class MathDocument {
 
     private isNotCommentOrHeaderOnly(line: string) {
         return ! /^\s*(#|\/\/)/.test(line);
+    }
+
+    private checkForError(line: string): string|null {
+
+        // Check for assignment before running more expensive regex
+        if(/^\s*\w+\s*=/.test(line)) {
+            if(this.reassignErrorRegex.test(line)) {
+                return "Cannot reassign unit or keyword: " + line.replace(this.reassignErrorRegex, "$1");
+            }
+        }
+
+        return null;
     }
 
     clearCache() {
