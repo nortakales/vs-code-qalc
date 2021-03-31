@@ -3,7 +3,7 @@
     "displayName": "Qalc",
     "description": "Interactive scratchpad calculator for VSCode",
     "publisher": "nortakales",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "engines": {
         "vscode": "^1.44.0"
     },
@@ -55,6 +55,18 @@
                 "scopeName": "source.qalc",
                 "path": "./syntaxes/qalc.tmGrammar.json"
             }
+        ],
+        "commands": [
+			{
+				"command": "qalc.copy.withDelimiter",
+				"title": "Copy With Output (with delimiter)",
+				"category": "Qalc"
+			},
+			{
+				"command": "qalc.copy.withoutDelimiter",
+				"title": "Copy With Output (without delimiter)",
+				"category": "Qalc"
+			}
         ],
         "configuration": {
             "title": "Qalc",

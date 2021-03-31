@@ -16,7 +16,7 @@ Qalc is an interactive calculator that turns any text document into a math proce
 * Syntax highlighting when using the Qalc language mode
 * Completely configurable and customizable: colors, alignment, precision, formatting, and more
 
-# Change Log
+# Release notes
 
 See [change log](CHANGELOG.md).
 
@@ -150,9 +150,22 @@ Qalc offers a variety of settings that allow you to customize its behavior. Thes
 | Temperature Shortcut | `qalc.shortcuts.temperature` | `true` | When on, enables you to use oF and oC as substitutes for degF, degC, fahrenheit, and celsius |
 | Enabled Languages | `qalc.enabledLanguages` | `["qalc", "plaintext", "markdown"]` | Language identifiers for which to enable Qalc processing on. Keep in mind that Qalc will not examine partial matches, but only full lines. If your full line is not parseable, no output is displayed. For example, if you have a line in a JSON file like \"  'key': '1 + 1'  \", the \"1 + 1\" will not be evaluated because the full line is not parseable. Defaults to [\"qalc\", \"plaintext\", \"markdown\"]. |
 
+# Commands
+
+Qalc adds some commands to VSCode:
+
+| Title | Command | Note |
+| - | - | - |
+| Qalc: Copy With Output (with delimiter) | `qalc.copy.withDelimiter` | Copies the selected lines (if a selection exists) or the entire editor to the clipboard, including the output from Qalc *with* the delimiter (set via `qalc.output.delimiter`) |
+| Qalc: Copy With Output (without delimiter) | `qalc.copy.withoutDelimiter` | Same as `qalc.copy.withDelimiter`, but *without* the delimiter |
+
+See these in action:
+
+![](resources/copy-example.gif)
+
 # Acknowledgments
 
-Forked from [Mathpad](https://github.com/sagebind/mathpad), inspired by [Numi](https://numi.app/) and [Parsify](https://github.com/sagebind/mathpad). I built this because I wanted something cross platform, and integrated with my most common text editor.
+Forked from [Mathpad](https://github.com/sagebind/mathpad), inspired by [Numi](https://numi.app/) and [Parsify](https://github.com/sagebind/mathpad). I built this because I wanted something cross platform, and integrated with my most common text editor. The theme used in the screenshots and gifs is a slightly modified [Gruvbox](https://github.com/jdinhify/vscode-theme-gruvbox).
 
 # Feature Todo List
 
@@ -174,7 +187,7 @@ Forked from [Mathpad](https://github.com/sagebind/mathpad), inspired by [Numi](h
 * [ ] implement/extend round()/floor()/ceil() to work with dates
 * [ ] more stuff from numi: https://github.com/nikolaeu/numi/wiki/Documentation
 * [x] this could actually benefit from tests...
-* [ ] Copy to clipboard command (just text? text but insert =? html? html table?)
+* [x] Copy to clipboard command (just text? text but insert =? html? html table?)
 * [ ] Sort by output (should work within header sections? within empty lines?)
 * [x] upgrade mathjs version to latest, but have unit tests first - gets binary support
 * [x] base (binary, hex) conversion

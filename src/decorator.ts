@@ -12,13 +12,15 @@ import {
     workspace,
     ExtensionContext,
     TextEditorDecorationType,
+    env,
 } from "vscode";
 import MathDocument from "./document";
-import { MathJsStatic } from 'mathjs';
+import { MathJsStatic, varianceTransformDependencies } from 'mathjs';
 import { create } from "./math";
 import { format } from "./formatter";
-import { alignResults, convertLocalCurrency, displayCommas, enabledLanguages, getComputedResultsDelimiter, localCurrencyCode, localCurrencySymbol, lowerExponentBound, maxAlignmentColumn, precision, resultsColor, upperExponentBound } from "./settings";
+import { alignResults, convertLocalCurrency, displayCommas, enabledLanguages, getComputedResultsDelimiter, localCurrencyCode, localCurrencySymbol, lowerExponentBound, maxAlignmentColumn, precision, resultsColor, resultsDelimiter, upperExponentBound } from "./settings";
 import math = require("mathjs");
+import { createFullDocumentRange } from "./utils";
 
 export default class EditorDecorator implements Disposable {
     
@@ -195,5 +197,28 @@ export default class EditorDecorator implements Disposable {
 
     private isMathEnabled(document: TextDocument): boolean {
         return languages.match(this.documentSelector, document) > 0;
+    }
+
+    copyToClipboardWithOutput(includeDelimiter: boolean) {
+        const editor = window.activeTextEditor;
+        if(!editor) {
+            return;
+        }
+        const range = editor.selection && !editor.selection.isEmpty ? editor.selection : createFullDocumentRange(editor);
+        const mathDocument = this.getMathDocument(editor.document);
+        const delimiter = includeDelimiter ? resultsDelimiter() : '';
+
+        let clipboard = "";
+        for(let line = range.start.line; line <= range.end.line; line++) {
+            clipboard += editor.document.lineAt(line).text;
+            if(mathDocument.results.get(line)) {
+                let output = format(this.math, mathDocument.results.get(line), this.formatterSettings);
+                let margin = new Array(this.calculateMargin(mathDocument, line)+1).join(' ');
+                clipboard += `${margin}${delimiter}${output}`;
+            }
+            clipboard += '\n';
+        }
+
+        env.clipboard.writeText(clipboard.trimEnd());
     }
 }

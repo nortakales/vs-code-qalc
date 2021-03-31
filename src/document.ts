@@ -1,6 +1,7 @@
 import { MathJsStatic } from 'mathjs';
 import math = require('mathjs');
 import { TextDocument } from 'vscode';
+import { allKeywords } from './constants';
 import { format } from './formatter';
 import { defaultScope } from './math';
 import { convertLocalCurrency, displayCommas, localCurrencyCode, localCurrencySymbol, lowerExponentBound, precision, temperatureShortcut, upperExponentBound } from './settings';
