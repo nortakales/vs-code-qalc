@@ -1,6 +1,6 @@
 import TestSuite from "../testSuite";
 
-const eurRegex = "\\d+\\.\\d* EUR"
+const eurRegex = "\\d+\\.\\d* EUR";
 
 export const suite: TestSuite = {
     name: "Currency",
