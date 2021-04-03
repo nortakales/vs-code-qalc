@@ -53,9 +53,16 @@ export function transform(text: string, transformerSettings: TransformerSettings
 
         const replacingRegex = new RegExp(`\\${symbol}([\\d\\.\\,]+)(?=([^\\d\\.\\,A-Z]|$))(?!\\b\\s*[A-Z]{3})`, "g");
 
-        // $ alone will be treated as USD
+        // $ alone (preceeding a number) will be treated as USD
         if(replacingRegex.test(text)) {
             text = text.replace(replacingRegex, `$1 ${code}`);
+        }
+
+        // "in $" will be treated as "in USD"
+        const inRegex = new RegExp(`\\bin\\s+\\${symbol}`);
+
+        if(inRegex.test(text)) {
+            text = text.replace(inRegex, `in ${code}`);
         }
     }
 

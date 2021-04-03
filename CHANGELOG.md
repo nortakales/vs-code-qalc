@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.1.6
+
+- With convert local currency mode enabled, you can now convert like `1 EUR in $` (assuming $$ is set as your local currency symbol)
+
 ## 0.1.5
 
 - Fixed `sum`, `total`, `avg`, and `average` so you can do more things on the same line such as `variable = sum` or `sum / 5`

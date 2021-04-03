@@ -18,6 +18,9 @@ export const suite: TestSuite = {
         "100 USD / 1 hour in USD / minute": "\$1.6667 / minute",
         "1 USD in EUR": {
             "match": eurRegex
+        },
+        "1 EUR in $": {
+            "match": "\\$\\d+\\.\\d+"
         }
     }
 };
