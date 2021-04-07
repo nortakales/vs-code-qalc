@@ -214,3 +214,5 @@ Forked from [Mathpad](https://github.com/sagebind/mathpad), inspired by [Numi](h
 * [x] enable mph and kph
 * [x] syntax highlighting for mistakenly assigning ANY keyword (new. math.js native constants units and functions)
 * [x] decoration explanation to accompany syntax highlighting for reassigning builtins
+* [ ] Enable "yesterday 11pm"
+* [ ] Decide on better file extension

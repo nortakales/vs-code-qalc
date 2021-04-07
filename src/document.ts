@@ -119,12 +119,12 @@ export default class MathDocument {
     private aggregate(line: string, lineNumber: number): string {
         line = line.trim();
 
-        if(/^sum|total|avg|average$/.test(line)) {
+        if(/\b(sum|total|avg|average)\b/.test(line)) {
             let aggregate = "";
             let datapoints = 0;
             for(let currentLine = lineNumber - 1; currentLine >= 0; currentLine--) {
                 let result = this.results.get(currentLine);
-                if((result == undefined || result == null || /^sum|total|avg|average$/.test(this.document.lineAt(currentLine).text.trim()))) {
+                if((result == undefined || result == null || /\b(sum|total|avg|average)\b/.test(this.document.lineAt(currentLine).text.trim()))) {
                     if(datapoints > 0) {
                         break;
                     } else {
@@ -135,11 +135,11 @@ export default class MathDocument {
                 aggregate += " + " + format(this.math, result, this.formatterSettings);
             }
 
-            if(/^(avg|average)$/.test(line)) {
+            if(/\b(avg|average)\b/.test(line)) {
                 aggregate = "(" + aggregate + ") / " + datapoints;
             }
             
-            return aggregate;
+            return line.replace(/\b(sum|total|avg|average)\b/, "(" + aggregate + ")");
         }
         return line;
     }
