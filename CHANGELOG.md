@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.1.4
+
+- Currency conversion stopped working some time recently since the API used to retrieve exchange rates stopped being free. In this release I temporarily changed to http requests, and added a free access key that will limit calls to the API to 1000 per month across all users of this extension. It is a short term solution until I can find a better alternative.
+- Fixed a bug where something like `12000/5/60` would be perceived as a date instead of division.
+
 ## 0.1.3
 
 - Added two commands for copying lines to the clipboard including the output from Qalc. One includes the delimiter, the other does not. See README for more details.

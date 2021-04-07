@@ -69,6 +69,9 @@ export const suite: TestSuite = {
         },
         "time": {
             "match": datetimeRegex
-        }
+        },
+        "date(\"12000/60/5\")": "Invalid Date",
+        "12000/60/5": "40",
+        "2000/60/5": "Invalid Date"
     }
 }

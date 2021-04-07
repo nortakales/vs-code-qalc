@@ -16,6 +16,10 @@ Qalc is an interactive calculator that turns any text document into a math proce
 * Syntax highlighting when using the Qalc language mode
 * Completely configurable and customizable: colors, alignment, precision, formatting, and more
 
+# Announcements
+
+The exchange rates API I was using just restricted access to certain features unless you pay a subscription fee. For now I have added a free access key when calling the API, which means currency conversions will still work for now, but we no longer have https support, and are limited to 1000 calls per month, which I imagine will be exceeded at some point. I'll work on finding a new free API.
+
 # Release notes
 
 See [change log](CHANGELOG.md).

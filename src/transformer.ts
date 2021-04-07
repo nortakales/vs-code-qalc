@@ -20,7 +20,7 @@ export function transform(text: string, transformerSettings: TransformerSettings
      * but avoid things already wrapped
      * 
      */
-    if(/(?<!date\(\s*\"?\s*\d{0,3})\d{1,4}[-/]\d{1,2}[-/]\d{1,4}( \d{1,2}:\d{2}(:\d{2})?( [AP]M)?( [A-Z]{3})?)?/.test(text)) {
+    if(/(?<!date\(\s*\"?\s*\d{0,3})\b\d{1,4}[-/]\d{1,2}[-/]\d{1,4}( \d{1,2}:\d{2}(:\d{2})?( [AP]M)?( [A-Z]{3})?)?/.test(text)) {
         text = text.replace(/(?<!date\(\s*\"?\s*\d{0,3})\d{1,4}[-/]\d{1,2}[-/]\d{1,4}( \d{1,2}:\d{2}(:\d{2})?( [AP]M)?( [A-Z]{3})?)?/g, "date(\"$&\")");
     }
 
