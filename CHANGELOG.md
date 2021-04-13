@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.1.7
+
+- Fixed bug when using `sum`, `total`, `avg`, and `average` with long numbers or numbers with commas would fail
+
 ## 0.1.6
 
 - With convert local currency mode enabled, you can now convert like `1 EUR in $` (assuming $$ is set as your local currency symbol)

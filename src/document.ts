@@ -120,11 +120,15 @@ export default class MathDocument {
         line = line.trim();
 
         if(/\b(sum|total|avg|average)\b/.test(line)) {
+
+            const settingsClone = Object.assign({}, this.formatterSettings);
+            settingsClone.displayCommas = false;
+
             let aggregate = "";
             let datapoints = 0;
             for(let currentLine = lineNumber - 1; currentLine >= 0; currentLine--) {
                 let result = this.results.get(currentLine);
-                if((result == undefined || result == null || /\b(sum|total|avg|average)\b/.test(this.document.lineAt(currentLine).text.trim()))) {
+                if((result === undefined || result === null || /\b(sum|total|avg|average)\b/.test(this.document.lineAt(currentLine).text.trim()))) {
                     if(datapoints > 0) {
                         break;
                     } else {
@@ -132,7 +136,7 @@ export default class MathDocument {
                     }
                 }
                 datapoints++;
-                aggregate += " + " + format(this.math, result, this.formatterSettings);
+                aggregate += " + " + format(this.math, result, settingsClone);
             }
 
             if(/\b(avg|average)\b/.test(line)) {
