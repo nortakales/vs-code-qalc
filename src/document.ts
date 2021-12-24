@@ -4,7 +4,7 @@ import { TextDocument } from 'vscode';
 import { allKeywords } from './constants';
 import { format } from './formatter';
 import { defaultScope } from './math';
-import { convertLocalCurrency, displayCommas, localCurrencyCode, localCurrencySymbol, lowerExponentBound, precision, temperatureShortcut, upperExponentBound } from './settings';
+import { convertLocalCurrency, displayCommas, localCurrencyCode, localCurrencySymbol, lowerExponentBound, notation, precision, temperatureShortcut, trimTrailingZeros, upperExponentBound } from './settings';
 import { transform } from './transformer';
 
 /**
@@ -42,7 +42,9 @@ export default class MathDocument {
             lowerExponentBound: lowerExponentBound(),
             upperExponentBound: upperExponentBound(),
             precision: precision(),
+            notation: notation(),
             displayCommas: displayCommas(),
+            trimTrailingZeros: trimTrailingZeros(),
             convertLocalCurrency: convertLocalCurrency(),
             localCurrencyCode: localCurrencyCode(),
             localCurrencySymbol: localCurrencySymbol()
@@ -65,14 +67,14 @@ export default class MathDocument {
             if (!line.isEmptyOrWhitespace) {
                 const trimmed = line.text.trim();
 
-                if(line.text.length > this.widestLine && this.isNotCommentOrHeaderOnly(line.text)) {
+                if (line.text.length > this.widestLine && this.isNotCommentOrHeaderOnly(line.text)) {
                     this.widestLine = line.text.length;
                 }
                 const aggregated = this.aggregate(trimmed, lineNumber);
-                
+
                 const transformed = transform(aggregated, this.transformerSettings);
                 const errorMessage = this.checkForError(transformed);
-                if(errorMessage) {
+                if (errorMessage) {
                     this.results.set(lineNumber, errorMessage);
                     continue;
                 }
@@ -100,11 +102,11 @@ export default class MathDocument {
         return ! /^\s*(#|\/\/)/.test(line);
     }
 
-    private checkForError(line: string): string|null {
+    private checkForError(line: string): string | null {
 
         // Check for assignment before running more expensive regex
-        if(/^\s*\w+\s*=/.test(line)) {
-            if(this.reassignErrorRegex.test(line)) {
+        if (/^\s*\w+\s*=/.test(line)) {
+            if (this.reassignErrorRegex.test(line)) {
                 return "Cannot reassign unit or keyword: " + line.replace(this.reassignErrorRegex, "$1");
             }
         }
@@ -119,17 +121,17 @@ export default class MathDocument {
     private aggregate(line: string, lineNumber: number): string {
         line = line.trim();
 
-        if(/\b(sum|total|avg|average)\b/.test(line)) {
+        if (/\b(sum|total|avg|average)\b/.test(line)) {
 
             const settingsClone = Object.assign({}, this.formatterSettings);
             settingsClone.displayCommas = false;
 
             let aggregate = "";
             let datapoints = 0;
-            for(let currentLine = lineNumber - 1; currentLine >= 0; currentLine--) {
+            for (let currentLine = lineNumber - 1; currentLine >= 0; currentLine--) {
                 let result = this.results.get(currentLine);
-                if((result === undefined || result === null || /\b(sum|total|avg|average)\b/.test(this.document.lineAt(currentLine).text.trim()))) {
-                    if(datapoints > 0) {
+                if ((result === undefined || result === null || /\b(sum|total|avg|average)\b/.test(this.document.lineAt(currentLine).text.trim()))) {
+                    if (datapoints > 0) {
                         break;
                     } else {
                         continue;
@@ -139,10 +141,10 @@ export default class MathDocument {
                 aggregate += " + " + format(this.math, result, settingsClone);
             }
 
-            if(/\b(avg|average)\b/.test(line)) {
+            if (/\b(avg|average)\b/.test(line)) {
                 aggregate = "(" + aggregate + ") / " + datapoints;
             }
-            
+
             return line.replace(/\b(sum|total|avg|average)\b/, "(" + aggregate + ")");
         }
         return line;

@@ -107,13 +107,31 @@
                     "default": true,
                     "description": "Turn this on to display commas in results ($1,000,000), or off to hide commas ($1000000)"
                 },
+                "qalc.output.trimTrailingZeros": {
+                    "title": "Trim Trailing Zeros",
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Turn this on to trim trailing zeros when using 'fixed' notation. For example, with 'fixed' notation, precision set to 4, and this setting off, 1.12 will display as 1.1200, but with the setting on will display 1.12"
+                },
                 "qalc.output.precision": {
                     "title": "Precision",
                     "type": "integer",
-                    "default": 5,
+                    "default": 0,
                     "minimum": 0,
                     "maximum": 16,
-                    "description": "Set the precision after the decimal of the output. No precision is lost in calculations, only the final display."
+                    "description": "Set the precision of the output. In case of notations 'exponential', 'engineering', and 'auto', precision defines the total number of significant digits returned. In case of notation 'fixed', precision defines the number of significant digits after the decimal point. No precision is lost in calculations, only the final display. See https://mathjs.org/docs/reference/functions/format.html for further documentation. Note: When using 'auto' notation, you most likely want to set this to 0."
+                },
+                "qalc.output.notation": {
+                    "title": "Notation",
+                    "type": "string",
+                    "default": "fixed",
+                    "enum": [
+                        "fixed",
+                        "exponential",
+                        "engineering",
+                        "auto"
+                    ],
+                    "description": "Set the notation for display. See https://mathjs.org/docs/reference/functions/format.html for further documentation."
                 },
                 "qalc.output.lowerExponentBound": {
                     "title": "Lower Exponent Bound",

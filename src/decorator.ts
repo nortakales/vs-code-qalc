@@ -18,12 +18,12 @@ import MathDocument from "./document";
 import { MathJsStatic, varianceTransformDependencies } from 'mathjs';
 import { create } from "./math";
 import { format } from "./formatter";
-import { alignResults, convertLocalCurrency, displayCommas, enabledLanguages, getComputedResultsDelimiter, localCurrencyCode, localCurrencySymbol, lowerExponentBound, maxAlignmentColumn, precision, resultsColor, resultsDelimiter, upperExponentBound } from "./settings";
+import { alignResults, convertLocalCurrency, displayCommas, enabledLanguages, getComputedResultsDelimiter, localCurrencyCode, localCurrencySymbol, lowerExponentBound, maxAlignmentColumn, notation, precision, resultsColor, resultsDelimiter, trimTrailingZeros, upperExponentBound } from "./settings";
 import math = require("mathjs");
 import { createFullDocumentRange } from "./utils";
 
 export default class EditorDecorator implements Disposable {
-    
+
     private documents = new Map<Uri, MathDocument>();
     private disposables: Disposable[] = [];
     private math: MathJsStatic;
@@ -117,7 +117,9 @@ export default class EditorDecorator implements Disposable {
             lowerExponentBound: lowerExponentBound(),
             upperExponentBound: upperExponentBound(),
             precision: precision(),
+            notation: notation(),
             displayCommas: displayCommas(),
+            trimTrailingZeros: trimTrailingZeros(),
             convertLocalCurrency: convertLocalCurrency(),
             localCurrencyCode: localCurrencyCode(),
             localCurrencySymbol: localCurrencySymbol()
@@ -201,7 +203,7 @@ export default class EditorDecorator implements Disposable {
 
     copyToClipboardWithOutput(includeDelimiter: boolean) {
         const editor = window.activeTextEditor;
-        if(!editor) {
+        if (!editor) {
             return;
         }
         const range = editor.selection && !editor.selection.isEmpty ? editor.selection : createFullDocumentRange(editor);
@@ -209,11 +211,11 @@ export default class EditorDecorator implements Disposable {
         const delimiter = includeDelimiter ? resultsDelimiter() : '';
 
         let clipboard = "";
-        for(let line = range.start.line; line <= range.end.line; line++) {
+        for (let line = range.start.line; line <= range.end.line; line++) {
             clipboard += editor.document.lineAt(line).text;
-            if(mathDocument.results.get(line)) {
+            if (mathDocument.results.get(line)) {
                 let output = format(this.math, mathDocument.results.get(line), this.formatterSettings);
-                let margin = new Array(this.calculateMargin(mathDocument, line)+1).join(' ');
+                let margin = new Array(this.calculateMargin(mathDocument, line) + 1).join(' ');
                 clipboard += `${margin}${delimiter}${output}`;
             }
             clipboard += '\n';

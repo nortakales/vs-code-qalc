@@ -14,10 +14,12 @@ const MAX_ALIGNMENT_COLUMN = "qalc.output.maxAlignmentColumn";
 const ENABLED_LANGUAGES = "qalc.enabledLanguages";
 
 const DISPLAY_COMMAS = "qalc.output.displayCommas";
+const TRIM_TRAILING_ZEROS = "qalc.output.trimTrailingZeros";
 
-const PRECISION = "qalc.output.precision";
 const LOWER_EXPONENT_BOUND = "qalc.output.lowerExponentBound";
 const UPPER_EXPONENT_BOUND = "qalc.output.upperExponentBound";
+const PRECISION = "qalc.output.precision";
+const NOTATION = "qalc.output.notation";
 
 const CONVERT_LOCAL_CURRENCY = "qalc.currency.convertLocal";
 const LOCAL_CURRENCY_SYMBOL = "qalc.currency.localSymbol";
@@ -29,15 +31,15 @@ function getConfiguration(key: string) {
     return vscode.workspace.getConfiguration().get(key);
 }
 
-export function showResultsDelimiter():boolean {
+export function showResultsDelimiter(): boolean {
     return getConfiguration(SHOW_RESULTS_DELIMITER) as boolean;
 }
-export function resultsDelimiter():string {
+export function resultsDelimiter(): string {
     return getConfiguration(RESULTS_DELIMITER) as string;
 }
 
 export function getComputedResultsDelimiter(): string {
-    if(showResultsDelimiter()) {
+    if (showResultsDelimiter()) {
         return resultsDelimiter();
     } else {
         return "";
@@ -46,7 +48,7 @@ export function getComputedResultsDelimiter(): string {
 
 export function resultsColor(): string {
     let color = getConfiguration(RESULTS_COLOR) as string;
-    if(!color) {
+    if (!color) {
         color = DEFAULT_RESULTS_COLOR;
     }
     return color;
@@ -68,9 +70,16 @@ export function displayCommas(): boolean {
     return getConfiguration(DISPLAY_COMMAS) as boolean;
 }
 
+export function trimTrailingZeros(): boolean {
+    return getConfiguration(TRIM_TRAILING_ZEROS) as boolean;
+}
+
 export function precision(): number {
-    // MathJS uses 1 as no digits after the decimal, so offset by 1
-    return getConfiguration(PRECISION) as number + 1;
+    return getConfiguration(PRECISION) as number;
+}
+
+export function notation(): "fixed" | "exponential" | "engineering" | "auto" {
+    return (getConfiguration(NOTATION) as "fixed" | "exponential" | "engineering" | "auto") || 'auto';
 }
 
 export function lowerExponentBound(): number {
