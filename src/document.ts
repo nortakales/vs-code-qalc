@@ -70,14 +70,14 @@ export default class MathDocument {
                 if (line.text.length > this.widestLine && this.isNotCommentOrHeaderOnly(line.text)) {
                     this.widestLine = line.text.length;
                 }
-                const aggregated = this.aggregate(trimmed, lineNumber);
-
-                const transformed = transform(aggregated, this.transformerSettings);
-                const errorMessage = this.checkForError(transformed);
+                const errorMessage = this.checkForError(trimmed);
                 if (errorMessage) {
                     this.results.set(lineNumber, errorMessage);
                     continue;
                 }
+                const aggregated = this.aggregate(trimmed, lineNumber);
+
+                const transformed = transform(aggregated, this.transformerSettings);
 
                 const compiled = this.compile(transformed);
 
@@ -107,7 +107,7 @@ export default class MathDocument {
         // Check for assignment before running more expensive regex
         if (/^\s*\w+\s*=/.test(line)) {
             if (this.reassignErrorRegex.test(line)) {
-                return "Cannot reassign unit or keyword: " + line.replace(this.reassignErrorRegex, "$1");
+                return "Cannot reassign unit or keyword: " + line.match(this.reassignErrorRegex)![1];
             }
         }
 

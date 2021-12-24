@@ -97,6 +97,7 @@ function runTests(math: math.MathJsStatic, suites: TestSuite[]) {
 
 			const formatterSettingsToUse = suite.formatterSettings ?? baseFormatterSettings;
 
+			// TODO check for errors and add errors test suite
 			const result = format(math, math.compile(transform(key, baseTransformerSettings)).evaluate(scope), formatterSettingsToUse);
 
 			if (typeof value === "string" && (value as string) === result) {
