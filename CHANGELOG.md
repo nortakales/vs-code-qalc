@@ -1,5 +1,14 @@
 # Change Log
 
+## 0.1.8
+
+- Introduced new settings for output formatting
+  - `qalc.output.notation` - fixed, exponential, engineering, auto. See documentation for more details.
+  - `qalc.output.trimTrailingZeros` - trims any trailing zeros in output that might show up as a result of certain output formatting combinations.
+- Fixed bug where `% off of <variable>` and `% off <variable>` were not working
+- Fixed bug where error message would not show up sometimes when trying to reassign keywords like `total` or `sum`
+- Currency conversion no longer uses a limited API key that would break once the number of requests exceeded the limit within a month
+
 ## 0.1.7
 
 - Fixed bug when using `sum`, `total`, `avg`, and `average` with long numbers or numbers with commas would fail
