@@ -24,7 +24,7 @@ export function format(math: math.MathJsStatic, value: any, formatterSettings: F
 
         if (formatterSettings.trimTrailingZeros) {
             // Make sure there is a decimal value
-            if (/^\d+\.\d+$/.test(output)) {
+            if (/^\-?\d+\.\d+$/.test(output)) {
                 output = output.replace(/0+$/, '');
             }
 
@@ -36,7 +36,7 @@ export function format(math: math.MathJsStatic, value: any, formatterSettings: F
 
         if (formatterSettings.displayCommas) {
             // Add thousands separators if number is formatted as fixed.
-            if (/^\d+(\.\d+)?$/.test(output)) {
+            if (/^\-?\d+(\.\d+)?$/.test(output)) {
                 output = output.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
             }
         }
