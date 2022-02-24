@@ -118,10 +118,13 @@ export default class MathDocument {
         this.compileCache.clear();
     }
 
+    private aggregationFunctionRegex = new RegExp("\\b(sum|total|avg|average)(?!\\()");
+    private averageFunctionRegex = new RegExp("\\b(avg|average)(?!\\()");
+
     private aggregate(line: string, lineNumber: number): string {
         line = line.trim();
 
-        if (/\b(sum|total|avg|average)\b/.test(line)) {
+        if (this.aggregationFunctionRegex.test(line)) {
 
             const settingsClone = Object.assign({}, this.formatterSettings);
             settingsClone.displayCommas = false;
@@ -130,7 +133,7 @@ export default class MathDocument {
             let datapoints = 0;
             for (let currentLine = lineNumber - 1; currentLine >= 0; currentLine--) {
                 let result = this.results.get(currentLine);
-                if ((result === undefined || result === null || /\b(sum|total|avg|average)\b/.test(this.document.lineAt(currentLine).text.trim()))) {
+                if ((result === undefined || result === null || this.aggregationFunctionRegex.test(this.document.lineAt(currentLine).text.trim()))) {
                     if (datapoints > 0) {
                         break;
                     } else {
@@ -141,11 +144,11 @@ export default class MathDocument {
                 aggregate += " + " + format(this.math, result, settingsClone);
             }
 
-            if (/\b(avg|average)\b/.test(line)) {
+            if (this.averageFunctionRegex.test(line)) {
                 aggregate = "(" + aggregate + ") / " + datapoints;
             }
 
-            return line.replace(/\b(sum|total|avg|average)\b/, "(" + aggregate + ")");
+            return line.replace(this.aggregationFunctionRegex, "(" + aggregate + ")");
         }
         return line;
     }
