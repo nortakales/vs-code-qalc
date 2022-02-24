@@ -46,7 +46,8 @@
                 ],
                 "extensions": [
                     ".qalc"
-                ]
+                ],
+                "configuration": "./language/language-configuration.json"
             }
         ],
         "grammars": [
