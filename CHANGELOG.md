@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.1.9
+
+- [#12](https://github.com/nortakales/vs-code-qalc/issues/12) Fixed issue where negative numbers in output would ignore formatting options
+- [#18](https://github.com/nortakales/vs-code-qalc/issues/18) Fixed bug where the builtin Math.js `sum()` function was not working due to conflict with Qalc's custom `sum` keyword
+- [#15](https://github.com/nortakales/vs-code-qalc/issues/15) Added VSCode language support so line commenting via keyboard shortcut works as expected, bracket highlighting works, and brackets auto close
+
 ## 0.1.8
 
 - Introduced new settings for output formatting
