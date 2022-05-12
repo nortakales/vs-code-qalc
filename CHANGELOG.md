@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.1.10
+
+- Changed `activationEvents` to `onStartupFinished` instead of `*` as an immediate stopgap for long startup times
+
 ## 0.1.9
 
 - [#12](https://github.com/nortakales/vs-code-qalc/issues/12) Fixed issue where negative numbers in output would ignore formatting options
