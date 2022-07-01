@@ -30,6 +30,9 @@
         "type": "git",
         "url": "https://github.com/nortakales/vs-code-qalc.git"
     },
+    "sponsor": {
+        "url": "https://www.buymeacoffee.com/nortakales"
+    },
     "bugs": {
         "url": "https://github.com/nortakales/vs-code-qalc/issues"
     },

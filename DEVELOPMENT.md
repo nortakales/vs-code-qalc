@@ -8,6 +8,7 @@
 * Tests will run before publishing to VSCode marketplace via `vscode:prepublish` in package.json
 * If personal access token as expired, run `vsce login <username>`
 * To publish run `vsce publish`
+* Update `vsce` with `npm install -g vsce`
 
 # Feature Todo List
 
