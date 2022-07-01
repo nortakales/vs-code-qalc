@@ -51,19 +51,19 @@ export function create(ctx: ExtensionContext, callback: Function): mathjs.MathJs
 
     // TODO need a way to adjust the ratios either in the editor or through config
     math.createUnit("pixel", {
-        aliases:["pixels", "px"],
+        aliases: ["pixels", "px"],
         definition: "0.01041666666 inch", // 96 pixels per inch
     });
 
     math.createUnit("point", {
-        aliases:["points", "pt"], // Overrides pint
+        aliases: ["points", "pt"], // Overrides pint
         definition: "1.3333333333333 px", // 1px is .75 pt
-    }, {override: true});
+    }, { override: true });
 
     math.createUnit("em", {
         definition: "16 px",
     });
-    
+
     math.createUnit("mph", {
         definition: "1 miles/hour",
     });
@@ -85,6 +85,11 @@ export function create(ctx: ExtensionContext, callback: Function): mathjs.MathJs
         console.log("Loaded definitions for %d currencies.", loaded);
         callback();
     });
+
+    math.import({
+        hexToChar: hexToChar,
+        charToHex: charToHex
+    }, {});
 
     return math;
 }
@@ -118,19 +123,37 @@ function today(): Date {
 }
 
 function parseDate(input: string | number): Date {
-    
+
     let inputAsString = input.toString();
 
-    if(isNumber(inputAsString)) {
-        if(inputAsString.length < 12) {
+    if (isNumber(inputAsString)) {
+        if (inputAsString.length < 12) {
             inputAsString += "000";
         }
         return new Date(Number(inputAsString));
     }
-    
+
     return new Date(inputAsString);
 }
 
 function isNumber(value: string | number): boolean {
-   return ((value != null) && (value !== '') && !isNaN(Number(value.toString())));
+    return ((value != null) && (value !== '') && !isNaN(Number(value.toString())));
+}
+
+function hexToChar(input: string) {
+    const hexes = input.match(/.{1,4}/g) || [];
+    var string = "";
+    for (var hex of hexes) {
+        string += String.fromCharCode(parseInt(hex, 16));
+    }
+    return string;
+}
+
+function charToHex(input: string) {
+    var result = "";
+    for (var index = 0; index < input.length; index++) {
+        var hex = input.charCodeAt(index).toString(16);
+        result += ("000" + hex).slice(-4);
+    }
+    return result.toUpperCase();
 }
