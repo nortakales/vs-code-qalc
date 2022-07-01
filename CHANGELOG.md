@@ -6,6 +6,7 @@
 - [#21](https://github.com/nortakales/vs-code-qalc/issues/21) Updated default precision (`qalc.output.precision`) to `2`. The previous default of `0` was not a great choice.
 - [#22](https://github.com/nortakales/vs-code-qalc/issues/22) Support expressions like `x + y%` or `x - y%`. For example, `200 + 10% = 220`.
 - [#20](https://github.com/nortakales/vs-code-qalc/issues/20) You can now disable Qalc using glob patterns using the setting `qalc.disabledPatterns` (this takes precedence over `qalc.enabledLanguages`)
+- [#19](https://github.com/nortakales/vs-code-qalc/issues/19) Added `hexToChar` and `charToHex` functions. They work like this: `hexToChar("D83DDE0E") = "😎"`
 
 ## 0.1.10
 
