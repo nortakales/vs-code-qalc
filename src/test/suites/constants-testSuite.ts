@@ -14,4 +14,4 @@ export const suite: TestSuite = {
         "Infinity": "Infinity",
         "-Infinity": "-Infinity",
     }
-}
+};

@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.1.11
+
+- [#23](https://github.com/nortakales/vs-code-qalc/issues/23) The temperature shortcuts settings (`qalc.shortcuts.temperature`) now also enables `f` and `c` to be used for fahrenheit and celsius (in addition to `oF` and `oC`)
+- Updated default precision (`qalc.output.precision`) to `2`. The previous default of `0` was not a great choice.
+
 ## 0.1.10
 
 - Changed `activationEvents` to `onStartupFinished` instead of `*` as an immediate stopgap for long startup times

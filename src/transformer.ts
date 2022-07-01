@@ -93,6 +93,13 @@ export function transform(text: string, transformerSettings: TransformerSettings
             text = text.replace(/(?<=[\s\d\.\/])o([FC])(?![A-Za-z])/g, "deg$1");
             console.log(text);
         }
+        // Replace f or c with degF or degC
+        if (/(?<=[\s\d\.\/])([fc])(?![A-Za-z])/.test(text)) {
+            console.log(text);
+            text = text.replace(/(?<=[\s\d\.\/])f(?![A-Za-z])/g, "degF");
+            text = text.replace(/(?<=[\s\d\.\/])c(?![A-Za-z])/g, "degC");
+            console.log(text);
+        }
     }
 
     // Need to protect against keywords being used as variable names

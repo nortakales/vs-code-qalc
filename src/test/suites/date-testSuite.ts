@@ -74,4 +74,4 @@ export const suite: TestSuite = {
         "12000/60/5": "40",
         "2000/60/5": "Invalid Date"
     }
-}
+};

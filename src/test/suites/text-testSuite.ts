@@ -10,4 +10,4 @@ export const suite: TestSuite = {
         "text[7:12] = \"There!\"": "\"There!\"",
         "text": "\"Hello There!\"",
     }
-}
+};

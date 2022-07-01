@@ -53,4 +53,4 @@ export const suite: TestSuite = {
         "isPrime(7)": "true",
         "sum(1,2,3)": "6"
     }
-}
+};

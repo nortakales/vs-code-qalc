@@ -17,6 +17,7 @@ import { suite_auto_4 as format_auto_4 } from "./suites/formatOptions-testSuite"
 import { suite_fixed_0 as format_fixed_0 } from "./suites/formatOptions-testSuite";
 import { suite_fixed_4_zeros as format_fixed_4_zeros } from "./suites/formatOptions-testSuite";
 import { suite_fixed_4_nozeros_nocommas as format_fixed_4_nozeros_nocommas } from "./suites/formatOptions-testSuite";
+import { suite as temperature } from "./suites/temperature-testSuite";
 
 const baseTransformerSettings: TransformerSettings = {
 	convertLocalCurrency: true,
@@ -57,6 +58,7 @@ function main() {
 		suites.push(format_fixed_0);
 		suites.push(format_fixed_4_zeros);
 		suites.push(format_fixed_4_nozeros_nocommas);
+		suites.push(temperature);
 
 
 		// Mock the context since currencies use globalState

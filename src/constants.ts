@@ -7,7 +7,7 @@ const builtInFunctions = "compile|evaluate|help|parser|derivative|lsolve|lsolveA
 
 const currencySymbols = "CAD|HKD|ISK|PHP|DKK|HUF|CZK|GBP|RON|SEK|IDR|INR|BRL|RUB|HRK|JPY|THB|CHF|EUR|MYR|BGN|TRY|CNY|NOK|NZD|ZAR|USD|MXN|SGD|AUD|ILS|KRW|PLN|USD";
 
-const additionalUnits = "px|pixel|pixels|pt|point|points|em|oF|oC|mph|kph";
+const additionalUnits = "px|pixel|pixels|pt|point|points|em|oF|oC|f|c|mph|kph";
 
 const additionalConstants = "today|tomorrow|now|time|yesterday|sum|total|average|avg";
 

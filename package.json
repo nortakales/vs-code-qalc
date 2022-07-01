@@ -117,7 +117,7 @@
                 "qalc.output.precision": {
                     "title": "Precision",
                     "type": "integer",
-                    "default": 0,
+                    "default": 2,
                     "minimum": 0,
                     "maximum": 16,
                     "description": "Set the precision of the output. In case of notations 'exponential', 'engineering', and 'auto', precision defines the total number of significant digits returned. In case of notation 'fixed', precision defines the number of significant digits after the decimal point. No precision is lost in calculations, only the final display. See https://mathjs.org/docs/reference/functions/format.html for further documentation. Note: When using 'auto' notation, you most likely want to set this to 0."
@@ -174,7 +174,7 @@
                     "title": "Temperature Shortcut",
                     "type": "boolean",
                     "default": "true",
-                    "description": "When on, enables you to use oF and oC as substitutes for degF, degC, fahrenheit, and celsius"
+                    "description": "When on, enables you to use oF, oC, f, and c as substitutes for degF, degC, fahrenheit, and celsius"
                 },
                 "qalc.enabledLanguages": {
                     "title": "Enabled Languages",

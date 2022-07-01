@@ -17,4 +17,4 @@ export const suite: TestSuite = {
         "oct(0xff)": "\"0o377\"",
         "bin(hex(oct(0b11)))": "\"0b11\"",
     }
-}
+};
