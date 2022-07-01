@@ -13,12 +13,13 @@ import {
     ExtensionContext,
     TextEditorDecorationType,
     env,
+    DocumentFilter,
 } from "vscode";
 import MathDocument from "./document";
 import { MathJsStatic, varianceTransformDependencies } from 'mathjs';
 import { create } from "./math";
 import { format } from "./formatter";
-import { alignResults, convertLocalCurrency, displayCommas, enabledLanguages, getComputedResultsDelimiter, localCurrencyCode, localCurrencySymbol, lowerExponentBound, maxAlignmentColumn, notation, precision, resultsColor, resultsDelimiter, trimTrailingZeros, upperExponentBound } from "./settings";
+import { alignResults, convertLocalCurrency, disabledPatterns, displayCommas, enabledLanguages, getComputedResultsDelimiter, localCurrencyCode, localCurrencySymbol, lowerExponentBound, maxAlignmentColumn, notation, precision, resultsColor, resultsDelimiter, trimTrailingZeros, upperExponentBound } from "./settings";
 import math = require("mathjs");
 import { createFullDocumentRange } from "./utils";
 
@@ -34,7 +35,8 @@ export default class EditorDecorator implements Disposable {
     private resultsDelimiter!: string;
     private alignResults!: boolean;
     private maxAlignmentColumn!: number;
-    private documentSelector!: DocumentSelector;
+    private enabledLanguages!: DocumentSelector;
+    private disabledPatterns!: string[];
     private formatterSettings!: FormatterSettings;
 
     constructor(private ctx: ExtensionContext) {
@@ -90,7 +92,8 @@ export default class EditorDecorator implements Disposable {
         this.resultsDelimiter = getComputedResultsDelimiter();
         this.alignResults = alignResults();
         this.maxAlignmentColumn = maxAlignmentColumn();
-        this.documentSelector = enabledLanguages();
+        this.enabledLanguages = enabledLanguages();
+        this.disabledPatterns = disabledPatterns();
 
         const color = resultsColor();
         let colorProperty: ThemeColor | string;
@@ -198,7 +201,9 @@ export default class EditorDecorator implements Disposable {
     }
 
     private isMathEnabled(document: TextDocument): boolean {
-        return languages.match(this.documentSelector, document) > 0;
+        const disabledPatternsFilter: DocumentFilter[] = this.disabledPatterns.map(disabledPattern => { return { pattern: disabledPattern }; });
+        // Must NOT match a disabled pattern, and must match an enabled language
+        return languages.match(disabledPatternsFilter, document) <= 0 && languages.match(this.enabledLanguages, document) > 0;
     }
 
     copyToClipboardWithOutput(includeDelimiter: boolean) {

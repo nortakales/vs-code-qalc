@@ -12,6 +12,7 @@ const ALIGN_RESULTS = "qalc.output.align";
 const MAX_ALIGNMENT_COLUMN = "qalc.output.maxAlignmentColumn";
 
 const ENABLED_LANGUAGES = "qalc.enabledLanguages";
+const DISABLED_PATTERNS = "qalc.disabledPatterns";
 
 const DISPLAY_COMMAS = "qalc.output.displayCommas";
 const TRIM_TRAILING_ZEROS = "qalc.output.trimTrailingZeros";
@@ -64,6 +65,9 @@ export function maxAlignmentColumn(): number {
 
 export function enabledLanguages(): [] {
     return getConfiguration(ENABLED_LANGUAGES) as [];
+}
+export function disabledPatterns(): [] {
+    return getConfiguration(DISABLED_PATTERNS) as [];
 }
 
 export function displayCommas(): boolean {

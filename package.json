@@ -188,6 +188,19 @@
                         "type": "string"
                     },
                     "description": "Language identifiers for which to enable Qalc processing on. Keep in mind that Qalc will not examine partial matches, but only full lines. If your full line is not parseable, no output is displayed. For example, if you have a line in a JSON file like \"  'key': '1 + 1'  \", the \"1 + 1\" will not be evaluated because the full line is not parseable. Defaults to [\"qalc\", \"plaintext\", \"markdown\"]."
+                },
+                "qalc.disabledPatterns": {
+                    "title": "Disabled Patterns",
+                    "type": "array",
+                    "default": [
+                        "**/README.md"
+                    ],
+                    "contains": {
+                        "type": "string"
+                    },
+                    "required": false,
+                    "minItems": 0,
+                    "description": "A list of glob patterns to disable Qalc processing on. These take precedence over \"qalc.enabledLanguages\", so if you have \"markdown\" enabled, but \"**/README.md\" disabled, you will not get processing on \"README.md\". This is generally useful for any files that might register as \"plaintext\" to VSCode, but you don't want Qalc to run on, like configuration files. Defaults to [\"**/README.md\"]"
                 }
             }
         }
