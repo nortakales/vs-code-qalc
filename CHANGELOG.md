@@ -4,7 +4,7 @@
 
 - [#23](https://github.com/nortakales/vs-code-qalc/issues/23) The temperature shortcuts settings (`qalc.shortcuts.temperature`) now also enables `f` and `c` to be used for fahrenheit and celsius (in addition to `oF` and `oC`)
 - Updated default precision (`qalc.output.precision`) to `2`. The previous default of `0` was not a great choice.
-- [#22](https://github.com/nortakales/vs-code-qalc/issues/22) Support expressions like `x + y%`. For example, `200 + 10% = 220`
+- [#22](https://github.com/nortakales/vs-code-qalc/issues/22) Support expressions like `x + y%` or `x - y%`. For example, `200 + 10% = 220`.
 
 ## 0.1.10
 
