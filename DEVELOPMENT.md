@@ -2,7 +2,12 @@
 
 * VSCode should automatically run `npm run watch` while developing
 * Run tests manually: `npm run test`
+
+# Publishing
+
 * Tests will run before publishing to VSCode marketplace via `vscode:prepublish` in package.json
+* If personal access token as expired, run `vsce login <username>`
+* To publish run `vsce publish`
 
 # Feature Todo List
 

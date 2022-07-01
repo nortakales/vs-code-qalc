@@ -66,6 +66,13 @@ export function transform(text: string, transformerSettings: TransformerSettings
         }
     }
 
+    // TODO Unhardcode $ and use the configured currency symbol
+
+    // Change "<[$]number [units]|variable> + x%" into "[$]<number [units]|variable> + ([$]<number [units]|variable> * 100/x)"
+    if (/((\$?[\d\.]+\s*\w*)|(\w+))\s*\+\s*([\d\.]+)\%/.test(text)) {
+        text = text.replace(/((\$?[\d\.]+\s*\w*)|(\w+))\s*\+\s*([\d\.]+)\%/g, "$1 + ($1 * $4 / 100)");
+    }
+
     // Change "% off[ of] <number [units]|variable>" to " * -<number [units]|variable> + <number [units]|variable>"
     if (/(?<=%)(\s+off( of)?\s+)((\$?[\d\.]+\s*\w*)|(\w+))/.test(text)) {
         text = text.replace(/(?<=%)(\s+off( of)?\s+)((\$?[\d\.]+\s*\w*)|(\w+))/g, " * -$3 + $3");
@@ -89,16 +96,12 @@ export function transform(text: string, transformerSettings: TransformerSettings
     if (transformerSettings.temperatureShortcut) {
         // Replace oF or oC with degF or degC
         if (/(?<=[\s\d\.\/])o([FC])(?![A-Za-z])/.test(text)) {
-            console.log(text);
             text = text.replace(/(?<=[\s\d\.\/])o([FC])(?![A-Za-z])/g, "deg$1");
-            console.log(text);
         }
         // Replace f or c with degF or degC
         if (/(?<=[\s\d\.\/])([fc])(?![A-Za-z])/.test(text)) {
-            console.log(text);
             text = text.replace(/(?<=[\s\d\.\/])f(?![A-Za-z])/g, "degF");
             text = text.replace(/(?<=[\s\d\.\/])c(?![A-Za-z])/g, "degC");
-            console.log(text);
         }
     }
 
