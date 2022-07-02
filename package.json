@@ -3,7 +3,7 @@
     "displayName": "Qalc",
     "description": "Interactive scratchpad calculator for VSCode",
     "publisher": "nortakales",
-    "version": "0.1.10",
+    "version": "0.1.11",
     "engines": {
         "vscode": "^1.44.0"
     },
