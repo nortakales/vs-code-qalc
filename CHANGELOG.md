@@ -7,6 +7,7 @@
 - [#22](https://github.com/nortakales/vs-code-qalc/issues/22) Support expressions like `x + y%` or `x - y%`. For example, `200 + 10% = 220`.
 - [#20](https://github.com/nortakales/vs-code-qalc/issues/20) You can now disable Qalc using glob patterns using the setting `qalc.disabledPatterns` (this takes precedence over `qalc.enabledLanguages`)
 - [#19](https://github.com/nortakales/vs-code-qalc/issues/19) Added `hexToChar` and `charToHex` functions. They work like this: `hexToChar("D83DDE0E") = "😎"`
+- [#16](https://github.com/nortakales/vs-code-qalc/issues/16) Added a new command (`qalc.copy.resultOnly`) that will copy only the result of the current/selected line (or multiple lines if more than one is selected)
 
 ## 0.1.10
 
