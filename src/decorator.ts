@@ -14,6 +14,7 @@ import {
     TextEditorDecorationType,
     env,
     DocumentFilter,
+    Range,
 } from "vscode";
 import MathDocument from "./document";
 import { MathJsStatic, varianceTransformDependencies } from 'mathjs';
@@ -206,22 +207,37 @@ export default class EditorDecorator implements Disposable {
         return languages.match(disabledPatternsFilter, document) <= 0 && languages.match(this.enabledLanguages, document) > 0;
     }
 
-    copyToClipboardWithOutput(includeDelimiter: boolean) {
+    copyToClipboard(resultOnly: boolean, includeDelimiter: boolean) {
         const editor = window.activeTextEditor;
         if (!editor) {
             return;
         }
-        const range = editor.selection && !editor.selection.isEmpty ? editor.selection : createFullDocumentRange(editor);
+        let range;
+        if (editor.selection && !editor.selection.isEmpty) {
+            // The exact selection
+            range = editor.selection;
+        } else if (resultOnly) {
+            // Just the current cursor position
+            range = new Range(editor.selection.active, editor.selection.active);
+        } else {
+            // The full document
+            range = createFullDocumentRange(editor);
+        }
         const mathDocument = this.getMathDocument(editor.document);
         const delimiter = includeDelimiter ? resultsDelimiter() : '';
 
         let clipboard = "";
         for (let line = range.start.line; line <= range.end.line; line++) {
-            clipboard += editor.document.lineAt(line).text;
+            if (!resultOnly) {
+                clipboard += editor.document.lineAt(line).text;
+            }
             if (mathDocument.results.get(line)) {
                 let output = format(this.math, mathDocument.results.get(line), this.formatterSettings);
                 let margin = new Array(this.calculateMargin(mathDocument, line) + 1).join(' ');
-                clipboard += `${margin}${delimiter}${output}`;
+                if (!resultOnly) {
+                    clipboard += `${margin}${delimiter}`;
+                }
+                clipboard += output;
             }
             clipboard += '\n';
         }

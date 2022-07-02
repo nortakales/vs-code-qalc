@@ -163,8 +163,9 @@ Qalc adds some commands to VSCode:
 
 | Title                                      | Command                      | Note                                                                                                                                                                           |
 | ------------------------------------------ | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Qalc: Copy With Output (with delimiter)    | `qalc.copy.withDelimiter`    | Copies the selected lines (if a selection exists) or the entire editor to the clipboard, including the output from Qalc *with* the delimiter (set via `qalc.output.delimiter`) |
-| Qalc: Copy With Output (without delimiter) | `qalc.copy.withoutDelimiter` | Same as `qalc.copy.withDelimiter`, but *without* the delimiter                                                                                                                 |
+| Qalc: Copy With Result (with delimiter)    | `qalc.copy.withDelimiter`    | Copies the selected lines (if a selection exists) or the entire editor to the clipboard, including the output from Qalc *with* the delimiter (set via `qalc.output.delimiter`) |
+| Qalc: Copy With Result (without delimiter) | `qalc.copy.withoutDelimiter` | Same as `qalc.copy.withDelimiter`, but *without* the delimiter                                                                                                                 |
+| Qalc: Copy Result Only                     | `qalc.copy.resultOnly`       | Copies *only* the result of the current line (or lines, if you select many)                                                                                                    |
 
 See these in action:
 

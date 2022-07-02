@@ -63,12 +63,17 @@
         "commands": [
             {
                 "command": "qalc.copy.withDelimiter",
-                "title": "Copy With Output (with delimiter)",
+                "title": "Copy With Result (with delimiter)",
                 "category": "Qalc"
             },
             {
                 "command": "qalc.copy.withoutDelimiter",
-                "title": "Copy With Output (without delimiter)",
+                "title": "Copy With Result (without delimiter)",
+                "category": "Qalc"
+            },
+            {
+                "command": "qalc.copy.resultOnly",
+                "title": "Copy Result Only",
                 "category": "Qalc"
             }
         ],
