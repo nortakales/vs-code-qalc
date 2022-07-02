@@ -13,6 +13,8 @@ const additionalConstants = "today|tomorrow|now|time|yesterday|sum|total|average
 
 const additionalKeywords = "in|to|last|off|of|mod|xor|or|ago";
 
+const additionalFunctions = "date|epoch|charToHex|hexToChar";
+
 export const allKeywords = [
     builtInUnits,
     builtInConstants,
@@ -20,5 +22,6 @@ export const allKeywords = [
     currencySymbols,
     additionalUnits,
     additionalConstants,
-    additionalKeywords
+    additionalKeywords,
+    additionalFunctions
 ].join("|");

@@ -27,7 +27,10 @@
                     "include": "#reassignAdditionalConstantError"
                 },
                 {
-                    "include": "#reassignKeywordsError"
+                    "include": "#reassignAdditionalKeywordsError"
+                },
+                {
+                    "include": "#reassignAdditionalFunctionsError"
                 },
                 {
                     "include": "#keywords"
@@ -74,10 +77,9 @@
                 {
                     "include": "#hex"
                 }
-                
             ]
         },
-        "keywords" :{
+        "keywords": {
             "match": "\\b(in|to|off|of|mod|xor|or|ago)\\b",
             "captures": {
                 "1": {
@@ -85,7 +87,7 @@
                 }
             }
         },
-        "additionalConstants" :{
+        "additionalConstants": {
             "match": "\\b(today|tomorrow|now|time|yesterday|sum|total|average|avg|last)\\b",
             "captures": {
                 "1": {
@@ -184,15 +186,19 @@
             "name": "support.function"
         },
         "reassignAdditionalUnitError": {
-            "match": "^\\s*(px|pixel|pixels|pt|point|points|em|oF|oC|mph|kph)s?\\s*=.*",
+            "match": "^\\s*(px|pixel|pixels|pt|point|points|em|oF|oC|f|c|mph|kph)s?\\s*=.*",
             "name": "support.function"
         },
         "reassignAdditionalConstantError": {
             "match": "^\\s*(today|tomorrow|now|time|yesterday|sum|total|average|avg)s?\\s*=.*",
             "name": "support.function"
         },
-        "reassignKeywordsError": {
+        "reassignAdditionalKeywordsError": {
             "match": "^\\s*(in|to|last|off|of|mod|xor|or|ago)s?\\s*=.*",
+            "name": "support.function"
+        },
+        "reassignAdditionalFunctionsError": {
+            "match": "^\\s*(date|epoch|hexToChar|charToHex)s?\\s*=.*",
             "name": "support.function"
         }
     }
