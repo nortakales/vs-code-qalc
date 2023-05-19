@@ -1,11 +1,11 @@
 import { MathJsStatic } from 'mathjs';
-import math = require('mathjs');
 import { TextDocument } from 'vscode';
 import { allKeywords } from './constants';
 import { format } from './formatter';
 import { defaultScope } from './math';
-import { convertLocalCurrency, displayCommas, localCurrencyCode, localCurrencySymbol, lowerExponentBound, notation, precision, temperatureShortcut, trimTrailingZeros, upperExponentBound } from './settings';
+import { convertLocalCurrency, displayCommas, globalDeclarations, localCurrencyCode, localCurrencySymbol, lowerExponentBound, notation, precision, temperatureShortcut, trimTrailingZeros, upperExponentBound } from './settings';
 import { transform } from './transformer';
+import math = require('mathjs');
 
 /**
  * A math-enabled text document.
@@ -61,6 +61,11 @@ export default class MathDocument {
         this.updateFormatterSettings();
         this.widestLine = 0;
 
+        // TODO: These global declarations are evaluated every time the document is evaluated.
+        //      This is not ideal because of performance
+        //      Would make more sense to only evaluate these every time the settings are changed and when the vscode extension first loads
+        this.addGlobalDeclarations(scope);
+
         for (let lineNumber = 0; lineNumber < this.document.lineCount; lineNumber++) {
             const line = this.document.lineAt(lineNumber);
 
@@ -93,6 +98,38 @@ export default class MathDocument {
                     } catch (error) {
                         // console.log(error);
                     }
+                }
+            }
+        }
+    }
+
+    /**
+     * Add global declarations to the scope from the settings into the document
+     *
+     * If the declaration is invalid it wont be added NOR will it throw an error or a warning
+     */
+    private addGlobalDeclarations(scope: any) {
+        const declarations = globalDeclarations();
+
+        for (let declaration of declarations)
+        {
+            const trimmed = declaration.trim();
+
+            if (
+                !this.isNotCommentOrHeaderOnly(trimmed) || this.checkForError(trimmed)
+            )
+            {
+                return;
+            }
+
+            const transformed = transform(trimmed, this.transformerSettings);
+            const compiled = this.compile(transformed);
+
+            if (compiled) {
+                try {
+                    const result = compiled.evaluate(scope);
+                } catch (error) {
+                    // TODO: Add a try catch here to catch invalid declarations
                 }
             }
         }

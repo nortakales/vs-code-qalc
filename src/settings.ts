@@ -28,6 +28,8 @@ const LOCAL_CURRENCY_CODE = "qalc.currency.localCode";
 
 const TEMPERATURE_SHORTCUT = "qalc.shortcuts.temperature";
 
+const GLOBAL_DECLARATIONS = "qalc.globalDeclarations";
+
 function getConfiguration(key: string) {
     return vscode.workspace.getConfiguration().get(key);
 }
@@ -106,4 +108,8 @@ export function localCurrencyCode(): string {
 
 export function temperatureShortcut(): boolean {
     return getConfiguration(TEMPERATURE_SHORTCUT) as boolean;
+}
+
+export function globalDeclarations(): string[] {
+  return getConfiguration(GLOBAL_DECLARATIONS) as string[];
 }
