@@ -1,5 +1,14 @@
 # Change Log
 
+## 0.1.12
+
+- Bumped math.js version to 9.5.2 
+  - Thanks to [luis-c465](https://github.com/luis-c465)
+- [#13](https://github.com/nortakales/vs-code-qalc/issues/13) Added new setting (`qalc.globalDeclarations`) which allows you to define anything to be used across all files that Qalc processes. This would typically be useful for defining specific functions or constants that you use often.
+  - Thanks to [luis-c465](https://github.com/luis-c465)
+- Added a couple special comments that can turn off (`//qalc:off`) or on (`//qalc:on`) Qalc processing within a file. This is useful if you just have portions of a file where you want Qalc to work.
+
+
 ## 0.1.11
 
 - [#23](https://github.com/nortakales/vs-code-qalc/issues/23) The temperature shortcuts settings (`qalc.shortcuts.temperature`) now also enables `f` and `c` to be used for fahrenheit and celsius (in addition to `oF` and `oC`)
