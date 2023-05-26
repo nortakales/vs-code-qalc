@@ -1,244 +1,256 @@
 {
-    "name": "vs-qalc",
-    "displayName": "Qalc",
-    "description": "Interactive scratchpad calculator for VSCode",
-    "publisher": "nortakales",
-    "version": "0.1.11",
-    "engines": {
-        "vscode": "^1.44.0"
-    },
-    "keywords": [
-        "calc",
-        "calculator",
-        "math",
-        "qalc",
-        "mathpad",
-        "numi",
-        "parsify",
-        "scratchpad",
-        "notebook"
-    ],
-    "categories": [
-        "Other"
-    ],
-    "extensionKind": [
-        "ui",
-        "workspace"
-    ],
-    "homepage": "https://github.com/nortakales/vs-code-qalc",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/nortakales/vs-code-qalc.git"
-    },
-    "sponsor": {
-        "url": "https://www.buymeacoffee.com/nortakales"
-    },
-    "bugs": {
-        "url": "https://github.com/nortakales/vs-code-qalc/issues"
-    },
-    "icon": "resources/icon.png",
-    "activationEvents": [
-        "onStartupFinished"
-    ],
-    "contributes": {
-        "languages": [
-            {
-                "id": "qalc",
-                "aliases": [
-                    "Qalc"
-                ],
-                "extensions": [
-                    ".qalc"
-                ],
-                "configuration": "./language/language-configuration.json"
-            }
+  "name": "vs-qalc",
+  "displayName": "Qalc",
+  "description": "Interactive scratchpad calculator for VSCode",
+  "publisher": "nortakales",
+  "version": "0.1.11",
+  "engines": {
+    "vscode": "^1.44.0"
+  },
+  "keywords": [
+    "calc",
+    "calculator",
+    "math",
+    "qalc",
+    "mathpad",
+    "numi",
+    "parsify",
+    "scratchpad",
+    "notebook"
+  ],
+  "categories": [
+    "Other"
+  ],
+  "extensionKind": [
+    "ui",
+    "workspace"
+  ],
+  "homepage": "https://github.com/nortakales/vs-code-qalc",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nortakales/vs-code-qalc.git"
+  },
+  "sponsor": {
+    "url": "https://www.buymeacoffee.com/nortakales"
+  },
+  "bugs": {
+    "url": "https://github.com/nortakales/vs-code-qalc/issues"
+  },
+  "icon": "resources/icon.png",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "qalc",
+        "aliases": [
+          "Qalc"
         ],
-        "grammars": [
-            {
-                "language": "qalc",
-                "scopeName": "source.qalc",
-                "path": "./syntaxes/qalc.tmGrammar.json"
-            }
+        "extensions": [
+          ".qalc"
         ],
-        "commands": [
-            {
-                "command": "qalc.copy.withDelimiter",
-                "title": "Copy With Result (with delimiter)",
-                "category": "Qalc"
-            },
-            {
-                "command": "qalc.copy.withoutDelimiter",
-                "title": "Copy With Result (without delimiter)",
-                "category": "Qalc"
-            },
-            {
-                "command": "qalc.copy.resultOnly",
-                "title": "Copy Result Only",
-                "category": "Qalc"
-            }
-        ],
-        "configuration": {
-            "title": "Qalc",
-            "properties": {
-                "qalc.output.color": {
-                    "title": "Output Color",
-                    "type": "string",
-                    "default": "",
-                    "description": "Set a custom color for output to display in. This can be either a hex value (e.g. \"#FFFFFF\"), rgb value (e.g. \"rgb(255,255,255)\"), or a VSCode ThemeColor id (e.g. \"editor.foreground\", see https://code.visualstudio.com/docs/getstarted/theme-color-reference for available ids). If no color is specified, this falls back to \"terminal.ansiGreen\" to get the green  matching your current UI theme."
-                },
-                "qalc.output.showDelimiter": {
-                    "title": "Show Output Delimiter",
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Controls whether or not to display the delimiter to separate input from output. Default delimiter is \"=\" and can be overriden with the \"qalc.output.delimiter\" setting."
-                },
-                "qalc.output.delimiter": {
-                    "title": "Output Delimiter",
-                    "type": "string",
-                    "default": "=",
-                    "description": "Delimiter to display between input and output. Can be turned on/off with the \"qalc.output.showDelimiter\" setting."
-                },
-                "qalc.output.align": {
-                    "title": "Align Output",
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Aligns the left edge of output (on) or displays output immediately at the end of an input line (off)"
-                },
-                "qalc.output.maxAlignmentColumn": {
-                    "title": "Max Alignment Column",
-                    "type": "number",
-                    "default": 40,
-                    "description": "When \"qalc.output.align\" is on, this controls the maximum column that results will align on. This is useful if you have, for example, a Markdown document with a few long lines, but don't want your Qalc results displayed too far out for the majority of your shorter lines."
-                },
-                "qalc.output.displayCommas": {
-                    "title": "Display Commas",
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Turn this on to display commas in results ($1,000,000), or off to hide commas ($1000000)"
-                },
-                "qalc.output.trimTrailingZeros": {
-                    "title": "Trim Trailing Zeros",
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Turn this on to trim trailing zeros when using 'fixed' notation. For example, with 'fixed' notation, precision set to 4, and this setting off, 1.12 will display as 1.1200, but with the setting on will display 1.12"
-                },
-                "qalc.output.precision": {
-                    "title": "Precision",
-                    "type": "integer",
-                    "default": 2,
-                    "minimum": 0,
-                    "maximum": 16,
-                    "description": "Set the precision of the output. In case of notations 'exponential', 'engineering', and 'auto', precision defines the total number of significant digits returned. In case of notation 'fixed', precision defines the number of significant digits after the decimal point. No precision is lost in calculations, only the final display. See https://mathjs.org/docs/reference/functions/format.html for further documentation. Note: When using 'auto' notation, you most likely want to set this to 0."
-                },
-                "qalc.output.notation": {
-                    "title": "Notation",
-                    "type": "string",
-                    "default": "fixed",
-                    "enum": [
-                        "fixed",
-                        "exponential",
-                        "engineering",
-                        "auto"
-                    ],
-                    "description": "Set the notation for display. See https://mathjs.org/docs/reference/functions/format.html for further documentation."
-                },
-                "qalc.output.lowerExponentBound": {
-                    "title": "Lower Exponent Bound",
-                    "type": "integer",
-                    "default": -9,
-                    "minimum": -16,
-                    "maximum": 0,
-                    "description": "Exponent determining the lower boundary for formatting output with an exponent (e.g. setting this to -2 will format 0.01 as 1e-2."
-                },
-                "qalc.output.upperExponentBound": {
-                    "title": "Upper Exponent Bound",
-                    "type": "integer",
-                    "default": 16,
-                    "minimum": 0,
-                    "maximum": 100,
-                    "description": "Exponent determining the upper boundary for formatting output with an exponent (e.g. setting this to 2 will format 100 as 1e+2)."
-                },
-                "qalc.currency.convertLocal": {
-                    "title": "Convert Local Currency",
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Turn this on to use your local currency symbol in both your input and output. Works with \"qalc.currency.localSymbol\" and \"qalc.currency.localCode\". For example, setting \"$\" and \"USD\" allows your input to contain \"$100\" which will be evaluated as the equivalent of \"100 USD\", and similarly will display in the output as \"$100\" instead of \"100 USD\"."
-                },
-                "qalc.currency.localSymbol": {
-                    "title": "Local Currency Symbol",
-                    "type": "string",
-                    "default": "$",
-                    "description": "Set your local currency symbol. See \"qalc.currency.convertLocal\" for how this is used\"",
-                    "minLength": 1
-                },
-                "qalc.currency.localCode": {
-                    "title": "Local Currency Code",
-                    "type": "string",
-                    "default": "USD",
-                    "description": "Set your local currency code. See \"qalc.currency.convertLocal\" for how this is used\"",
-                    "minLength": 1
-                },
-                "qalc.shortcuts.temperature": {
-                    "title": "Temperature Shortcut",
-                    "type": "boolean",
-                    "default": "true",
-                    "description": "When on, enables you to use oF, oC, f, and c as substitutes for degF, degC, fahrenheit, and celsius"
-                },
-                "qalc.enabledLanguages": {
-                    "title": "Enabled Languages",
-                    "type": "array",
-                    "default": [
-                        "qalc",
-                        "plaintext",
-                        "markdown"
-                    ],
-                    "contains": {
-                        "type": "string"
-                    },
-                    "description": "Language identifiers for which to enable Qalc processing on. Keep in mind that Qalc will not examine partial matches, but only full lines. If your full line is not parseable, no output is displayed. For example, if you have a line in a JSON file like \"  'key': '1 + 1'  \", the \"1 + 1\" will not be evaluated because the full line is not parseable. Defaults to [\"qalc\", \"plaintext\", \"markdown\"]."
-                },
-                "qalc.disabledPatterns": {
-                    "title": "Disabled Patterns",
-                    "type": "array",
-                    "default": [
-                        "**/README.md"
-                    ],
-                    "contains": {
-                        "type": "string"
-                    },
-                    "required": false,
-                    "minItems": 0,
-                    "description": "A list of glob patterns to disable Qalc processing on. These take precedence over \"qalc.enabledLanguages\", so if you have \"markdown\" enabled, but \"**/README.md\" disabled, you will not get processing on \"README.md\". This is generally useful for any files that might register as \"plaintext\" to VSCode, but you don't want Qalc to run on, like configuration files. Defaults to [\"**/README.md\"]"
-                }
-            }
+        "configuration": "./language/language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "qalc",
+        "scopeName": "source.qalc",
+        "path": "./syntaxes/qalc.tmGrammar.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "qalc.copy.withDelimiter",
+        "title": "Copy With Result (with delimiter)",
+        "category": "Qalc"
+      },
+      {
+        "command": "qalc.copy.withoutDelimiter",
+        "title": "Copy With Result (without delimiter)",
+        "category": "Qalc"
+      },
+      {
+        "command": "qalc.copy.resultOnly",
+        "title": "Copy Result Only",
+        "category": "Qalc"
+      }
+    ],
+    "configuration": {
+      "title": "Qalc",
+      "properties": {
+        "qalc.output.color": {
+          "title": "Output Color",
+          "type": "string",
+          "default": "",
+          "description": "Set a custom color for output to display in. This can be either a hex value (e.g. \"#FFFFFF\"), rgb value (e.g. \"rgb(255,255,255)\"), or a VSCode ThemeColor id (e.g. \"editor.foreground\", see https://code.visualstudio.com/docs/getstarted/theme-color-reference for available ids). If no color is specified, this falls back to \"terminal.ansiGreen\" to get the green  matching your current UI theme."
+        },
+        "qalc.output.showDelimiter": {
+          "title": "Show Output Delimiter",
+          "type": "boolean",
+          "default": false,
+          "description": "Controls whether or not to display the delimiter to separate input from output. Default delimiter is \"=\" and can be overriden with the \"qalc.output.delimiter\" setting."
+        },
+        "qalc.output.delimiter": {
+          "title": "Output Delimiter",
+          "type": "string",
+          "default": "=",
+          "description": "Delimiter to display between input and output. Can be turned on/off with the \"qalc.output.showDelimiter\" setting."
+        },
+        "qalc.output.align": {
+          "title": "Align Output",
+          "type": "boolean",
+          "default": true,
+          "description": "Aligns the left edge of output (on) or displays output immediately at the end of an input line (off)"
+        },
+        "qalc.output.maxAlignmentColumn": {
+          "title": "Max Alignment Column",
+          "type": "number",
+          "default": 40,
+          "description": "When \"qalc.output.align\" is on, this controls the maximum column that results will align on. This is useful if you have, for example, a Markdown document with a few long lines, but don't want your Qalc results displayed too far out for the majority of your shorter lines."
+        },
+        "qalc.output.displayCommas": {
+          "title": "Display Commas",
+          "type": "boolean",
+          "default": true,
+          "description": "Turn this on to display commas in results ($1,000,000), or off to hide commas ($1000000)"
+        },
+        "qalc.output.trimTrailingZeros": {
+          "title": "Trim Trailing Zeros",
+          "type": "boolean",
+          "default": true,
+          "description": "Turn this on to trim trailing zeros when using 'fixed' notation. For example, with 'fixed' notation, precision set to 4, and this setting off, 1.12 will display as 1.1200, but with the setting on will display 1.12"
+        },
+        "qalc.output.precision": {
+          "title": "Precision",
+          "type": "integer",
+          "default": 2,
+          "minimum": 0,
+          "maximum": 16,
+          "description": "Set the precision of the output. In case of notations 'exponential', 'engineering', and 'auto', precision defines the total number of significant digits returned. In case of notation 'fixed', precision defines the number of significant digits after the decimal point. No precision is lost in calculations, only the final display. See https://mathjs.org/docs/reference/functions/format.html for further documentation. Note: When using 'auto' notation, you most likely want to set this to 0."
+        },
+        "qalc.output.notation": {
+          "title": "Notation",
+          "type": "string",
+          "default": "fixed",
+          "enum": [
+            "fixed",
+            "exponential",
+            "engineering",
+            "auto"
+          ],
+          "description": "Set the notation for display. See https://mathjs.org/docs/reference/functions/format.html for further documentation."
+        },
+        "qalc.output.lowerExponentBound": {
+          "title": "Lower Exponent Bound",
+          "type": "integer",
+          "default": -9,
+          "minimum": -16,
+          "maximum": 0,
+          "description": "Exponent determining the lower boundary for formatting output with an exponent (e.g. setting this to -2 will format 0.01 as 1e-2."
+        },
+        "qalc.output.upperExponentBound": {
+          "title": "Upper Exponent Bound",
+          "type": "integer",
+          "default": 16,
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Exponent determining the upper boundary for formatting output with an exponent (e.g. setting this to 2 will format 100 as 1e+2)."
+        },
+        "qalc.currency.convertLocal": {
+          "title": "Convert Local Currency",
+          "type": "boolean",
+          "default": true,
+          "description": "Turn this on to use your local currency symbol in both your input and output. Works with \"qalc.currency.localSymbol\" and \"qalc.currency.localCode\". For example, setting \"$\" and \"USD\" allows your input to contain \"$100\" which will be evaluated as the equivalent of \"100 USD\", and similarly will display in the output as \"$100\" instead of \"100 USD\"."
+        },
+        "qalc.currency.localSymbol": {
+          "title": "Local Currency Symbol",
+          "type": "string",
+          "default": "$",
+          "description": "Set your local currency symbol. See \"qalc.currency.convertLocal\" for how this is used\"",
+          "minLength": 1
+        },
+        "qalc.currency.localCode": {
+          "title": "Local Currency Code",
+          "type": "string",
+          "default": "USD",
+          "description": "Set your local currency code. See \"qalc.currency.convertLocal\" for how this is used\"",
+          "minLength": 1
+        },
+        "qalc.shortcuts.temperature": {
+          "title": "Temperature Shortcut",
+          "type": "boolean",
+          "default": "true",
+          "description": "When on, enables you to use oF, oC, f, and c as substitutes for degF, degC, fahrenheit, and celsius"
+        },
+        "qalc.enabledLanguages": {
+          "title": "Enabled Languages",
+          "type": "array",
+          "default": [
+            "qalc",
+            "plaintext",
+            "markdown"
+          ],
+          "contains": {
+            "type": "string"
+          },
+          "description": "Language identifiers for which to enable Qalc processing on. Keep in mind that Qalc will not examine partial matches, but only full lines. If your full line is not parseable, no output is displayed. For example, if you have a line in a JSON file like \"  'key': '1 + 1'  \", the \"1 + 1\" will not be evaluated because the full line is not parseable. Defaults to [\"qalc\", \"plaintext\", \"markdown\"]."
+        },
+        "qalc.disabledPatterns": {
+          "title": "Disabled Patterns",
+          "type": "array",
+          "default": [
+            "**/README.md"
+          ],
+          "contains": {
+            "type": "string"
+          },
+          "required": false,
+          "minItems": 0,
+          "description": "A list of glob patterns to disable Qalc processing on. These take precedence over \"qalc.enabledLanguages\", so if you have \"markdown\" enabled, but \"**/README.md\" disabled, you will not get processing on \"README.md\". This is generally useful for any files that might register as \"plaintext\" to VSCode, but you don't want Qalc to run on, like configuration files. Defaults to [\"**/README.md\"]"
+        },
+        "qalc.globalDeclarations": {
+          "title": "Global Declarations",
+          "type": "array",
+          "default": [],
+          "contains": {
+            "type": "string"
+          },
+          "items": {
+            "type": "string"
+          },
+          "description": "Global declarations to make available to all Qalc. These are declarations that will be available to all Qalc files, regardless of whether they are typed or not. For example, if you want to make the \"hypotenuse\" function available to all Qalc files, you would add \"hypotenuse(x,y) = sqrt(x^2 + y^2),\" to this list. Defaults to []"
         }
-    },
-    "main": "./out/extension.js",
-    "scripts": {
-        "vscode:prepublish": "npm run test",
-        "compile": "tsc -p ./",
-        "lint": "eslint src --ext ts",
-        "watch": "tsc -watch -p ./",
-        "pretest": "npm run compile && npm run lint",
-        "test": "node ./out/test/runTest.js"
-    },
-    "dependencies": {
-        "@types/mathjs": "^6.0.5",
-        "axios": "^0.21.1",
-        "colors": "^1.4.0",
-        "mathjs": "^9.5.2"
-    },
-    "devDependencies": {
-        "@types/glob": "^7.1.1",
-        "@types/mocha": "^7.0.2",
-        "@types/node": "^13.11.0",
-        "@types/vscode": "^1.44.0",
-        "@typescript-eslint/eslint-plugin": "^2.30.0",
-        "@typescript-eslint/parser": "^2.30.0",
-        "eslint": "^6.8.0",
-        "glob": "^7.1.6",
-        "mocha": "^7.1.2",
-        "typescript": "^3.8.3",
-        "vscode-test": "^1.3.0"
+      }
     }
+  },
+  "main": "./out/extension.js",
+  "scripts": {
+    "vscode:prepublish": "npm run test",
+    "compile": "tsc -p ./",
+    "lint": "eslint src --ext ts",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "test": "node ./out/test/runTest.js"
+  },
+  "dependencies": {
+    "@types/mathjs": "^6.0.5",
+    "axios": "^0.21.1",
+    "colors": "^1.4.0",
+    "mathjs": "^9.5.2"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.1",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^13.11.0",
+    "@types/vscode": "^1.44.0",
+    "@typescript-eslint/eslint-plugin": "^2.30.0",
+    "@typescript-eslint/parser": "^2.30.0",
+    "eslint": "^6.8.0",
+    "glob": "^7.1.6",
+    "mocha": "^7.1.2",
+    "typescript": "^3.8.3",
+    "vscode-test": "^1.3.0"
+  }
 }
