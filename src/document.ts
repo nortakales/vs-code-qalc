@@ -60,6 +60,7 @@ export default class MathDocument {
         this.updateTransformerSettings();
         this.updateFormatterSettings();
         this.widestLine = 0;
+        let qalcEnabled = true;
 
         // TODO: These global declarations are evaluated every time the document is evaluated.
         //      This is not ideal because of performance
@@ -71,6 +72,17 @@ export default class MathDocument {
 
             if (!line.isEmptyOrWhitespace) {
                 const trimmed = line.text.trim();
+
+                if (trimmed.replace(/ /g, '') === '//qalc:off') {
+                    qalcEnabled = false;
+                    continue;
+                } else if (trimmed.replace(/ /g, '') === '//qalc:on') {
+                    qalcEnabled = true;
+                    continue;
+                }
+                if (!qalcEnabled) {
+                    continue;
+                }
 
                 if (line.text.length > this.widestLine && this.isNotCommentOrHeaderOnly(line.text)) {
                     this.widestLine = line.text.length;

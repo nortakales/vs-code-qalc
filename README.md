@@ -131,6 +131,15 @@ These units are not native to Math.js, and for good reason: they are not well de
 
 The [Math.js numbers](https://mathjs.org/docs/expressions/syntax.html#numbers) documentation has a little documentation on binary, hex and octal. 
 
+## Special Comments
+
+These special comments must exist on a line by itself to work
+
+| Comment      | Description                                                                                                                                                                                                                                                                                                                   |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `//qalc:off` | Turns off Qalc processing for the rest of the file (or until the next `//qalc:on` comment)                                                                                                                                                                                                                                    |
+| `//qalc:on`  | Turns Qalc processing back on for the rest of the file (or until the next `//qalc:off` comment) if it was turned off by `//qalc:off`. *Note: This will not turn on Qalc for files that are not being processed at all due to settings like `qalc.enabledLanguages` (if your language is missing) and `qalc.disabledPatterns`* |
+
 # Settings
 
 Qalc offers a variety of settings that allow you to customize its behavior. These settings are explained below.

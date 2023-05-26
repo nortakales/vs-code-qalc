@@ -18,6 +18,7 @@ import { suite_fixed_0 as format_fixed_0 } from "./suites/formatOptions-testSuit
 import { suite_fixed_4_zeros as format_fixed_4_zeros } from "./suites/formatOptions-testSuite";
 import { suite_fixed_4_nozeros_nocommas as format_fixed_4_nozeros_nocommas } from "./suites/formatOptions-testSuite";
 import { suite as temperature } from "./suites/temperature-testSuite";
+import { suite as specialComments } from "./suites/specialComments-testSuite";
 
 const baseTransformerSettings: TransformerSettings = {
 	convertLocalCurrency: true,
@@ -59,6 +60,7 @@ function main() {
 		suites.push(format_fixed_4_zeros);
 		suites.push(format_fixed_4_nozeros_nocommas);
 		suites.push(temperature);
+		// suites.push(specialComments);
 
 
 		// Mock the context since currencies use globalState
@@ -100,6 +102,8 @@ function runTests(math: math.MathJsStatic, suites: TestSuite[]) {
 			const formatterSettingsToUse = suite.formatterSettings ?? baseFormatterSettings;
 
 			// TODO check for errors and add errors test suite
+			// TODO same for special comments keywords
+			// TODO need to break out logic from document.ts into common function to use here as well
 			const result = format(math, math.compile(transform(key, baseTransformerSettings)).evaluate(scope), formatterSettingsToUse);
 
 			if (typeof value === "string" && (value as string) === result) {
