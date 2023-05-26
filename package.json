@@ -238,7 +238,7 @@
     "@types/mathjs": "^6.0.5",
     "axios": "^0.21.1",
     "colors": "^1.4.0",
-    "mathjs": "^9.3.0"
+    "mathjs": "^9.5.2"
   },
   "devDependencies": {
     "@types/glob": "^7.1.1",
