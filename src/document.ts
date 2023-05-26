@@ -111,14 +111,10 @@ export default class MathDocument {
     private addGlobalDeclarations(scope: any) {
         const declarations = globalDeclarations();
 
-        for (let declaration of declarations)
-        {
+        for (let declaration of declarations) {
             const trimmed = declaration.trim();
 
-            if (
-                !this.isNotCommentOrHeaderOnly(trimmed) || this.checkForError(trimmed)
-            )
-            {
+            if (!this.isNotCommentOrHeaderOnly(trimmed) || this.checkForError(trimmed)) {
                 return;
             }
 
