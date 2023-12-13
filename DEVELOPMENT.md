@@ -6,6 +6,7 @@
 # Publishing
 
 * Make sure to update the version in `package.json`, and optionally tag the commit like `git tag "<version>"`
+* Make sure to update `CHANGELOG.md`
 * Tests will run before publishing to VSCode marketplace via `vscode:prepublish` in package.json
 * If personal access token as expired, run `vsce login <username>`
 * To publish run `vsce publish`

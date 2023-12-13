@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.1.13
+
+* [#32](https://github.com/nortakales/vs-code-qalc/issues/32) The exchange rate API being used has finally blocked free access, which broke any line that used a currency symbol. For now, I have quickly hacked $ and USD to still work, but actual conversions to/from any other currency are broken. I will search for a new free API, and give an option for users to provide their own API key as well in the next update.
+
 ## 0.1.12
 
 - Bumped math.js version to 9.5.2 
