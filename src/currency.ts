@@ -1,6 +1,11 @@
 import axios from 'axios';
 import { ExtensionContext } from 'vscode';
 
+const defaultData = {
+    base: "USD",
+    rates: { USD: 1.0 },
+};
+
 // 7 days
 const dataTtl = 7 * 24 * 60 * 60 * 1000;
 
@@ -10,6 +15,11 @@ export interface ExchangeData {
     readonly rates: {
         [currency: string]: number,
     },
+    readonly error?: {
+        readonly code: number,
+        readonly type: string,
+        readonly info: string
+    }
 }
 
 export async function getExchangeRates(ctx: ExtensionContext): Promise<ExchangeData> {
@@ -27,8 +37,9 @@ export async function getExchangeRates(ctx: ExtensionContext): Promise<ExchangeD
         }
     }
 
-    return data ?? {
-        base: "USD",
-        rates: { USD: 1.0 },
-    };
+    if (data?.error) {
+        data = defaultData;
+    }
+
+    return data ?? defaultData;
 }
