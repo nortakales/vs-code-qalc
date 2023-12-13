@@ -25,6 +25,7 @@ const NOTATION = "qalc.output.notation";
 const CONVERT_LOCAL_CURRENCY = "qalc.currency.convertLocal";
 const LOCAL_CURRENCY_SYMBOL = "qalc.currency.localSymbol";
 const LOCAL_CURRENCY_CODE = "qalc.currency.localCode";
+const CURRENCY_API_KEY = "qalc.currency.apiKey";
 
 const TEMPERATURE_SHORTCUT = "qalc.shortcuts.temperature";
 
@@ -105,11 +106,14 @@ export function localCurrencySymbol(): string {
 export function localCurrencyCode(): string {
     return getConfiguration(LOCAL_CURRENCY_CODE) as string;
 }
+export function currencyApiKey(): string {
+    return getConfiguration(CURRENCY_API_KEY) as string;
+}
 
 export function temperatureShortcut(): boolean {
     return getConfiguration(TEMPERATURE_SHORTCUT) as boolean;
 }
 
 export function globalDeclarations(): string[] {
-  return getConfiguration(GLOBAL_DECLARATIONS) as string[];
+    return getConfiguration(GLOBAL_DECLARATIONS) as string[];
 }

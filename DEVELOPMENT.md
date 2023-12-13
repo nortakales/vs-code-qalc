@@ -18,9 +18,9 @@
 * [x] $
 * [x] %
 * [x] auto detect some date formats
-* [ ] Settings
+* [x] Settings
   * [x] foreground color
-  * [ ] currency ttl
+  * [x] currency ttl
   * [x] languages to enable in
   * [x] https://mathjs.org/docs/reference/functions/format.html
   * [x] include commas or not in output

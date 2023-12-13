@@ -1,44 +1,57 @@
 import axios from 'axios';
 import { ExtensionContext } from 'vscode';
+import { currencyApiKey } from './settings';
 
 const defaultData = {
-    base: "USD",
+    base: 'USD',
     rates: { USD: 1.0 },
 };
+const oneDayInSeconds = 24 * 60 * 60;
+const defaultTtl = 7 * oneDayInSeconds;
+const customTTL = oneDayInSeconds;
 
-// 7 days
-const dataTtl = 7 * 24 * 60 * 60 * 1000;
+const baseUrl = 'https://openexchangerates.org/api/latest.json?base=USD&app_id=';
+// If you are reading this, please just get your own FREE key at https://openexchangerates.org/
+const defaultApiKey = '310f1a4a67d14970a31078dc604a9622';
 
 export interface ExchangeData {
     readonly base: string,
-    readonly date?: string,
+    readonly timestamp?: number,
     readonly rates: {
         [currency: string]: number,
     },
-    readonly error?: {
-        readonly code: number,
-        readonly type: string,
-        readonly info: string
-    }
+    readonly error?: boolean,
+    readonly status?: number,
+    readonly message?: string,
+    readonly description?: string
 }
 
 export async function getExchangeRates(ctx: ExtensionContext): Promise<ExchangeData> {
     let data = ctx.globalState.get<ExchangeData>("exchangeRates");
 
-    if (!data || !data.date || (data.date && Date.now() - new Date(data.date).getTime() > dataTtl)) {
+    let apiKey = currencyApiKey();
+    let ttl = customTTL;
+    if (!apiKey) {
+        console.log('No custom API key for currency exchange rates, using default key and ttl');
+        ttl = defaultTtl;
+        apiKey = defaultApiKey;
+    }
+
+    if (!data || data.error || !data.timestamp || (data.timestamp && (Date.now() / 1000) - data.timestamp > ttl)) {
         console.log("Fetching latest currency exchange rates...");
 
         try {
-            let response = await axios.get("https://api.exchangerate.host/latest?base=USD");
+            let response = await axios.get(baseUrl + apiKey);
             data = response.data;
-            await ctx.globalState.update("exchangeRates", data);
+            if (data?.error) {
+                // TODO user notification?
+                data = defaultData;
+            } else {
+                await ctx.globalState.update("exchangeRates", data);
+            }
         } catch (error) {
             console.log("Error fetching currency exchange info.", error);
         }
-    }
-
-    if (data?.error) {
-        data = defaultData;
     }
 
     return data ?? defaultData;

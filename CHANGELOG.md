@@ -1,8 +1,16 @@
 # Change Log
 
+## 0.1.14
+
+- Resolves [#32](https://github.com/nortakales/vs-code-qalc/issues/32)
+  - Switched to a new API for exchange rates
+  - A default API key is used that is allowed 1000 calls per month, and default TTL for cached exchange rates is 7 days
+  - A personal API key can be specified via the `qalc.currency.apiKey` setting, and if so the cache TTL will be 1 day
+  - Go to https://openexchangerates.org/ to get your own free API key (no payment info required at all)
+
 ## 0.1.13
 
-* [#32](https://github.com/nortakales/vs-code-qalc/issues/32) The exchange rate API being used has finally blocked free access, which broke any line that used a currency symbol. For now, I have quickly hacked $ and USD to still work, but actual conversions to/from any other currency are broken. I will search for a new free API, and give an option for users to provide their own API key as well in the next update.
+- [#32](https://github.com/nortakales/vs-code-qalc/issues/32) The exchange rate API being used has finally blocked free access, which broke any line that used a currency symbol. For now, I have quickly hacked $ and USD to still work, but actual conversions to/from any other currency are broken. I will search for a new free API, and give an option for users to provide their own API key as well in the next update.
 
 ## 0.1.12
 

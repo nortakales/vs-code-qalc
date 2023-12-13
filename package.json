@@ -3,7 +3,7 @@
     "displayName": "Qalc",
     "description": "Interactive scratchpad calculator for VSCode",
     "publisher": "nortakales",
-    "version": "0.1.13",
+    "version": "0.1.14",
     "engines": {
         "vscode": "^1.44.0"
     },
@@ -176,6 +176,12 @@
                     "type": "string",
                     "default": "USD",
                     "description": "Set your local currency code. See \"qalc.currency.convertLocal\" for how this is used\"",
+                    "minLength": 1
+                },
+                "qalc.currency.apiKey": {
+                    "title": "Currency API Key",
+                    "type": "string",
+                    "description": "Qalc calls an API for exchange rates that is limited to 1000 calls per month across all Qalc users. If you absolutely require exchange rates and do not want to take a chance that these 1000 calls will run out in a given month, you can get a free API key from openexchangerates.org, and use that key here. Doing so will also refresh your exchanges rates once per day, rather than the default of once per week.",
                     "minLength": 1
                 },
                 "qalc.shortcuts.temperature": {
