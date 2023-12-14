@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import TestSuite from "../testSuite";
 
-const dateRegex = "\\d{1,2}/\\d{1,2}/\\d{4}"
-const timeRegex = "\\d{1,2}:\\d{2}:\\d{2} [AP]M"
+const dateRegex = "\\d{1,2}/\\d{1,2}/\\d{4}";
+const timeRegex = "\\d{1,2}:\\d{2}:\\d{2} [AP]M";
 const datetimeRegex = dateRegex + ", " + timeRegex;
 
 export const suite: TestSuite = {

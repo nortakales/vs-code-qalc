@@ -13,10 +13,13 @@ export function create(ctx: ExtensionContext, callback: Function): mathjs.MathJs
     const addDate = math.factory('add', ['typed'], ({ typed }) => {
         // @ts-ignore
         return typed('add', {
+
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             'Date, Unit': function (a: Date, b: mathjs.Unit) {
                 return new Date(a.getTime() + b.toNumber("ms"));
             },
 
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             'Unit, Date': function (a: mathjs.Unit, b: Date) {
                 return new Date(a.toNumber("ms") + b.getTime());
             },
@@ -27,10 +30,12 @@ export function create(ctx: ExtensionContext, callback: Function): mathjs.MathJs
     const subtractDate = math.factory('subtract', ['typed'], ({ typed }) => {
         // @ts-ignore
         return typed('subtract', {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             'Date, Unit': function (a: Date, b: mathjs.Unit) {
                 return new Date(a.getTime() - b.toNumber("ms"));
             },
 
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             'Date, Date': function (a: Date, b: Date) {
                 return math.unit(a.getTime() - b.getTime(), "ms").to("s");
             },
@@ -137,7 +142,7 @@ function parseDate(input: string | number): Date {
 }
 
 function isNumber(value: string | number): boolean {
-    return ((value != null) && (value !== '') && !isNaN(Number(value.toString())));
+    return ((value !== undefined) && (value !== null) && (value !== '') && !isNaN(Number(value.toString())));
 }
 
 function hexToChar(input: string) {

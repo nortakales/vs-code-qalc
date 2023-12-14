@@ -1,10 +1,12 @@
 import axios from 'axios';
 import { ExtensionContext } from 'vscode';
-import { currencyApiKey } from './settings';
+import { isTest } from './test/tests';
+// import { currencyApiKey } from './settings';
 
 const defaultData = {
-    base: 'USD',
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     rates: { USD: 1.0 },
+    base: 'USD'
 };
 const oneDayInSeconds = 24 * 60 * 60;
 const defaultTtl = 7 * oneDayInSeconds;
@@ -29,7 +31,12 @@ export interface ExchangeData {
 export async function getExchangeRates(ctx: ExtensionContext): Promise<ExchangeData> {
     let data = ctx.globalState.get<ExchangeData>("exchangeRates");
 
-    let apiKey = currencyApiKey();
+    // TODO move this into settings file so it can apply to any setting
+    let apiKey;
+    if (!isTest()) {
+        const settings = await import('./settings');
+        apiKey = settings.currencyApiKey();
+    }
     let ttl = customTTL;
     if (!apiKey) {
         console.log('No custom API key for currency exchange rates, using default key and ttl');
@@ -44,7 +51,7 @@ export async function getExchangeRates(ctx: ExtensionContext): Promise<ExchangeD
             let response = await axios.get(baseUrl + apiKey);
             data = response.data;
             if (data?.error) {
-                // TODO user notification?
+                console.log("Error retrieving exchange rates: " + data.message);
                 data = defaultData;
             } else {
                 await ctx.globalState.update("exchangeRates", data);

@@ -39,10 +39,16 @@ const baseFormatterSettings: FormatterSettings = {
 	localCurrencySymbol: "$"
 };
 
-function main() {
+let testsRunning = false;
+export function isTest() {
+	return testsRunning;
+}
+
+export function runTests() {
 	try {
 
 		console.log("Starting test runner...");
+		testsRunning = true;
 
 		// Register test suites
 		let suites: TestSuite[] = [];
@@ -74,7 +80,7 @@ function main() {
 		};
 
 		// @ts-ignore
-		const math = create(context, () => runTests(math, suites));
+		const math = create(context, () => runTestSuites(math, suites));
 
 	} catch (err) {
 		console.error('FAILED to run tests!', err);
@@ -82,7 +88,7 @@ function main() {
 	}
 }
 
-function runTests(math: math.MathJsStatic, suites: TestSuite[]) {
+function runTestSuites(math: math.MathJsStatic, suites: TestSuite[]) {
 
 	let success = true;
 
@@ -131,5 +137,3 @@ function runTests(math: math.MathJsStatic, suites: TestSuite[]) {
 	console.log();
 	console.log();
 }
-
-main();

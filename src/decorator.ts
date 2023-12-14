@@ -158,7 +158,7 @@ export default class EditorDecorator implements Disposable {
                     range: mathDocument.document.lineAt(lineNumber).range,
                     renderOptions: {
                         after: {
-                            contentText: `${this.resultsDelimiter}${format(this.math, value, this.formatterSettings)}`, // TODO setting for including =
+                            contentText: `${this.resultsDelimiter}${format(this.math, value, this.formatterSettings)}`,
                             margin: `0 0 0 ${this.calculateMargin(mathDocument, lineNumber)}ch`
                         }
                     }

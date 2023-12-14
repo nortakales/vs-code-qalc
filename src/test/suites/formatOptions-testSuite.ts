@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import TestSuite from "../testSuite";
 
 export const suite_auto_0: TestSuite = {

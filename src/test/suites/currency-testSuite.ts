@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import TestSuite from "../testSuite";
 
 const eurRegex = "\\d+\\.\\d* EUR";
