@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ExtensionContext } from 'vscode';
-import { isTest } from './test/tests';
+import { isTest } from './global';
 // import { currencyApiKey } from './settings';
 
 const defaultData = {

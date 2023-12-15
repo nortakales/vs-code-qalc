@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.1.15
+
+- Fixes [#34](https://github.com/nortakales/vs-code-qalc/issues/34), a bug so bad it stopped the extension from starting up!
+- From here on out, bug fixes will happen on 0.0.x versions, smaller features on 0.x.0 versions, and major milestone on x.0.0 versions
+
 ## 0.1.14
 
 - Resolves [#32](https://github.com/nortakales/vs-code-qalc/issues/32)

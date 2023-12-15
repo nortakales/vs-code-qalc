@@ -19,6 +19,7 @@ import { suite_fixed_4_zeros as format_fixed_4_zeros } from "./suites/formatOpti
 import { suite_fixed_4_nozeros_nocommas as format_fixed_4_nozeros_nocommas } from "./suites/formatOptions-testSuite";
 import { suite as temperature } from "./suites/temperature-testSuite";
 import { suite as specialComments } from "./suites/specialComments-testSuite";
+import { setTestsRunning } from "../global";
 
 const baseTransformerSettings: TransformerSettings = {
 	convertLocalCurrency: true,
@@ -39,16 +40,13 @@ const baseFormatterSettings: FormatterSettings = {
 	localCurrencySymbol: "$"
 };
 
-let testsRunning = false;
-export function isTest() {
-	return testsRunning;
-}
+
 
 export function runTests() {
 	try {
 
 		console.log("Starting test runner...");
-		testsRunning = true;
+		setTestsRunning();
 
 		// Register test suites
 		let suites: TestSuite[] = [];
