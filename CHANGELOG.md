@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.1.16
+
+- Allow `qalc.currency.apiKey` setting to be empty
+
 ## 0.1.15
 
 - Fixes [#34](https://github.com/nortakales/vs-code-qalc/issues/34), a bug so bad it stopped the extension from starting up!
