@@ -1,5 +1,10 @@
 # Change Log
 
+
+## 0.1.17
+
+- Updates some dependencies
+
 ## 0.1.16
 
 - Allow `qalc.currency.apiKey` setting to be empty

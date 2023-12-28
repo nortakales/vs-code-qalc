@@ -1,11 +1,12 @@
 # Development
 
+* Make sure to use the latest lts of node via `nvm use --lts` or set it to default via `nvm alias default lts/hydrogen` (adjust version from `nvm ls`)
 * VSCode should automatically run `npm run watch` while developing
 * Run tests manually: `npm run test`
 
 # Publishing
 
-* Make sure to update the version in `package.json`, and optionally tag the commit like `git tag "<version>"`
+* Make sure to update the version in `package.json`, and optionally tag the commit like `git tag "<version>"` and `git push origin "<version>"`
 * Make sure to update `CHANGELOG.md`
 * Tests will run before publishing to VSCode marketplace via `vscode:prepublish` in package.json
 * If personal access token as expired, run `vsce login <username>`
