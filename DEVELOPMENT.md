@@ -10,8 +10,10 @@
 * Make sure to update `CHANGELOG.md`
 * Tests will run before publishing to VSCode marketplace via `vscode:prepublish` in package.json
 * If personal access token as expired, run `vsce login <username>`
+  * Store latest access key in AWS, retrieve via: `aws secretsmanager get-secret-value --secret-id vsce-publish-token`
 * To publish run `vsce publish`
 * Update `vsce` with `npm install -g vsce`
+* 
 
 # Feature Todo List
 
