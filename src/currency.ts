@@ -1,7 +1,7 @@
+
 import axios from 'axios';
 import { ExtensionContext } from 'vscode';
 import { isTest } from './global';
-// import { currencyApiKey } from './settings';
 
 const defaultData = {
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -9,12 +9,13 @@ const defaultData = {
     base: 'USD'
 };
 const oneDayInSeconds = 24 * 60 * 60;
-const defaultTtl = 7 * oneDayInSeconds;
+const defaultTtl = 14 * oneDayInSeconds;
 const customTTL = oneDayInSeconds;
 
 const baseUrl = 'https://openexchangerates.org/api/latest.json?base=USD&app_id=';
 // If you are reading this, please just get your own FREE key at https://openexchangerates.org/
 const defaultApiKey = '310f1a4a67d14970a31078dc604a9622';
+const testApiKey = '266b276ee7044816ad288d1b85ef811b';
 
 export interface ExchangeData {
     readonly base: string,
@@ -29,11 +30,16 @@ export interface ExchangeData {
 }
 
 export async function getExchangeRates(ctx: ExtensionContext): Promise<ExchangeData> {
-    let data = ctx.globalState.get<ExchangeData>("exchangeRates");
+    const cachedData = ctx.globalState.get<ExchangeData>("exchangeRates");
+    let data = cachedData;
 
-    // TODO move this into settings file so it can apply to any setting
+    // TODO move isTest into settings file so it can apply to any setting
     let apiKey;
-    if (!isTest()) {
+    if (isTest()) {
+        // For tests, use special test API key that will not run out of quota
+        apiKey = testApiKey;
+    } else {
+        // Attempt to get user key from settings
         const settings = await import('./settings');
         apiKey = settings.currencyApiKey();
     }
@@ -48,18 +54,38 @@ export async function getExchangeRates(ctx: ExtensionContext): Promise<ExchangeD
         console.log("Fetching latest currency exchange rates...");
 
         try {
-            let response = await axios.get(baseUrl + apiKey);
+            const response = await axios.get(baseUrl + apiKey);
             data = response.data;
-            if (data?.error) {
-                console.log("Error retrieving exchange rates: " + data.message);
-                data = defaultData;
+            if (data) {
+                if (data.error) {
+                    console.log(`Error retrieving exchange rates, status=${data.status}, message=${data.message}`);
+                    if (data.status === 429) {
+                        notify(ctx);
+                    }
+                    data = cachedData;
+                } else {
+                    console.log("Retrieved new exchange rates, updating cache");
+                    await ctx.globalState.update("exchangeRates", data);
+                }
             } else {
-                await ctx.globalState.update("exchangeRates", data);
+                console.log("Error retrieving exchange rates, received no data");
             }
         } catch (error) {
-            console.log("Error fetching currency exchange info.", error);
+            if (error instanceof Error && error.message.includes('Request failed with status code 429')) {
+                console.log("Error fetching currency exchange info, request failed with status code 429");
+                notify(ctx);
+            } else {
+                console.log("Error fetching currency exchange info.", error);
+            }
         }
     }
 
-    return data ?? defaultData;
+    return data ?? cachedData ?? defaultData;
+}
+
+async function notify(ctx: ExtensionContext) {
+    if (!isTest()) {
+        const notifier = await import('./notifier');
+        notifier.displayRateLimitedNotification(ctx);
+    }
 }

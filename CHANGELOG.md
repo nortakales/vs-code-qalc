@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.2 - 2024-01-12
+
+- Show user notification when currency exchange rates have been exhausted for the current month, and prompt user to get their own API key
+- Default cache for exchange rates is now 2 weeks instead of 1 week 
 
 ## 0.1.17
 
