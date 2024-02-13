@@ -61,3 +61,4 @@
 * [ ] Enable "yesterday 11pm"
 * [ ] Decide on better file extension
 * [ ] Fix math API
+* [ ] Allow things like $4 + 4 or 5ft * 3

@@ -1,6 +1,5 @@
 import * as vscode from "vscode";
 
-
 const SHOW_RESULTS_DELIMITER = "qalc.output.showDelimiter";
 
 const RESULTS_DELIMITER = "qalc.output.delimiter";
@@ -14,7 +13,8 @@ const MAX_ALIGNMENT_COLUMN = "qalc.output.maxAlignmentColumn";
 const ENABLED_LANGUAGES = "qalc.enabledLanguages";
 const DISABLED_PATTERNS = "qalc.disabledPatterns";
 
-const DISPLAY_COMMAS = "qalc.output.displayCommas";
+const DIGIT_GROUPING_SYMBOL = "qalc.output.digitGroupingSymbol";
+const DECIMAL_SEPARATOR = "qalc.output.decimalSeparator";
 const TRIM_TRAILING_ZEROS = "qalc.output.trimTrailingZeros";
 
 const LOWER_EXPONENT_BOUND = "qalc.output.lowerExponentBound";
@@ -73,8 +73,12 @@ export function disabledPatterns(): [] {
     return getConfiguration(DISABLED_PATTERNS) as [];
 }
 
-export function displayCommas(): boolean {
-    return getConfiguration(DISPLAY_COMMAS) as boolean;
+export function digitGroupingSymbol(): string {
+    return getConfiguration(DIGIT_GROUPING_SYMBOL) as string;
+}
+
+export function decimalSeparator(): string {
+    return getConfiguration(DECIMAL_SEPARATOR) as string;
 }
 
 export function trimTrailingZeros(): boolean {

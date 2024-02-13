@@ -17,6 +17,9 @@ import { suite_auto_4 as format_auto_4 } from "./suites/formatOptions-testSuite"
 import { suite_fixed_0 as format_fixed_0 } from "./suites/formatOptions-testSuite";
 import { suite_fixed_4_zeros as format_fixed_4_zeros } from "./suites/formatOptions-testSuite";
 import { suite_fixed_4_nozeros_nocommas as format_fixed_4_nozeros_nocommas } from "./suites/formatOptions-testSuite";
+import { suite_space_and_comma as format_space_and_comma } from "./suites/formatOptions-testSuite";
+import { suite_dot_and_comma as format_dot_and_comma } from "./suites/formatOptions-testSuite";
+import { suite_dot_and_dot as format_dot_and_dot } from "./suites/formatOptions-testSuite";
 import { suite as temperature } from "./suites/temperature-testSuite";
 import { suite as specialComments } from "./suites/specialComments-testSuite";
 import { setTestsRunning } from "../global";
@@ -33,7 +36,8 @@ const baseFormatterSettings: FormatterSettings = {
 	upperExponentBound: 16,
 	precision: 5,
 	notation: 'auto',
-	displayCommas: true,
+	digitGroupingSymbol: ',',
+	decimalSeparator: '.',
 	trimTrailingZeros: true,
 	convertLocalCurrency: true,
 	localCurrencyCode: "USD",
@@ -63,8 +67,11 @@ export function runTests() {
 		suites.push(format_fixed_0);
 		suites.push(format_fixed_4_zeros);
 		suites.push(format_fixed_4_nozeros_nocommas);
+		suites.push(format_space_and_comma);
+		suites.push(format_dot_and_comma);
+		suites.push(format_dot_and_dot);
 		suites.push(temperature);
-		// suites.push(specialComments);
+		//suites.push(specialComments);
 
 
 		// Mock the context since currencies use globalState

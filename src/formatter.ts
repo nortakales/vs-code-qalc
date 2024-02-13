@@ -1,4 +1,6 @@
-import { displayCommas, lowerExponentBound, precision, upperExponentBound } from "./settings";
+import { lowerExponentBound, precision, upperExponentBound } from "./settings";
+
+const PLACEHOLDER = 'PH';
 
 /**
  * Format a numeric result as a string for display.
@@ -34,12 +36,16 @@ export function format(math: math.MathJsStatic, value: any, formatterSettings: F
             }
         }
 
-        if (formatterSettings.displayCommas) {
+        output = output.replace(/(?<=\d+)\.(?=\d+)/g, PLACEHOLDER);
+
+        if (formatterSettings.digitGroupingSymbol !== '') {
             // Add thousands separators if number is formatted as fixed.
-            if (/^\-?\d+(\.\d+)?$/.test(output)) {
-                output = output.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+            if (/^\-?\d+(PH\d+)?$/.test(output)) {
+                output = output.replace(/\B(?<!PH\d*)(?=(\d{3})+(?!\d))/g, formatterSettings.digitGroupingSymbol);
             }
         }
+
+        output = output.replace(/(?<=\d+)PH(?=\d+)/g, formatterSettings.decimalSeparator);
 
         return output;
     });

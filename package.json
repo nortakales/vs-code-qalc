@@ -3,7 +3,7 @@
     "displayName": "Qalc",
     "description": "Interactive scratchpad calculator for VSCode",
     "publisher": "nortakales",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "engines": {
         "vscode": "^1.85.0"
     },
@@ -102,7 +102,7 @@
                     "title": "Align Output",
                     "type": "boolean",
                     "default": true,
-                    "description": "Aligns the left edge of output (on) or displays output immediately at the end of an input line (off)"
+                    "description": "Aligns the left edge of output (on) or displays output immediately at the end of an input line (off)."
                 },
                 "qalc.output.maxAlignmentColumn": {
                     "title": "Max Alignment Column",
@@ -110,17 +110,27 @@
                     "default": 40,
                     "description": "When \"qalc.output.align\" is on, this controls the maximum column that results will align on. This is useful if you have, for example, a Markdown document with a few long lines, but don't want your Qalc results displayed too far out for the majority of your shorter lines."
                 },
-                "qalc.output.displayCommas": {
-                    "title": "Display Commas",
-                    "type": "boolean",
-                    "default": true,
-                    "description": "Turn this on to display commas in results ($1,000,000), or off to hide commas ($1000000)"
+                "qalc.output.digitGroupingSymbol": {
+                    "title": "Digit Grouping Symbol",
+                    "type": "string",
+                    "default": ",",
+                    "description": "Character that groups the digits, usually comma (1,000), space (1 000) or nothing at all (1000). This setting replaces 'qalc.output.displayCommas'.",
+                    "minLength": 0,
+                    "maxLength": 1
+                },
+                "qalc.output.decimalSeparator": {
+                    "title": "Decimal Separator",
+                    "type": "string",
+                    "default": ".",
+                    "description": "Character separating the decimals, usually dot (3.14) or comma (3,14).",
+                    "minLength": 1,
+                    "maxLength": 1
                 },
                 "qalc.output.trimTrailingZeros": {
                     "title": "Trim Trailing Zeros",
                     "type": "boolean",
                     "default": true,
-                    "description": "Turn this on to trim trailing zeros when using 'fixed' notation. For example, with 'fixed' notation, precision set to 4, and this setting off, 1.12 will display as 1.1200, but with the setting on will display 1.12"
+                    "description": "Turn this on to trim trailing zeros when using 'fixed' notation. For example, with 'fixed' notation, precision set to 4, and this setting off, 1.12 will display as 1.1200, but with the setting on will display 1.12."
                 },
                 "qalc.output.precision": {
                     "title": "Precision",
@@ -168,14 +178,14 @@
                     "title": "Local Currency Symbol",
                     "type": "string",
                     "default": "$",
-                    "description": "Set your local currency symbol. See \"qalc.currency.convertLocal\" for how this is used\"",
+                    "description": "Set your local currency symbol. See \"qalc.currency.convertLocal\" for how this is used\".",
                     "minLength": 1
                 },
                 "qalc.currency.localCode": {
                     "title": "Local Currency Code",
                     "type": "string",
                     "default": "USD",
-                    "description": "Set your local currency code. See \"qalc.currency.convertLocal\" for how this is used\"",
+                    "description": "Set your local currency code. See \"qalc.currency.convertLocal\" for how this is used\".",
                     "minLength": 1
                 },
                 "qalc.currency.apiKey": {
@@ -187,7 +197,7 @@
                     "title": "Temperature Shortcut",
                     "type": "boolean",
                     "default": "true",
-                    "description": "When on, enables you to use oF, oC, f, and c as substitutes for degF, degC, fahrenheit, and celsius"
+                    "description": "When on, enables you to use oF, oC, f, and c as substitutes for degF, degC, fahrenheit, and celsius."
                 },
                 "qalc.enabledLanguages": {
                     "title": "Enabled Languages",

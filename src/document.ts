@@ -3,7 +3,7 @@ import { TextDocument } from 'vscode';
 import { allKeywords } from './constants';
 import { format } from './formatter';
 import { defaultScope } from './math';
-import { convertLocalCurrency, displayCommas, globalDeclarations, localCurrencyCode, localCurrencySymbol, lowerExponentBound, notation, precision, temperatureShortcut, trimTrailingZeros, upperExponentBound } from './settings';
+import { convertLocalCurrency, decimalSeparator, digitGroupingSymbol, globalDeclarations, localCurrencyCode, localCurrencySymbol, lowerExponentBound, notation, precision, temperatureShortcut, trimTrailingZeros, upperExponentBound } from './settings';
 import { transform } from './transformer';
 import math = require('mathjs');
 
@@ -43,7 +43,8 @@ export default class MathDocument {
             upperExponentBound: upperExponentBound(),
             precision: precision(),
             notation: notation(),
-            displayCommas: displayCommas(),
+            digitGroupingSymbol: digitGroupingSymbol(),
+            decimalSeparator: decimalSeparator(),
             trimTrailingZeros: trimTrailingZeros(),
             convertLocalCurrency: convertLocalCurrency(),
             localCurrencyCode: localCurrencyCode(),
@@ -172,7 +173,8 @@ export default class MathDocument {
         if (this.aggregationFunctionRegex.test(line)) {
 
             const settingsClone = Object.assign({}, this.formatterSettings);
-            settingsClone.displayCommas = false;
+            settingsClone.digitGroupingSymbol = '';
+            settingsClone.decimalSeparator = '.';
 
             let aggregate = "";
             let datapoints = 0;

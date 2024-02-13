@@ -20,7 +20,7 @@ import MathDocument from "./document";
 import { MathJsStatic, varianceTransformDependencies } from 'mathjs';
 import { create } from "./math";
 import { format } from "./formatter";
-import { alignResults, convertLocalCurrency, disabledPatterns, displayCommas, enabledLanguages, getComputedResultsDelimiter, localCurrencyCode, localCurrencySymbol, lowerExponentBound, maxAlignmentColumn, notation, precision, resultsColor, resultsDelimiter, trimTrailingZeros, upperExponentBound } from "./settings";
+import { alignResults, convertLocalCurrency, decimalSeparator, digitGroupingSymbol, disabledPatterns, enabledLanguages, getComputedResultsDelimiter, localCurrencyCode, localCurrencySymbol, lowerExponentBound, maxAlignmentColumn, notation, precision, resultsColor, resultsDelimiter, trimTrailingZeros, upperExponentBound } from "./settings";
 import math = require("mathjs");
 import { createFullDocumentRange } from "./utils";
 
@@ -122,7 +122,8 @@ export default class EditorDecorator implements Disposable {
             upperExponentBound: upperExponentBound(),
             precision: precision(),
             notation: notation(),
-            displayCommas: displayCommas(),
+            digitGroupingSymbol: digitGroupingSymbol(),
+            decimalSeparator: decimalSeparator(),
             trimTrailingZeros: trimTrailingZeros(),
             convertLocalCurrency: convertLocalCurrency(),
             localCurrencyCode: localCurrencyCode(),
