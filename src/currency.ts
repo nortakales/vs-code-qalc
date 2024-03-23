@@ -9,7 +9,7 @@ const defaultData = {
     base: 'USD'
 };
 const oneDayInSeconds = 24 * 60 * 60;
-const defaultTtl = 14 * oneDayInSeconds;
+const defaultTtl = 28 * oneDayInSeconds; // 4 weeks
 const customTTL = oneDayInSeconds;
 
 const baseUrl = 'https://openexchangerates.org/api/latest.json?base=USD&app_id=';
