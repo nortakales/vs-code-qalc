@@ -3,7 +3,7 @@
     "displayName": "Qalc",
     "description": "Interactive scratchpad calculator for VSCode",
     "publisher": "nortakales",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "engines": {
         "vscode": "^1.85.0"
     },
@@ -210,7 +210,16 @@
                     "contains": {
                         "type": "string"
                     },
-                    "description": "Language identifiers for which to enable Qalc processing on. Keep in mind that Qalc will not examine partial matches, but only full lines. If your full line is not parseable, no output is displayed. For example, if you have a line in a JSON file like \"  'key': '1 + 1'  \", the \"1 + 1\" will not be evaluated because the full line is not parseable. Defaults to [\"qalc\", \"plaintext\", \"markdown\"]."
+                    "description": "Language identifiers for which to enable Qalc processing on. Keep in mind that Qalc will not examine partial line matches, but only full lines. If your full line is not parseable, no output is displayed. For example, if you have a line in a JSON file like \"  'key': '1 + 1'  \", the \"1 + 1\" will not be evaluated because the full line is not parseable. Defaults to [\"qalc\", \"plaintext\", \"markdown\"]."
+                },
+                "qalc.explicitActivationLanguages": {
+                    "title": "Explicit Activation Languages",
+                    "type": "array",
+                    "default": [],
+                    "contains": {
+                        "type": "string"
+                    },
+                    "description": "Language identifiers for which Qalc processing will be off by default but can be enabled using //qalc:on. This should be a subset of \"qalc.enabledLanguages\". In other words, you must first enable the language, and then you can set it to have explicit activation. If a language is enabled, but not marked for explicit activation, Qalc will start processing lines from the beginning. If a language is marked for explicit activation, but not enabled, Qalc will not process files for that language at all."
                 },
                 "qalc.disabledPatterns": {
                     "title": "Disabled Patterns",

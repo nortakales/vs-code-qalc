@@ -11,6 +11,7 @@ const ALIGN_RESULTS = "qalc.output.align";
 const MAX_ALIGNMENT_COLUMN = "qalc.output.maxAlignmentColumn";
 
 const ENABLED_LANGUAGES = "qalc.enabledLanguages";
+const EXPLICIT_ACTIVATION_LANGUAGES = "qalc.explicitActivationLanguages";
 const DISABLED_PATTERNS = "qalc.disabledPatterns";
 
 const DIGIT_GROUPING_SYMBOL = "qalc.output.digitGroupingSymbol";
@@ -68,6 +69,9 @@ export function maxAlignmentColumn(): number {
 
 export function enabledLanguages(): [] {
     return getConfiguration(ENABLED_LANGUAGES) as [];
+}
+export function explicitActivationLanguages(): [] {
+    return getConfiguration(EXPLICIT_ACTIVATION_LANGUAGES) as [];
 }
 export function disabledPatterns(): [] {
     return getConfiguration(DISABLED_PATTERNS) as [];

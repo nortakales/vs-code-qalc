@@ -20,8 +20,7 @@ import MathDocument from "./document";
 import { MathJsStatic, varianceTransformDependencies } from 'mathjs';
 import { create } from "./math";
 import { format } from "./formatter";
-import { alignResults, convertLocalCurrency, decimalSeparator, digitGroupingSymbol, disabledPatterns, enabledLanguages, getComputedResultsDelimiter, localCurrencyCode, localCurrencySymbol, lowerExponentBound, maxAlignmentColumn, notation, precision, resultsColor, resultsDelimiter, trimTrailingZeros, upperExponentBound } from "./settings";
-import math = require("mathjs");
+import { alignResults, convertLocalCurrency, decimalSeparator, digitGroupingSymbol, disabledPatterns, enabledLanguages, explicitActivationLanguages, getComputedResultsDelimiter, localCurrencyCode, localCurrencySymbol, lowerExponentBound, maxAlignmentColumn, notation, precision, resultsColor, resultsDelimiter, trimTrailingZeros, upperExponentBound } from "./settings";
 import { createFullDocumentRange } from "./utils";
 
 export default class EditorDecorator implements Disposable {
@@ -37,6 +36,7 @@ export default class EditorDecorator implements Disposable {
     private alignResults!: boolean;
     private maxAlignmentColumn!: number;
     private enabledLanguages!: DocumentSelector;
+    private explicitActivationLanguages!: DocumentSelector;
     private disabledPatterns!: string[];
     private formatterSettings!: FormatterSettings;
 
@@ -79,7 +79,6 @@ export default class EditorDecorator implements Disposable {
 
         // Listen for configuration changes and update visible editors if so
         this.disposables.push(workspace.onDidChangeConfiguration(event => {
-
             this.computeSettings();
             this.renderAll();
         }));
@@ -94,6 +93,7 @@ export default class EditorDecorator implements Disposable {
         this.alignResults = alignResults();
         this.maxAlignmentColumn = maxAlignmentColumn();
         this.enabledLanguages = enabledLanguages();
+        this.explicitActivationLanguages = explicitActivationLanguages();
         this.disabledPatterns = disabledPatterns();
 
         const color = resultsColor();
@@ -152,7 +152,9 @@ export default class EditorDecorator implements Disposable {
                 mathDocument.clearCache();
             }
 
-            mathDocument.evaluate();
+            const qalcEnabledAtStart = !this.isExplicitActivation(editor.document);
+
+            mathDocument.evaluate(qalcEnabledAtStart);
 
             mathDocument.results.forEach((value, lineNumber) => {
                 decorationsArray.push({
@@ -206,6 +208,10 @@ export default class EditorDecorator implements Disposable {
         const disabledPatternsFilter: DocumentFilter[] = this.disabledPatterns.map(disabledPattern => { return { pattern: disabledPattern }; });
         // Must NOT match a disabled pattern, and must match an enabled language
         return languages.match(disabledPatternsFilter, document) <= 0 && languages.match(this.enabledLanguages, document) > 0;
+    }
+
+    private isExplicitActivation(document: TextDocument): boolean {
+        return languages.match(this.explicitActivationLanguages, document) > 0;
     }
 
     copyToClipboard(resultOnly: boolean, includeDelimiter: boolean) {

@@ -3,7 +3,7 @@ import { TextDocument } from 'vscode';
 import { allKeywords } from './constants';
 import { format } from './formatter';
 import { defaultScope } from './math';
-import { convertLocalCurrency, decimalSeparator, digitGroupingSymbol, globalDeclarations, localCurrencyCode, localCurrencySymbol, lowerExponentBound, notation, precision, temperatureShortcut, trimTrailingZeros, upperExponentBound } from './settings';
+import { explicitActivationLanguages, convertLocalCurrency, decimalSeparator, digitGroupingSymbol, globalDeclarations, localCurrencyCode, localCurrencySymbol, lowerExponentBound, notation, precision, temperatureShortcut, trimTrailingZeros, upperExponentBound } from './settings';
 import { transform } from './transformer';
 import math = require('mathjs');
 
@@ -55,13 +55,13 @@ export default class MathDocument {
     /**
      * Re-evaluate any math expressions in the document.
      */
-    evaluate() {
+    evaluate(enabledAtStart: boolean) {
         this.results.clear();
         let scope = defaultScope();
         this.updateTransformerSettings();
         this.updateFormatterSettings();
         this.widestLine = 0;
-        let qalcEnabled = true;
+        let qalcEnabled = enabledAtStart;
 
         // TODO: These global declarations are evaluated every time the document is evaluated.
         //      This is not ideal because of performance
@@ -71,48 +71,52 @@ export default class MathDocument {
         for (let lineNumber = 0; lineNumber < this.document.lineCount; lineNumber++) {
             const line = this.document.lineAt(lineNumber);
 
-            if (!line.isEmptyOrWhitespace) {
-                const trimmed = line.text.trim();
+            if (line.isEmptyOrWhitespace) {
+                continue;
+            }
 
-                if (trimmed.replace(/ /g, '') === '//qalc:off') {
-                    qalcEnabled = false;
-                    continue;
-                } else if (trimmed.replace(/ /g, '') === '//qalc:on') {
-                    qalcEnabled = true;
-                    continue;
-                }
-                if (!qalcEnabled) {
-                    continue;
-                }
+            const trimmed = line.text.trim();
 
-                if (line.text.length > this.widestLine && this.isNotCommentOrHeaderOnly(line.text)) {
-                    this.widestLine = line.text.length;
-                }
-                const errorMessage = this.checkForError(trimmed);
-                if (errorMessage) {
-                    this.results.set(lineNumber, errorMessage);
-                    continue;
-                }
-                const aggregated = this.aggregate(trimmed, lineNumber);
+            if (qalcEnabled && trimmed.replace(/ /g, '') === '//qalc:off') {
+                qalcEnabled = false;
+                continue;
+            } else if (!qalcEnabled && trimmed.replace(/ /g, '') === '//qalc:on') {
+                qalcEnabled = true;
+                continue;
+            }
 
-                const transformed = transform(aggregated, this.transformerSettings);
+            if (!qalcEnabled) {
+                continue;
+            }
 
-                const compiled = this.compile(transformed);
+            if (line.text.length > this.widestLine && this.isNotCommentOrHeaderOnly(line.text)) {
+                this.widestLine = line.text.length;
+            }
+            const errorMessage = this.checkForError(trimmed);
+            if (errorMessage) {
+                this.results.set(lineNumber, errorMessage);
+                continue;
+            }
+            const aggregated = this.aggregate(trimmed, lineNumber);
 
-                if (compiled) {
-                    try {
-                        const result = compiled.evaluate(scope);
-                        scope["last"] = result;
+            const transformed = transform(aggregated, this.transformerSettings);
 
-                        // Only display value results.
-                        if (typeof result !== "function" && typeof result !== "undefined") {
-                            this.results.set(lineNumber, result);
-                        }
-                    } catch (error) {
-                        // console.log(error);
+            const compiled = this.compile(transformed);
+
+            if (compiled) {
+                try {
+                    const result = compiled.evaluate(scope);
+                    scope["last"] = result;
+
+                    // Only display value results.
+                    if (typeof result !== "function" && typeof result !== "undefined") {
+                        this.results.set(lineNumber, result);
                     }
+                } catch (error) {
+                    // console.log(error);
                 }
             }
+
         }
     }
 

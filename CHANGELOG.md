@@ -1,5 +1,14 @@
 # Change Log
 
+
+## 0.4 - 2024-03-24
+
+- Addresses [#35](https://github.com/nortakales/vs-code-qalc/issues/35)
+  - Adds a new option (`qalc.explicitActivationLanguages`) to have Qalc processing off by default for a language, but to be able to turn it on at will using `//qalc:on`
+- Default cache TTL for exchange rates is now 4 weeks instead of 2.
+  - The Qalc extension is getting enough usage now that the exchange rate API monthly quota is being exceeded within 2 weeks.
+  - Reminder: you can get your own API key and have a daily cache instead
+
 ## 0.3 - 2024-02-12
 
 - Addresses [#11](https://github.com/nortakales/vs-code-qalc/issues/11)

@@ -1,6 +1,6 @@
 # Development
 
-* Make sure to use the latest lts of node via `nvm use --lts` or set it to default via `nvm alias default lts/hydrogen` (adjust version from `nvm ls`)
+* Make sure to use the latest lts of node via `nvm use --lts` or set it to default via `nvm alias default lts/*` (adjust version from `nvm ls`)
 * VSCode should automatically run `npm run watch` while developing
 * Run tests manually: `npm run test`
 
@@ -36,11 +36,11 @@
 * [ ] more stuff from numi: https://github.com/nikolaeu/numi/wiki/Documentation
 * [x] this could actually benefit from tests...
 * [x] Copy to clipboard command (just text? text but insert =? html? html table?)
-* [ ] Sort by output (should work within header sections? within empty lines?)
+* [ ] Sort by output (should work within header sections? within empty line border?)
 * [x] upgrade mathjs version to latest, but have unit tests first - gets binary support
 * [x] base (binary, hex) conversion
 * [x] "time"
-* [ ] time in <city>
+* [ ] time in \<city>
 * [ ] "next friday"
 * [x] support for "ago"
 * [x] Seems to be a bug if a document has 1 USD in it, when it loads, it caches a wrong result before currencies load?
@@ -60,5 +60,10 @@
 * [x] decoration explanation to accompany syntax highlighting for reassigning builtins
 * [ ] Enable "yesterday 11pm"
 * [ ] Decide on better file extension
-* [ ] Fix math API
-* [ ] Allow things like $4 + 4 or 5ft * 3
+* [ ] Fix math API TODO what was this for...?
+* [ ] Allow things like $4 + 4 (works for other units but not currency)
+* [ ] Enable more comment types similar to //qalc:on to fit other language styles
+  * HTML format
+  * Markdown ```qalc format
+  * etc
+* [ ] Enable processing calculations within the comments of other languages (e.g. within Javadoc)
