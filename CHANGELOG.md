@@ -1,5 +1,8 @@
 # Change Log
 
+## 0.4.1 - 2024-09-06
+
+- Fixes [#39](https://github.com/nortakales/vs-code-qalc/issues/39) - hex literals containing "c" and "f" were sometimes not evaluating if `qalc.shortcuts.temperature` was turned on
 
 ## 0.4 - 2024-03-24
 

@@ -99,9 +99,9 @@ export function transform(text: string, transformerSettings: TransformerSettings
             text = text.replace(/(?<=[\s\d\.\/])o([FC])(?![A-Za-z])/g, "deg$1");
         }
         // Replace f or c with degF or degC
-        if (/(?<=[\s\d\.\/])([fc])(?![A-Za-z])/.test(text)) {
-            text = text.replace(/(?<=[\s\d\.\/])f(?![A-Za-z])/g, "degF");
-            text = text.replace(/(?<=[\s\d\.\/])c(?![A-Za-z])/g, "degC");
+        if (/(?<!0x)[\s\d]+([fc])\b/.test(text)) {
+            text = text.replace(/(?<!0x)([\s\d]+)f\b/g, "$1degF");
+            text = text.replace(/(?<!0x)([\s\d]+)c\b/g, "$1degC");
         }
     }
 
