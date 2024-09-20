@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.4.2 - 2024-09-20
+
+- Fixes [#40](https://github.com/nortakales/vs-code-qalc/issues/40) - could not use text containing aggregation functions (e.g. "averageThings") as variable names
+- Added `mean` as a multi-line aggregation (alternative to `mean(1, 2, 3, etc)`)
+
 ## 0.4.1 - 2024-09-06
 
 - Fixes [#39](https://github.com/nortakales/vs-code-qalc/issues/39) - hex literals containing "c" and "f" were sometimes not evaluating if `qalc.shortcuts.temperature` was turned on

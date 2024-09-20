@@ -168,8 +168,9 @@ export default class MathDocument {
         this.compileCache.clear();
     }
 
-    private aggregationFunctionRegex = new RegExp("\\b(sum|total|avg|average)(?!\\()");
-    private averageFunctionRegex = new RegExp("\\b(avg|average)(?!\\()");
+    private aggregationFunctionRegex = new RegExp("\\b(sum|total|avg|average|mean)\\b(?!\\()");
+    // TODO avg(...) and average(...) are not actually supported, need to make those work like mean(...)
+    private averageFunctionRegex = new RegExp("\\b(avg|average|mean)\\b(?!\\()");
 
     private aggregate(line: string, lineNumber: number): string {
         line = line.trim();

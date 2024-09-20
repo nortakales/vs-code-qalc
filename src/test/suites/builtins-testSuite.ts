@@ -52,6 +52,10 @@ export const suite: TestSuite = {
         "combinations(10, 1)": "10",
         "permutations(10)": "3,628,800",
         "isPrime(7)": "true",
-        "sum(1,2,3)": "6"
+        "sum(1,2,3)": "6",
+        "mean(1,2,3)": "2",
+        "averageThings = 5": "5",
+        "sumThings = 5": "5",
+        "meanThings = 5": "5"
     }
 };
