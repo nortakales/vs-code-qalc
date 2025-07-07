@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.4.3 - 2025-07-06
+
+- Fixes [#44](https://github.com/nortakales/vs-code-qalc/issues/44) - could not use logical equals with constants
+
 ## 0.4.2 - 2024-09-20
 
 - Fixes [#40](https://github.com/nortakales/vs-code-qalc/issues/40) - could not use text containing aggregation functions (e.g. "averageThings") as variable names

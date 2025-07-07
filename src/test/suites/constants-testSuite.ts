@@ -14,5 +14,7 @@ export const suite: TestSuite = {
         "-1e309": "-Infinity",
         "Infinity": "Infinity",
         "-Infinity": "-Infinity",
+        "3 == e": "false",
+        "e == 3": "false",
     }
 };

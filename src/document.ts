@@ -20,7 +20,7 @@ export default class MathDocument {
     // Expression compiler cache.
     private compileCache = new Map<string, math.EvalFunction>();
 
-    private reassignErrorRegex = new RegExp("^\\s*((" + allKeywords + ")s?)\\s*=");
+    private reassignErrorRegex = new RegExp("^\\s*((" + allKeywords + ")s?)\\s*=[^=]");
 
     constructor(document: TextDocument, private math: MathJsStatic) {
         this.document = document;
@@ -155,7 +155,7 @@ export default class MathDocument {
     private checkForError(line: string): string | null {
 
         // Check for assignment before running more expensive regex
-        if (/^\s*\w+\s*=/.test(line)) {
+        if (/^\s*\w+\s*=[^=]/.test(line)) {
             if (this.reassignErrorRegex.test(line)) {
                 return "Cannot reassign unit or keyword: " + line.match(this.reassignErrorRegex)![1];
             }
