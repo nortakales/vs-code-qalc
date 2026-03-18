@@ -1,7 +1,7 @@
 # Development
 
 * Make sure to use the latest lts of node via `nvm use --lts` or set it to default via `nvm alias default lts/*` (adjust version from `nvm ls`)
-* VSCode should automatically run `npm run watch` while developing
+* VSCode should automatically run `npm run bundle:watch` while developing (bundles via esbuild); run `npm run watch` separately if you need tsc output for tests
 * Run tests manually: `npm run test`
 
 # Publishing
