@@ -26,6 +26,7 @@ import { createFullDocumentRange } from "./utils";
 export default class EditorDecorator implements Disposable {
 
     private documents = new Map<Uri, MathDocument>();
+    private debounceTimers = new Map<Uri, ReturnType<typeof setTimeout>>();
     private disposables: Disposable[] = [];
     private math: MathJsStatic;
     private gap: number = 2;
@@ -64,12 +65,20 @@ export default class EditorDecorator implements Disposable {
                 return;
             }
 
-            // Find all editors for this document and re-render their math.
-            window.visibleTextEditors.forEach(editor => {
-                if (editor.document.uri === event.document.uri) {
-                    this.renderEditor(editor);
-                }
-            });
+            const uri = event.document.uri;
+            const existing = this.debounceTimers.get(uri);
+            if (existing) {
+                clearTimeout(existing);
+            }
+            this.debounceTimers.set(uri, setTimeout(() => {
+                this.debounceTimers.delete(uri);
+                // Find all editors for this document and re-render their math.
+                window.visibleTextEditors.forEach(editor => {
+                    if (editor.document.uri === uri) {
+                        this.renderEditor(editor);
+                    }
+                });
+            }, 500));
         }));
 
         // Cleanup our math document data when a text document is closed.
@@ -190,6 +199,8 @@ export default class EditorDecorator implements Disposable {
     }
 
     dispose() {
+        this.debounceTimers.forEach(timer => clearTimeout(timer));
+        this.debounceTimers.clear();
         this.disposables.forEach(d => d.dispose());
     }
 

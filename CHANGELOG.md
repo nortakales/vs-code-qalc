@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.5.0 - 2026-03-17
+
+- Bundle with esbuild for smaller extension and faster load time
+- Add 500ms debouncing to improve CPU performance
+
 ## 0.4.3 - 2025-07-06
 
 - Fixes [#44](https://github.com/nortakales/vs-code-qalc/issues/44) - could not use logical equals with constants

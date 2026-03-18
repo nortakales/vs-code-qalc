@@ -6,14 +6,11 @@ _Generated: 2026-03-16_
 **1. No debouncing on keystrokes** (`decorator.ts:61-73`)
 Every character typed triggers a full document re-render — all regex operations, compilation, and math evaluation for every line. A simple 300ms debounce would drastically reduce CPU usage.
 
-**2. Entire `mathjs.all` bundled** (`math.ts:10`)
-```typescript
-const math = mathjs.create(mathjs.all, {})
-```
-This pulls in matrices, complex numbers, symbolic algebra — none of which are used. Using only the needed factories could cut bundle size by 50-70% (currently ~3.4MB).
+**2. ~~Entire `mathjs.all` bundled~~** *(retracted)*
+`mathjs.all` is actually required — math expressions are evaluated dynamically from user input, so any mathjs function could be invoked at runtime. Restricting to a subset of factories would be a deliberate feature cut, not a transparent optimization.
 
-**3. Tree shaking not enabled** (`esbuild.js`)
-No `treeShaking: true` in build options, so dead code isn't eliminated.
+**3. ~~Tree shaking not enabled~~** *(retracted)*
+esbuild tree shakes by default but CJS format (required by VS Code extensions) limits its effectiveness. Since the dominant bundle cost is mathjs — which can't be tree-shaken due to dynamic user input evaluation — this isn't a meaningful lever.
 
 ---
 
