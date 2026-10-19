@@ -77,6 +77,35 @@
                 "category": "Qalc"
             }
         ],
+        "submenus": [
+            {
+                "id": "qalc.editorContext",
+                "label": "Qalc"
+            }
+        ],
+        "menus": {
+            "editor/context": [
+                {
+                    "submenu": "qalc.editorContext",
+                    "group": "9_cutcopypaste@10",
+                    "when": "qalc.enabled"
+                }
+            ],
+            "qalc.editorContext": [
+                {
+                    "command": "qalc.copy.withDelimiter",
+                    "group": "1_copy@1"
+                },
+                {
+                    "command": "qalc.copy.withoutDelimiter",
+                    "group": "1_copy@2"
+                },
+                {
+                    "command": "qalc.copy.resultOnly",
+                    "group": "1_copy@3"
+                }
+            ]
+        },
         "configuration": {
             "title": "Qalc",
             "properties": {
@@ -168,6 +197,12 @@
                     "maximum": 100,
                     "description": "Exponent determining the upper boundary for formatting output with an exponent (e.g. setting this to 2 will format 100 as 1e+2)."
                 },
+                "qalc.output.dateLocale": {
+                    "title": "Date Locale",
+                    "type": "string",
+                    "default": "",
+                    "description": "Locale used to display dates, as a BCP 47 language tag. For example, \"en-GB\" or \"en-AU\" display day/month/year (30/01/2021), \"en-US\" displays month/day/year (1/30/2021), and \"sv-SE\" displays year-month-day (2021-01-30). Leave empty to use the default locale. Dates you type are still read as month/day/year."
+                },
                 "qalc.currency.convertLocal": {
                     "title": "Convert Local Currency",
                     "type": "boolean",
@@ -191,7 +226,7 @@
                 "qalc.currency.apiKey": {
                     "title": "Currency API Key",
                     "type": "string",
-                    "description": "Qalc calls an API for exchange rates that is limited to 1000 calls per month across all Qalc users. If you absolutely require exchange rates and do not want to take a chance that these 1000 calls will run out in a given month, you can get a free API key from openexchangerates.org, and use that key here. Doing so will also refresh your exchanges rates once per day, rather than the default of every 2 weeks."
+                    "description": "Qalc calls an API for exchange rates that is limited to 1000 calls per month across all Qalc users. If you absolutely require exchange rates and do not want to take a chance that these 1000 calls will run out in a given month, you can get a free API key from openexchangerates.org, and use that key here. Doing so will also refresh your exchanges rates once per day, rather than the default of every 4 weeks."
                 },
                 "qalc.shortcuts.temperature": {
                     "title": "Temperature Shortcut",
@@ -245,6 +280,46 @@
                         "type": "string"
                     },
                     "description": "These are declarations that will be available globally to all Qalc files. They are evaluated at the beginning of a file. For example, if you want to make the \"hypotenuse\" function available to all Qalc files, you would add \"hypotenuse(x,y) = sqrt(x^2 + y^2),\" to this list. Defaults to []."
+                },
+                "qalc.customUnits": {
+                    "title": "Custom Units",
+                    "type": "object",
+                    "default": {},
+                    "additionalProperties": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "definition": {
+                                        "type": "string",
+                                        "description": "Definition of the unit in terms of existing units, e.g. \"0.0625 poundforce\"."
+                                    },
+                                    "aliases": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "description": "Other names for the unit, e.g. [\"ozf\"]."
+                                    },
+                                    "prefixes": {
+                                        "type": "string",
+                                        "description": "Which prefixes the unit accepts, e.g. \"short\" (km), \"long\" (kilometer), or \"none\"."
+                                    },
+                                    "offset": {
+                                        "type": "number",
+                                        "description": "Offset to add when converting to the base unit, like temperatures."
+                                    }
+                                },
+                                "required": [
+                                    "definition"
+                                ]
+                            }
+                        ]
+                    },
+                    "description": "Units to add to (or override in) Qalc, keyed by unit name. The value is either a definition string or an object with a definition and optional aliases, prefixes and offset. For example: {\"smoot\": \"67 inch\", \"ounceforce\": {\"definition\": \"0.0625 poundforce\", \"aliases\": [\"ozf\"]}}. See https://mathjs.org/docs/datatypes/units.html#user-defined-units for details. Removing a unit takes effect after reloading the window."
                 }
             }
         }

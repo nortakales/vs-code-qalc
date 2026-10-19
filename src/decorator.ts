@@ -15,12 +15,13 @@ import {
     env,
     DocumentFilter,
     Range,
+    commands,
 } from "vscode";
 import MathDocument from "./document";
 import { MathJsStatic } from 'mathjs';
-import { create } from "./math";
+import { applyCustomUnits, create } from "./math";
 import { format } from "./formatter";
-import { alignResults, convertLocalCurrency, decimalSeparator, digitGroupingSymbol, disabledPatterns, enabledLanguages, explicitActivationLanguages, getComputedResultsDelimiter, localCurrencyCode, localCurrencySymbol, lowerExponentBound, maxAlignmentColumn, notation, precision, resultsColor, resultsDelimiter, trimTrailingZeros, upperExponentBound } from "./settings";
+import { alignResults, convertLocalCurrency, CUSTOM_UNITS, customUnits, dateLocale, decimalSeparator, digitGroupingSymbol, disabledPatterns, enabledLanguages, explicitActivationLanguages, getComputedResultsDelimiter, localCurrencyCode, localCurrencySymbol, lowerExponentBound, maxAlignmentColumn, notation, precision, resultsColor, resultsDelimiter, trimTrailingZeros, upperExponentBound } from "./settings";
 import { createFullDocumentRange } from "./utils";
 
 export default class EditorDecorator implements Disposable {
@@ -30,6 +31,7 @@ export default class EditorDecorator implements Disposable {
     private disposables: Disposable[] = [];
     private math: MathJsStatic;
     private gap: number = 2;
+    private enabledContext: boolean | undefined;
 
     // Settings
     private decorationType!: TextEditorDecorationType;
@@ -44,12 +46,22 @@ export default class EditorDecorator implements Disposable {
     constructor(private ctx: ExtensionContext) {
         this.computeSettings();
 
-        this.math = create(ctx, () => this.renderAll(true));
+        this.math = create(ctx, () => {
+            // Retry custom units now that currencies exist, in case any are defined in terms of them
+            this.loadCustomUnits(true);
+            this.renderAll(true);
+        });
+        this.loadCustomUnits(false);
 
         // Handle editors being created and disposed, which we might be
         // interested in.
         this.disposables.push(window.onDidChangeVisibleTextEditors(() => {
             this.renderAll();
+        }));
+
+        // Keep the context key used by the editor context menu in sync with the active editor
+        this.disposables.push(window.onDidChangeActiveTextEditor(() => {
+            this.updateEnabledContext();
         }));
 
         // An editor's language could change, so re-evaluate an editor when that
@@ -92,7 +104,13 @@ export default class EditorDecorator implements Disposable {
                 return;
             }
             this.computeSettings();
-            this.renderAll();
+
+            // Previously compiled expressions may reference units that didn't exist yet
+            const unitsChanged = event.affectsConfiguration(CUSTOM_UNITS);
+            if (unitsChanged) {
+                this.loadCustomUnits(true);
+            }
+            this.renderAll(unitsChanged);
         }));
 
         // Do a first-pass on initial load.
@@ -139,7 +157,8 @@ export default class EditorDecorator implements Disposable {
             trimTrailingZeros: trimTrailingZeros(),
             convertLocalCurrency: convertLocalCurrency(),
             localCurrencyCode: localCurrencyCode(),
-            localCurrencySymbol: localCurrencySymbol()
+            localCurrencySymbol: localCurrencySymbol(),
+            dateLocale: dateLocale()
         };
     }
 
@@ -148,6 +167,32 @@ export default class EditorDecorator implements Disposable {
      */
     renderAll(clearCache?: boolean) {
         window.visibleTextEditors.forEach(editor => this.renderEditor(editor, clearCache));
+        this.updateEnabledContext();
+    }
+
+    /**
+     * Create the units from the "qalc.customUnits" setting.
+     *
+     * Note: removing a unit from the setting only takes effect after a reload, since math.js
+     * caches unit lookups and has no reliable way to delete a unit.
+     */
+    private loadCustomUnits(showErrors: boolean) {
+        const errors = applyCustomUnits(this.math, customUnits());
+        if (showErrors && errors.length > 0) {
+            window.showWarningMessage(`Qalc: could not load custom units from "${CUSTOM_UNITS}". ${errors.join(" ")}`);
+        }
+    }
+
+    /**
+     * Set the "qalc.enabled" context key, which controls when Qalc entries show in the editor context menu.
+     */
+    private updateEnabledContext() {
+        const editor = window.activeTextEditor;
+        const enabled = editor !== undefined && this.isMathEnabled(editor.document);
+        if (enabled !== this.enabledContext) {
+            this.enabledContext = enabled;
+            commands.executeCommand("setContext", "qalc.enabled", enabled);
+        }
     }
 
     /**

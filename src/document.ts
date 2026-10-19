@@ -1,9 +1,8 @@
 import { MathJsStatic } from 'mathjs';
 import { TextDocument } from 'vscode';
 import { allKeywords } from './constants';
-import { format } from './formatter';
 import { defaultScope } from './math';
-import { explicitActivationLanguages, convertLocalCurrency, decimalSeparator, digitGroupingSymbol, globalDeclarations, localCurrencyCode, localCurrencySymbol, lowerExponentBound, notation, precision, temperatureShortcut, trimTrailingZeros, upperExponentBound } from './settings';
+import { explicitActivationLanguages, convertLocalCurrency, dateLocale, decimalSeparator, digitGroupingSymbol, globalDeclarations, localCurrencyCode, localCurrencySymbol, lowerExponentBound, notation, precision, temperatureShortcut, trimTrailingZeros, upperExponentBound } from './settings';
 import { transform } from './transformer';
 import math = require('mathjs');
 
@@ -48,7 +47,8 @@ export default class MathDocument {
             trimTrailingZeros: trimTrailingZeros(),
             convertLocalCurrency: convertLocalCurrency(),
             localCurrencyCode: localCurrencyCode(),
-            localCurrencySymbol: localCurrencySymbol()
+            localCurrencySymbol: localCurrencySymbol(),
+            dateLocale: dateLocale()
         };
     }
 
@@ -97,7 +97,7 @@ export default class MathDocument {
                 this.results.set(lineNumber, errorMessage);
                 continue;
             }
-            const aggregated = this.aggregate(trimmed, lineNumber);
+            const aggregated = this.aggregate(trimmed, lineNumber, scope);
 
             const transformed = transform(aggregated, this.transformerSettings);
 
@@ -172,35 +172,52 @@ export default class MathDocument {
     // TODO avg(...) and average(...) are not actually supported, need to make those work like mean(...)
     private averageFunctionRegex = new RegExp("\\b(avg|average|mean)\\b(?!\\()");
 
-    private aggregate(line: string, lineNumber: number): string {
+    // Scope variable that holds the aggregated value for the line being evaluated
+    private static readonly aggregateVariable = "__qalcAggregate";
+
+    /**
+     * Replace an aggregation keyword with a variable holding the sum/average of the results above it.
+     *
+     * The values are combined directly rather than building a "a + b + c..." expression, which
+     * overflows the stack in math.js after a couple thousand lines and loses precision to formatting.
+     */
+    private aggregate(line: string, lineNumber: number, scope: any): string {
         line = line.trim();
 
         if (this.aggregationFunctionRegex.test(line)) {
 
-            const settingsClone = Object.assign({}, this.formatterSettings);
-            settingsClone.digitGroupingSymbol = '';
-            settingsClone.decimalSeparator = '.';
-
-            let aggregate = "";
+            let aggregate: any = undefined;
             let datapoints = 0;
-            for (let currentLine = lineNumber - 1; currentLine >= 0; currentLine--) {
-                let result = this.results.get(currentLine);
-                if ((result === undefined || result === null || this.aggregationFunctionRegex.test(this.document.lineAt(currentLine).text.trim()))) {
-                    if (datapoints > 0) {
-                        break;
-                    } else {
-                        continue;
+            try {
+                for (let currentLine = lineNumber - 1; currentLine >= 0; currentLine--) {
+                    let result = this.results.get(currentLine);
+                    if ((result === undefined || result === null || this.aggregationFunctionRegex.test(this.document.lineAt(currentLine).text.trim()))) {
+                        if (datapoints > 0) {
+                            break;
+                        } else {
+                            continue;
+                        }
                     }
+                    datapoints++;
+                    aggregate = aggregate === undefined ? result : this.math.add(aggregate, result);
                 }
-                datapoints++;
-                aggregate += " + " + format(this.math, result, settingsClone);
+
+                if (datapoints > 0 && this.averageFunctionRegex.test(line)) {
+                    aggregate = this.math.divide(aggregate, datapoints);
+                }
+            } catch (error) {
+                // Values that can't be combined (e.g. numbers and units) give no result, same as any bad expression
+                aggregate = undefined;
             }
 
-            if (this.averageFunctionRegex.test(line)) {
-                aggregate = "(" + aggregate + ") / " + datapoints;
+            // Leave the variable undefined if there was nothing to aggregate, so the line shows no result
+            if (aggregate === undefined) {
+                delete scope[MathDocument.aggregateVariable];
+            } else {
+                scope[MathDocument.aggregateVariable] = aggregate;
             }
 
-            return line.replace(this.aggregationFunctionRegex, "(" + aggregate + ")");
+            return line.replace(this.aggregationFunctionRegex, MathDocument.aggregateVariable);
         }
         return line;
     }

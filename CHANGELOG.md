@@ -1,5 +1,23 @@
 # Change Log
 
+## Unreleased
+
+- Fixes [#36](https://github.com/nortakales/vs-code-qalc/issues/36) - `sum`, `total`, `avg`, `average` and `mean` stopped working at around 2,000 lines
+  - They now add up each line's full value instead of the rounded value that's displayed
+  - Lines that can't be added together, like dates, now give no result instead of a wrong one
+- Addresses [#43](https://github.com/nortakales/vs-code-qalc/issues/43) - new `qalc.customUnits` setting to add your own units or redefine existing ones. This also lets you change the pixels per inch and pixels per em.
+- Addresses [#42](https://github.com/nortakales/vs-code-qalc/issues/42) - the copy commands are now in the right-click menu, under Qalc
+- Addresses [#8](https://github.com/nortakales/vs-code-qalc/issues/8) - new `dms(degrees, minutes, seconds)` and `toDms(angle)` functions for angles in degrees, minutes and seconds
+- Addresses [#6](https://github.com/nortakales/vs-code-qalc/issues/6) - new `qalc.output.dateLocale` setting to change how dates are displayed, e.g. `en-GB` for day/month/year
+- Fixed `qalc.output.color` not working for hex colors that contain an 8 or 9
+- An invalid entry in `qalc.globalDeclarations` no longer stops the entries after it from loading
+- Copy commands no longer leave out results of `0` or `false`
+- `last` no longer picks up lines that define a function
+- `qalc.shortcuts.temperature` now defaults to `true` instead of the string `"true"`
+- Qalc no longer re-evaluates open files when unrelated settings change
+- Fixed the exchange rate quota notification, which said rates are cached for 14 days instead of 4 weeks
+- Updated dependencies (including axios 1.x) and removed unused ones
+
 ## 0.5.0 - 2026-03-17
 
 - Bundle with esbuild for smaller extension and faster load time

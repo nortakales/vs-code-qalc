@@ -2,7 +2,7 @@
 import * as vscode from 'vscode';
 
 const exchangeRatesLimitedMessage = 'Qalc has reached its quota for retrieving free exchange rates for this month.' +
-    ' If this is important to you, please use your own API key, which will also give you a TTL of 1 day instead of 14 days';
+    ' If this is important to you, please use your own API key, which will also give you a TTL of 1 day instead of 4 weeks';
 
 export function displayRateLimitedNotification(ctx: vscode.ExtensionContext) {
 

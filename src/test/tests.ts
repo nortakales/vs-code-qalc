@@ -1,6 +1,6 @@
 import math = require("mathjs");
 import colors = require('colors');
-import { create, defaultScope } from "../math";
+import { applyCustomUnits, create, defaultScope } from "../math";
 import { format } from "../formatter";
 import { transform } from "../transformer";
 import TestSuite from "./testSuite";
@@ -22,6 +22,9 @@ import { suite_dot_and_comma as format_dot_and_comma } from "./suites/formatOpti
 import { suite_dot_and_dot as format_dot_and_dot } from "./suites/formatOptions-testSuite";
 import { suite as temperature } from "./suites/temperature-testSuite";
 import { suite as specialComments } from "./suites/specialComments-testSuite";
+import { suite as dms } from "./suites/dms-testSuite";
+import { suite_en_GB as dateLocale_en_GB, suite_sv_SE as dateLocale_sv_SE, suite_invalid as dateLocale_invalid } from "./suites/dateLocale-testSuite";
+import { suite as customUnits } from "./suites/customUnits-testSuite";
 import { setTestsRunning } from "../global";
 
 const baseTransformerSettings: TransformerSettings = {
@@ -71,6 +74,12 @@ export function runTests() {
 		suites.push(format_dot_and_comma);
 		suites.push(format_dot_and_dot);
 		suites.push(temperature);
+		suites.push(dms);
+		suites.push(dateLocale_en_GB);
+		suites.push(dateLocale_sv_SE);
+		suites.push(dateLocale_invalid);
+		// Custom units change the shared math instance, so keep this last
+		suites.push(customUnits);
 		//suites.push(specialComments);
 
 
@@ -105,6 +114,13 @@ function runTestSuites(math: math.MathJsStatic, suites: TestSuite[]) {
 		console.log("--------------------------------------------------");
 		console.log("Running suite: " + suite.name);
 		console.log();
+
+		if (suite.customUnits) {
+			applyCustomUnits(math, suite.customUnits).forEach(error => {
+				success = false;
+				console.log(colors.red("[FAILED] custom unit: " + error));
+			});
+		}
 
 		let scope = defaultScope();
 

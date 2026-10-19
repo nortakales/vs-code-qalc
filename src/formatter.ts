@@ -8,10 +8,14 @@ const PLACEHOLDER = 'PH';
 export function format(math: math.MathJsStatic, value: any, formatterSettings: FormatterSettings): string {
 
     if (value instanceof Date) {
-        if (value.getHours() || value.getMinutes() || value.getSeconds() || value.getMilliseconds()) {
-            return value.toLocaleString();
+        const hasTime = value.getHours() || value.getMinutes() || value.getSeconds() || value.getMilliseconds();
+        const locale = formatterSettings.dateLocale || undefined;
+        try {
+            return hasTime ? value.toLocaleString(locale) : value.toLocaleDateString(locale);
+        } catch (error) {
+            // An invalid locale throws a RangeError, so fall back to the default locale
+            return hasTime ? value.toLocaleString() : value.toLocaleDateString();
         }
-        return value.toLocaleDateString();
     }
 
     let stringOutput = math.format(value, number => {

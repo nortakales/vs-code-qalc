@@ -13,7 +13,7 @@ const additionalConstants = "today|tomorrow|now|time|yesterday|sum|total|average
 
 const additionalKeywords = "in|to|last|off|of|mod|xor|or|ago";
 
-const additionalFunctions = "date|epoch|charToHex|hexToChar";
+const additionalFunctions = "date|epoch|charToHex|hexToChar|dms|toDms";
 
 export const allKeywords = [
     builtInUnits,

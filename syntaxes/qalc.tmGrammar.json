@@ -198,7 +198,7 @@
             "name": "support.function"
         },
         "reassignAdditionalFunctionsError": {
-            "match": "^\\s*(date|epoch|hexToChar|charToHex)s?\\s*=.*",
+            "match": "^\\s*(date|epoch|hexToChar|charToHex|dms|toDms)s?\\s*=.*",
             "name": "support.function"
         }
     }

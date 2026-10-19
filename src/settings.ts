@@ -22,6 +22,7 @@ const LOWER_EXPONENT_BOUND = "qalc.output.lowerExponentBound";
 const UPPER_EXPONENT_BOUND = "qalc.output.upperExponentBound";
 const PRECISION = "qalc.output.precision";
 const NOTATION = "qalc.output.notation";
+const DATE_LOCALE = "qalc.output.dateLocale";
 
 const CONVERT_LOCAL_CURRENCY = "qalc.currency.convertLocal";
 const LOCAL_CURRENCY_SYMBOL = "qalc.currency.localSymbol";
@@ -31,6 +32,7 @@ const CURRENCY_API_KEY = "qalc.currency.apiKey";
 const TEMPERATURE_SHORTCUT = "qalc.shortcuts.temperature";
 
 const GLOBAL_DECLARATIONS = "qalc.globalDeclarations";
+export const CUSTOM_UNITS = "qalc.customUnits";
 
 function getConfiguration(key: string) {
     return vscode.workspace.getConfiguration().get(key);
@@ -97,6 +99,10 @@ export function notation(): "fixed" | "exponential" | "engineering" | "auto" {
     return (getConfiguration(NOTATION) as "fixed" | "exponential" | "engineering" | "auto") || 'auto';
 }
 
+export function dateLocale(): string {
+    return getConfiguration(DATE_LOCALE) as string;
+}
+
 export function lowerExponentBound(): number {
     return getConfiguration(LOWER_EXPONENT_BOUND) as number;
 }
@@ -124,4 +130,8 @@ export function temperatureShortcut(): boolean {
 
 export function globalDeclarations(): string[] {
     return getConfiguration(GLOBAL_DECLARATIONS) as string[];
+}
+
+export function customUnits(): CustomUnits {
+    return getConfiguration(CUSTOM_UNITS) as CustomUnits;
 }

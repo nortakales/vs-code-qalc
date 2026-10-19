@@ -8,5 +8,6 @@ interface FormatterSettings {
     trimTrailingZeros: boolean,
     convertLocalCurrency: boolean,
     localCurrencySymbol: string,
-    localCurrencyCode: string
+    localCurrencyCode: string,
+    dateLocale?: string
 }

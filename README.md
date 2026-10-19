@@ -9,16 +9,12 @@ Qalc is an interactive calculator that turns any text document into a math proce
 
 # Features
 
-* At its core, Qalc is powered by [Math.js](https://mathjs.org/), so you have access to hundreds of built in mathemtical functions, constants, units and conversions
+* At its core, Qalc is powered by [Math.js](https://mathjs.org/), so you have access to hundreds of built in mathematical functions, constants, units and conversions
    * But, we've also built on top of Math.js to power things like percentages, currencies, date calculations, natural language, and aggregations
 * Qalc evaluates your text as you type it, displaying the result at the end of the line
 * Works in Plain Text, Markdown and Qalc files by default, but you can enable it in any type of file
 * Syntax highlighting when using the Qalc language mode
 * Completely configurable and customizable: colors, alignment, precision, formatting, and more
-
-# Announcements
-
-The exchange rates API I was using just restricted access to certain features unless you pay a subscription fee. For now I have added a free access key when calling the API, which means currency conversions will still work for now, but we no longer have https support, and are limited to 1000 calls per month, which I imagine will be exceeded at some point. I'll work on finding a new free API.
 
 # Release notes
 
@@ -42,13 +38,15 @@ This is just a subset of available functions, see [Math.js function documentatio
 
 ![](/resources/examples/aggregations.png)
 
-These are built on top of Math.js and are specific to Qalc. Are you looking for more types of aggregations? Let us know. 
+These are built on top of Math.js and are specific to Qalc. `sum` and `total` add up the results of the lines directly above, stopping at the first line without a result. `avg`, `average` and `mean` average the same lines. They use each line's full value, so a sum can differ slightly from adding up the rounded numbers you see. Are you looking for more types of aggregations? Let us know.
 
 ## Dates
 
 ![](/resources/examples/dates.png)
 
 Support for dates is built on top of Math.js and is specific to Qalc. Note that any of the relative date keywords, most importantly `time` and `now`, will update every time the document is re-evaluated (any time it changes or the window loads it again). If today is 3/1/2021, `today` will return `3/1/2021` but tomorrow if you load the document again it will return `3/2/2021`.
+
+Qalc displays dates in your default locale. To change that, set `qalc.output.dateLocale`, for example to `en-GB` for day/month/year. Dates you type are still read as month/day/year or year-month-day.
 
 ## Variables and Objects
 
@@ -76,18 +74,29 @@ See [Math.js units reference](https://mathjs.org/docs/datatypes/units.html#refer
 
 | Name                | Aliases           | Definition                | Note                                 |
 | ------------------- | ----------------- | ------------------------- | ------------------------------------ |
-| Pixels              | pixel, pixels, px | 1 inch = 96 px            | Eventually this will be configurable |
+| Pixels              | pixel, pixels, px | 1 inch = 96 px            | See [Pixels/Points/em](#pixelspointsem) |
 | Points              | point, points, pt | 1 px = 0.75 pt            |
-| Emphemeral Unit     | em                | 1 em = 16px               | Eventually this will be configurable |
+| Emphemeral Unit     | em                | 1 em = 16px               | See [Pixels/Points/em](#pixelspointsem) |
 | Currency            |                   |                           | See [currency](#currency) section    |
 | Miles per hour      | mph               | 1 miles/hour = 1 mph      |
 | Kilometers per hour | kph               | 1 kilometers/hour = 1 kph |
+
+You can add your own units (or redefine existing ones) with the `qalc.customUnits` setting. Each entry is either a definition, or an object with a definition and optional aliases:
+
+```json
+"qalc.customUnits": {
+    "smoot": "67 inch",
+    "ounceforce": { "definition": "0.0625 poundforce", "aliases": ["ozf"] }
+}
+```
+
+See [Math.js user-defined units](https://mathjs.org/docs/datatypes/units.html#user-defined-units) for all the options. New and changed units apply immediately, but removing a unit requires reloading the window.
 
 ## Currency
 
 ![](/resources/examples/currency.png)
 
-Currency data is retrieved from https://exchangeratesapi.io/ and cached for 7 days (eventually this will be configurable). Supported currencies are: `AUD, BGN, BRL, CAD, CHF, CNY, CZK, DKK, EUR, GBP, HKD, HRK, HUF, IDR, ILS, INR, ISK, JPY, KRW, MXN, MYR, NOK, NZD, PHP, PLN, RON, RUB, SEK, SGD, THB, TRY, USD, ZAR`
+Exchange rates for about 170 currencies come from https://openexchangerates.org/. Qalc's built in API key is shared by everyone using Qalc and limited to 1000 calls per month, so rates are cached for 4 weeks. With your own free API key in `qalc.currency.apiKey`, rates refresh once a day instead. When the shared quota runs out, Qalc shows a notification with a shortcut to that setting.
 
 ## Percents
 
@@ -123,7 +132,26 @@ The `last` keyword brings up the result of the previous line.
 
 ![](/resources/examples/pixels-points-em.png)
 
-These units are not native to Math.js, and for good reason: they are not well defined. Depending on the context, pixels to inches can vary drastically, most commonly in the 72-300 pixels per inch range. Emphemeral units (em) by definition are relative to their parent html element. We've chosen default ratios for converting these units currently, and soon we'll offer the ability to customize them.
+These units are not native to Math.js, and for good reason: they are not well defined. Depending on the context, pixels to inches can vary drastically, most commonly in the 72-300 pixels per inch range. Emphemeral units (em) by definition are relative to their parent html element. By default Qalc uses 96 px per inch, 16 px per em, and 1 px = 0.75 pt. You can change the pixel and em sizes with `qalc.customUnits`. For example, this gives 72 px per inch and 18 px per em:
+
+```json
+"qalc.customUnits": {
+    "pixel": { "definition": "0.0138888889 inch", "aliases": ["pixels", "px"] },
+    "em": "18 px"
+}
+```
+
+Redefine `pixel` together with its aliases as shown, or `px` and `pixels` will keep the old size. `em` is set from the pixel size when Qalc starts, so if you change `pixel`, redefine `em` too.
+
+## Degrees, Minutes, Seconds
+
+Use `dms(degrees, minutes, seconds)` to enter an angle in degrees, minutes and seconds, and `toDms(angle)` to display one that way. Minutes and seconds are optional. Like the trig functions, `toDms` treats a plain number as radians.
+
+```
+x = sin(dms(40, 11, 15))      0.65
+toDms(asin(x))                40° 11' 15"
+toDms(12.5 deg)               12° 30' 0"
+```
 
 ## Binary, Hex and Octal
 
@@ -160,15 +188,17 @@ Qalc offers a variety of settings that allow you to customize its behavior. Thes
 | Precision                     | `qalc.output.precision`            | `2`                                 | Set the precision of the output. In case of notations 'exponential', 'engineering', and 'auto', precision defines the total number of significant digits returned. In case of notation 'fixed', precision defines the number of significant digits after the decimal point. No precision is lost in calculations, only the final display. See https://mathjs.org/docs/reference/functions/format.html for further documentation. Note: When using 'auto' notation, you most likely want to set this to 0.               |
 | Lower Exponent Bound          | `qalc.output.lowerExponentBound`   | `-9`                                | Exponent determining the lower boundary for formatting output with an exponent (e.g. setting this to -2 will format 0.01 as 1e-2.                                                                                                                                                                                                                                                                                                                                                                                       |
 | Upper Exponent Bound          | `qalc.output.upperExponentBound`   | `16`                                | Exponent determining the upper boundary for formatting output with an exponent (e.g. setting this to 2 will format 100 as 1e+2).                                                                                                                                                                                                                                                                                                                                                                                        |
+| Date Locale                   | `qalc.output.dateLocale`           |                                     | Locale used to display dates, as a BCP 47 language tag. For example, \"en-GB\" or \"en-AU\" display day/month/year (30/01/2021), \"en-US\" displays month/day/year (1/30/2021), and \"sv-SE\" displays year-month-day (2021-01-30). Leave empty to use the default locale. Dates you type are still read as month/day/year. |
 | Convert Local Currency        | `qalc.currency.convertLocal`       | `true`                              | Turn this on to use your local currency symbol in both your input and output. Works with \"qalc.currency.localSymbol\" and \"qalc.currency.localCode\". For example, setting \"$\" and \"USD\" allows your input to contain \"$100\" which will be evaluated as the equivalent of \"100 USD\", and similarly will display in the output as \"$100\" instead of \"100 USD\".                                                                                                                                             |
 | Local Currency Symbol         | `qalc.currency.localSymbol`        | `$`                                 | Set your local currency symbol. See \"qalc.currency.convertLocal\" for how this is used\".                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | Local Currency Code           | `qalc.currency.localCode`          | `USD`                               | Set your local currency code. See \"qalc.currency.convertLocal\" for how this is used\".                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| Currency API Key              | `qalc.currency.apiKey`             |                                     | Qalc calls an API for exchange rates that is limited to 1000 calls per month across all Qalc users. If you absolutely require exchange rates and do not want to take a chance that these 1000 calls will run out in a given month, you can get a free API key from openexchangerates.org, and use that key here. Doing so will also refresh your exchanges rates once per day, rather than the default of every 2 weeks.                                                                                                |
+| Currency API Key              | `qalc.currency.apiKey`             |                                     | Qalc calls an API for exchange rates that is limited to 1000 calls per month across all Qalc users. If you absolutely require exchange rates and do not want to take a chance that these 1000 calls will run out in a given month, you can get a free API key from openexchangerates.org, and use that key here. Doing so will also refresh your exchanges rates once per day, rather than the default of every 4 weeks.                                                                                                |
 | Temperature Shortcut          | `qalc.shortcuts.temperature`       | `true`                              | When on, enables you to use oF, oC, f and c as substitutes for degF, degC, fahrenheit, and celsius.                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | Enabled Languages             | `qalc.enabledLanguages`            | `["qalc", "plaintext", "markdown"]` | Language identifiers for which to enable Qalc processing on. Keep in mind that Qalc will not examine partial matches, but only full lines. If your full line is not parseable, no output is displayed. For example, if you have a line in a JSON file like \"  'key': '1 + 1'  \", the \"1 + 1\" will not be evaluated because the full line is not parseable. Defaults to [\"qalc\", \"plaintext\", \"markdown\"].                                                                                                     |
 | Explicit Activation Languages | `qalc.explicitActivationLanguages` | `[]`                                | Language identifiers for which Qalc processing will be off by default but can be enabled using //qalc:on. This should be a subset of \"qalc.enabledLanguages\". In other words, you must first enable the language, and then you can set it to have explicit activation. If a language is enabled, but not marked for explicit activation, Qalc will start processing lines from the beginning. If a language is marked for explicit activation, but not enabled, Qalc will not process files for that language at all. |
-| Disabled Patterns             | `qalc.disabledPatterns`            | `**/README.md`                      | A list of glob patterns to disable Qalc processing on. These take precedence over \"qalc.enabledLanguages\", so if you have \"markdown\" enabled, but \"README.md\" disabled, you will not get processing on \"README.md\". This is generally useful for any files that might register as \"plaintext\" to VSCode, but you don't want Qalc to run on, like configuration files. Defaults to [\"**/README.md\"]].                                                                                                        |
+| Disabled Patterns             | `qalc.disabledPatterns`            | `**/README.md`                      | A list of glob patterns to disable Qalc processing on. These take precedence over \"qalc.enabledLanguages\", so if you have \"markdown\" enabled, but \"README.md\" disabled, you will not get processing on \"README.md\". This is generally useful for any files that might register as \"plaintext\" to VSCode, but you don't want Qalc to run on, like configuration files. Defaults to [\"**/README.md\"].                                                                                                        |
 | Global Declarations           | `qalc.globalDeclarations`          | `[]`                                | These are declarations that will be available globally to all Qalc files. They are evaluated at the beginning of a file. For example, if you want to make the \"hypotenuse\" function available to all Qalc files, you would add \"hypotenuse(x,y) = sqrt(x^2 + y^2),\" to this list. Defaults to [].                                                                                                                                                                                                                   |
+| Custom Units                  | `qalc.customUnits`                 | `{}`                                | Units to add to (or override in) Qalc, keyed by unit name. The value is either a definition string or an object with a definition and optional aliases, prefixes and offset. See [Units and Conversions](#units-and-conversions) for an example. |
 
 # Commands
 
@@ -179,6 +209,8 @@ Qalc adds some commands to VSCode:
 | Qalc: Copy With Result (with delimiter)    | `qalc.copy.withDelimiter`    | Copies the selected lines (if a selection exists) or the entire editor to the clipboard, including the output from Qalc *with* the delimiter (set via `qalc.output.delimiter`) |
 | Qalc: Copy With Result (without delimiter) | `qalc.copy.withoutDelimiter` | Same as `qalc.copy.withDelimiter`, but *without* the delimiter                                                                                                                 |
 | Qalc: Copy Result Only                     | `qalc.copy.resultOnly`       | Copies *only* the result of the current line (or lines, if you select many)                                                                                                    |
+
+These are also available by right-clicking in any file Qalc is processing, under the Qalc submenu.
 
 See these in action:
 
