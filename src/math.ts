@@ -1,7 +1,6 @@
 import * as mathjs from 'mathjs';
 import { getExchangeRates } from './currency';
 import { ExtensionContext } from 'vscode';
-import { format } from './formatter';
 
 /**
  * Create a customized math.js instance.

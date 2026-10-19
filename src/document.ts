@@ -106,10 +106,10 @@ export default class MathDocument {
             if (compiled) {
                 try {
                     const result = compiled.evaluate(scope);
-                    scope["last"] = result;
 
                     // Only display value results.
                     if (typeof result !== "function" && typeof result !== "undefined") {
+                        scope["last"] = result;
                         this.results.set(lineNumber, result);
                     }
                 } catch (error) {
@@ -132,7 +132,7 @@ export default class MathDocument {
             const trimmed = declaration.trim();
 
             if (!this.isNotCommentOrHeaderOnly(trimmed) || this.checkForError(trimmed)) {
-                return;
+                continue;
             }
 
             const transformed = transform(trimmed, this.transformerSettings);

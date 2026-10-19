@@ -1,5 +1,3 @@
-import { lowerExponentBound, precision, upperExponentBound } from "./settings";
-
 const PLACEHOLDER = 'PH';
 
 /**

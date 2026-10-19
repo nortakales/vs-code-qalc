@@ -17,7 +17,7 @@ import {
     Range,
 } from "vscode";
 import MathDocument from "./document";
-import { MathJsStatic, varianceTransformDependencies } from 'mathjs';
+import { MathJsStatic } from 'mathjs';
 import { create } from "./math";
 import { format } from "./formatter";
 import { alignResults, convertLocalCurrency, decimalSeparator, digitGroupingSymbol, disabledPatterns, enabledLanguages, explicitActivationLanguages, getComputedResultsDelimiter, localCurrencyCode, localCurrencySymbol, lowerExponentBound, maxAlignmentColumn, notation, precision, resultsColor, resultsDelimiter, trimTrailingZeros, upperExponentBound } from "./settings";
@@ -88,6 +88,9 @@ export default class EditorDecorator implements Disposable {
 
         // Listen for configuration changes and update visible editors if so
         this.disposables.push(workspace.onDidChangeConfiguration(event => {
+            if (!event.affectsConfiguration('qalc')) {
+                return;
+            }
             this.computeSettings();
             this.renderAll();
         }));
@@ -107,7 +110,7 @@ export default class EditorDecorator implements Disposable {
 
         const color = resultsColor();
         let colorProperty: ThemeColor | string;
-        if (/(#[A-Fa-f0-7]{6})|(rgb\(\d{1,3},\s*\d{1,3},\s*\d{1,3}\))/.test(color)) {
+        if (/(#[A-Fa-f0-9]{6})|(rgb\(\d{1,3},\s*\d{1,3},\s*\d{1,3}\))/.test(color)) {
             colorProperty = color;
         } else {
             colorProperty = new ThemeColor(color);
@@ -249,7 +252,7 @@ export default class EditorDecorator implements Disposable {
             if (!resultOnly) {
                 clipboard += editor.document.lineAt(line).text;
             }
-            if (mathDocument.results.get(line)) {
+            if (mathDocument.results.has(line)) {
                 let output = format(this.math, mathDocument.results.get(line), this.formatterSettings);
                 let margin = new Array(this.calculateMargin(mathDocument, line) + 1).join(' ');
                 if (!resultOnly) {
