@@ -10,3 +10,6 @@ vsc-extension-quickstart.md
 **/*.map
 **/*.ts
 esbuild.js
+CODE-REVIEW.md
+FEATURE-PLANS.md
+.claude/**

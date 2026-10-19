@@ -1,6 +1,6 @@
 # Change Log
 
-## Unreleased
+## 0.6.0 - 2026-10-18
 
 - Fixes [#36](https://github.com/nortakales/vs-code-qalc/issues/36) - `sum`, `total`, `avg`, `average` and `mean` stopped working at around 2,000 lines
   - They now add up each line's full value instead of the rounded value that's displayed
