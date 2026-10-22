@@ -9,5 +9,5 @@ interface FormatterSettings {
     convertLocalCurrency: boolean,
     localCurrencySymbol: string,
     localCurrencyCode: string,
-    dateLocale?: string
+    dateFormat?: DateFormat
 }

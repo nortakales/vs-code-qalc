@@ -22,7 +22,7 @@ const LOWER_EXPONENT_BOUND = "qalc.output.lowerExponentBound";
 const UPPER_EXPONENT_BOUND = "qalc.output.upperExponentBound";
 const PRECISION = "qalc.output.precision";
 const NOTATION = "qalc.output.notation";
-const DATE_LOCALE = "qalc.output.dateLocale";
+const DATE_FORMAT = "qalc.dateFormat";
 
 const CONVERT_LOCAL_CURRENCY = "qalc.currency.convertLocal";
 const LOCAL_CURRENCY_SYMBOL = "qalc.currency.localSymbol";
@@ -99,8 +99,8 @@ export function notation(): "fixed" | "exponential" | "engineering" | "auto" {
     return (getConfiguration(NOTATION) as "fixed" | "exponential" | "engineering" | "auto") || 'auto';
 }
 
-export function dateLocale(): string {
-    return getConfiguration(DATE_LOCALE) as string;
+export function dateFormat(): DateFormat {
+    return getConfiguration(DATE_FORMAT) as DateFormat;
 }
 
 export function lowerExponentBound(): number {

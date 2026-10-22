@@ -2,7 +2,7 @@ import { MathJsStatic } from 'mathjs';
 import { TextDocument } from 'vscode';
 import { allKeywords } from './constants';
 import { defaultScope } from './math';
-import { explicitActivationLanguages, convertLocalCurrency, dateLocale, decimalSeparator, digitGroupingSymbol, globalDeclarations, localCurrencyCode, localCurrencySymbol, lowerExponentBound, notation, precision, temperatureShortcut, trimTrailingZeros, upperExponentBound } from './settings';
+import { explicitActivationLanguages, convertLocalCurrency, dateFormat, decimalSeparator, digitGroupingSymbol, globalDeclarations, localCurrencyCode, localCurrencySymbol, lowerExponentBound, notation, precision, temperatureShortcut, trimTrailingZeros, upperExponentBound } from './settings';
 import { transform } from './transformer';
 import math = require('mathjs');
 
@@ -48,7 +48,7 @@ export default class MathDocument {
             convertLocalCurrency: convertLocalCurrency(),
             localCurrencyCode: localCurrencyCode(),
             localCurrencySymbol: localCurrencySymbol(),
-            dateLocale: dateLocale()
+            dateFormat: dateFormat()
         };
     }
 

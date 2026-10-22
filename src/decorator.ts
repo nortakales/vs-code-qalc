@@ -19,9 +19,9 @@ import {
 } from "vscode";
 import MathDocument from "./document";
 import { MathJsStatic } from 'mathjs';
-import { applyCustomUnits, create } from "./math";
+import { applyCustomUnits, create, setDateFormat } from "./math";
 import { format } from "./formatter";
-import { alignResults, convertLocalCurrency, CUSTOM_UNITS, customUnits, dateLocale, decimalSeparator, digitGroupingSymbol, disabledPatterns, enabledLanguages, explicitActivationLanguages, getComputedResultsDelimiter, localCurrencyCode, localCurrencySymbol, lowerExponentBound, maxAlignmentColumn, notation, precision, resultsColor, resultsDelimiter, trimTrailingZeros, upperExponentBound } from "./settings";
+import { alignResults, convertLocalCurrency, CUSTOM_UNITS, customUnits, dateFormat, decimalSeparator, digitGroupingSymbol, disabledPatterns, enabledLanguages, explicitActivationLanguages, getComputedResultsDelimiter, localCurrencyCode, localCurrencySymbol, lowerExponentBound, maxAlignmentColumn, notation, precision, resultsColor, resultsDelimiter, trimTrailingZeros, upperExponentBound } from "./settings";
 import { createFullDocumentRange } from "./utils";
 
 export default class EditorDecorator implements Disposable {
@@ -158,8 +158,11 @@ export default class EditorDecorator implements Disposable {
             convertLocalCurrency: convertLocalCurrency(),
             localCurrencyCode: localCurrencyCode(),
             localCurrencySymbol: localCurrencySymbol(),
-            dateLocale: dateLocale()
+            dateFormat: dateFormat()
         };
+
+        // Dates are read by the math instance, so it needs to know the format too
+        setDateFormat(dateFormat());
     }
 
     /**

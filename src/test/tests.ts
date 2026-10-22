@@ -1,6 +1,6 @@
 import math = require("mathjs");
 import colors = require('colors');
-import { applyCustomUnits, create, defaultScope } from "../math";
+import { applyCustomUnits, create, defaultScope, setDateFormat } from "../math";
 import { format } from "../formatter";
 import { transform } from "../transformer";
 import TestSuite from "./testSuite";
@@ -23,7 +23,7 @@ import { suite_dot_and_dot as format_dot_and_dot } from "./suites/formatOptions-
 import { suite as temperature } from "./suites/temperature-testSuite";
 import { suite as specialComments } from "./suites/specialComments-testSuite";
 import { suite as dms } from "./suites/dms-testSuite";
-import { suite_en_GB as dateLocale_en_GB, suite_sv_SE as dateLocale_sv_SE, suite_invalid as dateLocale_invalid } from "./suites/dateLocale-testSuite";
+import { suite_day_month_year as dateFormat_dmy, suite_year_month_day as dateFormat_ymd } from "./suites/dateFormat-testSuite";
 import { suite as customUnits } from "./suites/customUnits-testSuite";
 import { setTestsRunning } from "../global";
 
@@ -75,9 +75,8 @@ export function runTests() {
 		suites.push(format_dot_and_dot);
 		suites.push(temperature);
 		suites.push(dms);
-		suites.push(dateLocale_en_GB);
-		suites.push(dateLocale_sv_SE);
-		suites.push(dateLocale_invalid);
+		suites.push(dateFormat_dmy);
+		suites.push(dateFormat_ymd);
 		// Custom units change the shared math instance, so keep this last
 		suites.push(customUnits);
 		//suites.push(specialComments);
@@ -122,11 +121,14 @@ function runTestSuites(math: math.MathJsStatic, suites: TestSuite[]) {
 			});
 		}
 
+		const dateFormat = suite.dateFormat ?? "month/day/year";
+		setDateFormat(dateFormat);
+
 		let scope = defaultScope();
 
 		Object.entries(suite.tests).forEach(([key, value]) => {
 
-			const formatterSettingsToUse = suite.formatterSettings ?? baseFormatterSettings;
+			const formatterSettingsToUse = { ...(suite.formatterSettings ?? baseFormatterSettings), dateFormat };
 
 			// TODO check for errors and add errors test suite
 			// TODO same for special comments keywords

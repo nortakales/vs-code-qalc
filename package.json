@@ -197,11 +197,28 @@
                     "maximum": 100,
                     "description": "Exponent determining the upper boundary for formatting output with an exponent (e.g. setting this to 2 will format 100 as 1e+2)."
                 },
+                "qalc.dateFormat": {
+                    "title": "Date Format",
+                    "type": "string",
+                    "default": "month/day/year",
+                    "enum": [
+                        "month/day/year",
+                        "day/month/year",
+                        "year-month-day"
+                    ],
+                    "enumDescriptions": [
+                        "1/30/2021, 7:10:00 PM",
+                        "30/01/2021, 19:10:00",
+                        "2021-01-30 19:10:00"
+                    ],
+                    "description": "How dates are read and displayed. Dates that start with a 4-digit year, like 2021-01-30, are always read as year-month-day. With year-month-day selected, other dates are read as month/day/year."
+                },
                 "qalc.output.dateLocale": {
                     "title": "Date Locale",
                     "type": "string",
                     "default": "",
-                    "description": "Locale used to display dates, as a BCP 47 language tag. For example, \"en-GB\" or \"en-AU\" display day/month/year (30/01/2021), \"en-US\" displays month/day/year (1/30/2021), and \"sv-SE\" displays year-month-day (2021-01-30). Leave empty to use the default locale. Dates you type are still read as month/day/year."
+                    "description": "Replaced by qalc.dateFormat.",
+                    "deprecationMessage": "Replaced by qalc.dateFormat, which sets how dates are both read and displayed."
                 },
                 "qalc.currency.convertLocal": {
                     "title": "Convert Local Currency",

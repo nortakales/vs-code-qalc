@@ -152,6 +152,16 @@ function today(): Date {
     return today;
 }
 
+// Order used to read dates like 1/2/2021, from the "qalc.dateFormat" setting
+let dateFormat: DateFormat = "month/day/year";
+
+export function setDateFormat(format: DateFormat) {
+    dateFormat = format;
+}
+
+// Numeric dates like 30/1/2021 or 2021-01-30, optionally followed by a time
+const numericDateRegex = /^\s*(\d{1,4})[-/](\d{1,2})[-/](\d{1,4})(,?\s.*)?$/;
+
 function parseDate(input: string | number): Date {
 
     let inputAsString = input.toString();
@@ -161,6 +171,23 @@ function parseDate(input: string | number): Date {
             inputAsString += "000";
         }
         return new Date(Number(inputAsString));
+    }
+
+    // Rearrange numeric dates into month/day/year, which JavaScript reads as local time.
+    // It doesn't read day/month/year at all, and reads 2021-01-30 as midnight UTC.
+    const match = numericDateRegex.exec(inputAsString);
+    if (match) {
+        const [, first, second, third, time = ""] = match;
+        let month, day, year;
+        if (first.length > 2) {
+            // Can only be a year
+            [year, month, day] = [first, second, third];
+        } else if (dateFormat === "day/month/year") {
+            [day, month, year] = [first, second, third];
+        } else {
+            [month, day, year] = [first, second, third];
+        }
+        inputAsString = `${month}/${day}/${year}${time}`;
     }
 
     return new Date(inputAsString);

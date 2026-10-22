@@ -3,4 +3,5 @@ export default interface TestSuite {
     tests: {}
     formatterSettings?: FormatterSettings
     customUnits?: CustomUnits
+    dateFormat?: DateFormat
 }

@@ -1,5 +1,12 @@
 # Change Log
 
+## Unreleased
+
+- Fixes [#6](https://github.com/nortakales/vs-code-qalc/issues/6) - the 0.6.0 change only covered how dates are displayed, and dates still had to be typed as month/day/year
+  - New `qalc.dateFormat` setting for how dates are both read and displayed: month/day/year (the default), day/month/year or year-month-day. It replaces `qalc.output.dateLocale` from 0.6.0.
+  - Dates are now always displayed in this format. Before, they followed your system's locale, which didn't always match how they were read.
+- Fixed dates typed like `2021-01-30` being read as midnight UTC, which could show the previous day or add a time to the date
+
 ## 0.6.0 - 2026-10-18
 
 - Fixes [#36](https://github.com/nortakales/vs-code-qalc/issues/36) - `sum`, `total`, `avg`, `average` and `mean` stopped working at around 2,000 lines
