@@ -13,3 +13,4 @@ esbuild.js
 CODE-REVIEW.md
 FEATURE-PLANS.md
 .claude/**
+.ghostui/**

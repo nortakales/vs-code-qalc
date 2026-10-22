@@ -1,6 +1,6 @@
 # Change Log
 
-## Unreleased
+## 0.6.1 - 2026-10-21
 
 - Fixes [#6](https://github.com/nortakales/vs-code-qalc/issues/6) - the 0.6.0 change only covered how dates are displayed, and dates still had to be typed as month/day/year
   - New `qalc.dateFormat` setting for how dates are both read and displayed: month/day/year (the default), day/month/year or year-month-day. It replaces `qalc.output.dateLocale` from 0.6.0.
